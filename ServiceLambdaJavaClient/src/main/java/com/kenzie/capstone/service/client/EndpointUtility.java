@@ -78,33 +78,6 @@ public class EndpointUtility {
 
     //The code below can be modified as needed to modify how it handles status codes, etc
 
-
-    public String postEndpoint(String endpoint, String data) {
-        String api = getApiEndpint();
-        String url = api + endpoint;
-
-        HttpClient client = HttpClient.newHttpClient();
-        URI uri = URI.create(url);
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(uri)
-                .header("Accept", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(data))
-                .build();
-        try {
-            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            int statusCode = httpResponse.statusCode();
-            if (statusCode == 200) {
-                return httpResponse.body();
-            } else {
-                throw new ApiGatewayException("POST request failed: " + statusCode + " status code received."
-                        + "\n body: " + httpResponse.body());
-            }
-        } catch (IOException | InterruptedException e) {
-            return e.getMessage();
-        }
-    }
-
     public String getEndpoint(String endpoint) {
         String api = getApiEndpint();
         String url = api + endpoint;
