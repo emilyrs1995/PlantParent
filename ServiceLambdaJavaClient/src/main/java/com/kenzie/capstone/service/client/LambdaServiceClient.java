@@ -27,15 +27,15 @@ public class LambdaServiceClient {
         return exampleData;
     }
 
-    public ExampleData setExampleData(String data) {
-        EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.postEndpoint(SET_EXAMPLE_ENDPOINT, data);
-        ExampleData exampleData;
-        try {
-            exampleData = mapper.readValue(response, ExampleData.class);
-        } catch (Exception e) {
-            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
-        }
-        return exampleData;
-    }
+//    public ExampleData setExampleData(String data) {
+//        EndpointUtility endpointUtility = new EndpointUtility();
+//        String response = endpointUtility.postEndpoint(SET_EXAMPLE_ENDPOINT, data);
+//        ExampleData exampleData;
+//        try {
+//            exampleData = mapper.readValue(response, ExampleData.class);
+//        } catch (Exception e) {
+//            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+//        }
+//        return exampleData;
+//    }
 }
