@@ -1,7 +1,11 @@
 package com.kenzie.capstone.service.dependency;
 
 
+import com.kenzie.capstone.service.caching.CacheClient;
+import com.kenzie.capstone.service.caching.CachingPlantDao;
 import com.kenzie.capstone.service.dao.ExampleDao;
+import com.kenzie.capstone.service.dao.NonCachingPlantDao;
+import com.kenzie.capstone.service.dao.PlantDao;
 import com.kenzie.capstone.service.util.DynamoDbClientProvider;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -27,10 +31,20 @@ public class DaoModule {
 
     @Singleton
     @Provides
-    @Named("ExampleDao")
+    @Named("PlantDao")
     @Inject
-    public ExampleDao provideExampleDao(@Named("DynamoDBMapper") DynamoDBMapper mapper) {
-        return new ExampleDao(mapper);
+    public PlantDao providePlantDao(@Named("CacheClient") CacheClient cacheClient,
+                                       @Named("NonCachingPlantDao") NonCachingPlantDao nonCachingPlantDao) {
+
+        return new CachingPlantDao(cacheClient, nonCachingPlantDao);
+    }
+
+    @Singleton
+    @Provides
+    @Named("NonCachingPlantDao")
+    @Inject
+    public NonCachingPlantDao provideNonCachingPlantDao() {
+        return new NonCachingPlantDao();
     }
 
 }
