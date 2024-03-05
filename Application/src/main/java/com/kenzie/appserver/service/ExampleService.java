@@ -34,15 +34,16 @@ public class ExampleService {
 
     public Example addNewExample(String name) {
         // Example sending data to the lambda
-        ExampleData dataFromLambda = lambdaServiceClient.setExampleData(name);
-
-        // Example sending data to the local repository
-        ExampleRecord exampleRecord = new ExampleRecord();
-        exampleRecord.setId(dataFromLambda.getId());
-        exampleRecord.setName(dataFromLambda.getData());
-        exampleRepository.save(exampleRecord);
-
-        Example example = new Example(dataFromLambda.getId(), name);
-        return example;
+//        ExampleData dataFromLambda = lambdaServiceClient.setExampleData(name);
+//
+//        // Example sending data to the local repository
+//        ExampleRecord exampleRecord = new ExampleRecord();
+//        exampleRecord.setId(dataFromLambda.getId());
+//        exampleRecord.setName(dataFromLambda.getData());
+//        exampleRepository.save(exampleRecord);
+//
+//        Example example = new Example(dataFromLambda.getId(), name);
+//        return example;
+        return null;
     }
 }
