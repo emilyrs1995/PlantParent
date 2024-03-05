@@ -1,6 +1,7 @@
 package com.kenzie.capstone.service.dao;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kenzie.capstone.service.exceptions.ApiGatewayException;
 import com.kenzie.capstone.service.model.GetPlantListApiResponse;
 import com.kenzie.capstone.service.model.GetPlantListResponse;
 
@@ -10,7 +11,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,19 +40,36 @@ public class NonCachingPlantDao implements PlantDao {
                 .GET()
                 .build();
 
-        List<GetPlantListApiResponse> responseList = new ArrayList<>();
+        try {
+            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        // TODO figure out how to connect to the actual external API
-//        try {
-//            responseList = Collections.singletonList(mapper.readValue(responseList, GetPlantListApiResponse.class));
-//
-//        } catch (Exception e) {
-//            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
-//        }
+            int statusCode = httpResponse.statusCode();
+            if (statusCode == 200) {
+                List<GetPlantListApiResponse> apiResponseList = this.convertFromStringToApiResponse(httpResponse.body());
 
-        return responseList.stream()
-                .map(this::convertFromApiResponse)
-                .collect(Collectors.toList());
+                return apiResponseList.stream()
+                        .map(this::convertFromApiResponse)
+                        .collect(Collectors.toList());
+
+            } else {
+                throw new ApiGatewayException("GET plant list request failed: " + statusCode + " status code received"
+                        + "\n body: " + httpResponse.body());
+            }
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+
+    }
+
+    private List<GetPlantListApiResponse> convertFromStringToApiResponse(String httpResponse) {
+        try {
+            return Collections.singletonList(mapper.readValue(httpResponse, GetPlantListApiResponse.class));
+        } catch (Exception e) {
+            throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
+        }
+
     }
 
     private GetPlantListResponse convertFromApiResponse(GetPlantListApiResponse apiResponse) {
