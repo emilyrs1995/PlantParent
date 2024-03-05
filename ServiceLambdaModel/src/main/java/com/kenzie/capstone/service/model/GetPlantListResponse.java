@@ -1,17 +1,21 @@
 package com.kenzie.capstone.service.model;
 
+import java.util.List;
+
 public class GetPlantListResponse {
     private int plantId;
     private String plantName;
+    private List<String> scientificName;
     private String cycle;
     private String watering;
     private String sunlight;
     private String IMGUrl;
 
-    public GetPlantListResponse(int plantId, String plantName, String cycle, String watering,
+    public GetPlantListResponse(int plantId, String plantName, List<String> scientificName, String cycle, String watering,
                                 String sunlight, String IMGUrl) {
         this.plantId = plantId;
         this.plantName = plantName;
+        this.scientificName = scientificName;
         this.cycle = cycle;
         this.watering = watering;
         this.sunlight = sunlight;
@@ -35,6 +39,14 @@ public class GetPlantListResponse {
 
     public void setPlantName(String plantName) {
         this.plantName = plantName;
+    }
+
+    public List<String> getScientificName() {
+        return scientificName;
+    }
+
+    public void setScientificName(List<String> scientificName) {
+        this.scientificName = scientificName;
     }
 
     public String getCycle() {
