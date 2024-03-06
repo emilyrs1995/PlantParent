@@ -1,5 +1,67 @@
+
 :root {
-    /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
+    --primary-color: #c8d6cb; /* Sage Green */
+    --secondary-color: #ffe7cf; /* Cream */
+    --accent-color: #ffd9b3;  /* Peach */
+    --highlight-color: #d4bea8; /* Gold */
+    --error-color: #da7f8f; /* Softened error color for a calmer feel */
+    }
+
+.background {
+    background-color: var(--secondary-color); /* Cream background */
+}
+
+.header {
+    background-color: var(--primary-color); /* Sage green header */
+    color: var(--secondary-color); /* Cream text */
+}
+
+.header_home {
+    color: var(--accent-color); /* Peach home link */
+}
+
+.button, button {
+    background: var(--accent-color); /* Peach buttons */
+    color: var(--secondary-color); /* Cream text on buttons */
+    border: 1px solid var(--highlight-color); /* Gold border */
+}
+
+.button:hover, button:hover {
+    background: var(--highlight-color); /* Gold on hover */
+    color: var(--primary-color); /* Sage green text */
+}
+
+.card {
+    color: var(--primary-color); /* Sage green text */
+    background-color: var(--secondary-color); /* Cream background */
+}
+
+.validated-field:invalid {
+    outline: 2px solid var(--error-color);
+}
+.validated-field:focus:invalid {
+    color: var(--error-color);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ________________________EXAMPLE_____________*/
+/*
+:root {
+    /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var
     --primary-color: #131921;
     --secondary-color: #fff;
     --error-color: rgba(194, 0, 0, 0.71);
@@ -12,7 +74,7 @@
 }
 
 .header {
-    /* Flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
+    /* Flexbox: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -87,3 +149,4 @@
 .state.active {
     display: block;
 }
+*/
