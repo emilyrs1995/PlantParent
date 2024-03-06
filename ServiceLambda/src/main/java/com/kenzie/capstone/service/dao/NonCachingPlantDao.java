@@ -13,6 +13,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class NonCachingPlantDao implements PlantDao {
@@ -47,7 +48,14 @@ public class NonCachingPlantDao implements PlantDao {
             if (statusCode == 200) {
                 List<GetPlantListApiResponse> apiResponseList = this.convertFromStringToApiResponse(httpResponse.body());
 
-                return apiResponseList.stream()
+                return Optional.of(apiResponseList)
+                        .orElse(Collections.emptyList())
+                        .stream()
+                        // filtering out all the plants that are beyond our free tier of Api use
+                        .filter(apiResponse -> apiResponse.getId() > 3000)
+                        // limiting the list to only 5 responses
+                        .limit(5)
+                        // converting and the returning the collection
                         .map(this::convertFromApiResponse)
                         .collect(Collectors.toList());
 
@@ -73,6 +81,11 @@ public class NonCachingPlantDao implements PlantDao {
     }
 
     private GetPlantListResponse convertFromApiResponse(GetPlantListApiResponse apiResponse) {
+        // returning a new getPlantResponse in case the apiResponse is null
+        if (apiResponse == null) {
+            return new GetPlantListResponse();
+        }
+
         GetPlantListResponse response = new GetPlantListResponse();
         response.setPlantId(apiResponse.getId());
         response.setPlantName(apiResponse.getCommon_name());
