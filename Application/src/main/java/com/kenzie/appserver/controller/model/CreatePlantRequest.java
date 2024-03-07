@@ -1,4 +1,4 @@
-package com.kenzie.appserver.model;
+package com.kenzie.appserver.controller.model;
 
 public class CreatePlantRequest {
     private String plantName;
