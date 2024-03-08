@@ -1,13 +1,17 @@
 package com.kenzie.appserver.controller.model;
 
 public class CreatePlantResponse {
-    private long plantID;
+    private String plantID;
     private String plantName;
     private String cycle;
     private String watering;
     private String sunlight;
     private String imgUrl;
-    public CreatePlantResponse(long plantID, String plantName, String cycle, String watering, String sunlight, String imgUrl) {
+
+    public CreatePlantResponse() {
+        super();
+    }
+    public CreatePlantResponse(String plantID, String plantName, String cycle, String watering, String sunlight, String imgUrl) {
         this.plantID = plantID;
         this.plantName = plantName;
         this.cycle = cycle;
@@ -16,11 +20,11 @@ public class CreatePlantResponse {
         this.imgUrl = imgUrl;
     }
 
-    public long getPlantID() {
+    public String getPlantID() {
         return plantID;
     }
 
-    public void setPlantID(long plantID) {
+    public void setPlantID(String plantID) {
         this.plantID = plantID;
     }
 

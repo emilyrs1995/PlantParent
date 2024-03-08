@@ -1,26 +1,20 @@
-package com.kenzie.appserver.repositories.model;
+package com.kenzie.appserver.controller.model;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-
-import java.util.Objects;
-
-@DynamoDBTable(tableName = "Plant")
-public class PlantRecord {
+public class GetPlantListResponse {
     private long plantID;
     private String plantName;
-    private String scientificName;
     private String cycle;
     private String watering;
     private String sunlight;
     private String imgUrl;
 
-
-    public String getScientificName() {
-        return scientificName;
-    }
-
-    public void setScientificName(String scientificName) {
-        this.scientificName = scientificName;
+    public GetPlantListResponse(long plantID, String plantName, String cycle, String watering, String sunlight, String imgUrl) {
+        this.plantID = plantID;
+        this.plantName = plantName;
+        this.cycle = cycle;
+        this.watering = watering;
+        this.sunlight = sunlight;
+        this.imgUrl = imgUrl;
     }
 
     public long getPlantID() {
@@ -70,17 +64,4 @@ public class PlantRecord {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PlantRecord that = (PlantRecord) o;
-        return Objects.equals(plantID, that.plantID);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(plantID);
-    }
 }
-
