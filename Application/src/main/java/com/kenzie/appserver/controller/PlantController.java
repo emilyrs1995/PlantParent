@@ -3,6 +3,7 @@ package com.kenzie.appserver.controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+
 @RequestMapping("/plants")
 public class PlantController {
 
