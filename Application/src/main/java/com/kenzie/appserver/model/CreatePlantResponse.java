@@ -1,17 +1,27 @@
-package com.kenzie.appserver.controller.model;
+package com.kenzie.appserver.model;
 
-public class CreatePlantRequest {
+public class CreatePlantResponse {
+    private long plantID;
     private String plantName;
     private String cycle;
     private String watering;
     private String sunlight;
     private String imgUrl;
-    public CreatePlantRequest(String plantName, String cycle, String watering, String sunlight, String imgUrl) {
+    public CreatePlantResponse(long plantID, String plantName, String cycle, String watering, String sunlight, String imgUrl) {
+        this.plantID = plantID;
         this.plantName = plantName;
         this.cycle = cycle;
         this.watering = watering;
         this.sunlight = sunlight;
         this.imgUrl = imgUrl;
+    }
+
+    public long getPlantID() {
+        return plantID;
+    }
+
+    public void setPlantID(long plantID) {
+        this.plantID = plantID;
     }
 
     public String getPlantName() {
