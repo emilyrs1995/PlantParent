@@ -1,4 +1,4 @@
-package com.kenzie.appserver.controller.model;
+package com.kenzie.appserver.model;
 
 public class GetPlantListRequest {
     private String plantName;

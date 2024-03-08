@@ -1,19 +1,27 @@
-package com.kenzie.appserver.service.model;
+package com.kenzie.appserver.model;
 
-public class PlantDTO {
-    private String plantId;
+public class CreatePlantResponse {
+    private long plantID;
     private String plantName;
     private String cycle;
     private String watering;
     private String sunlight;
-    private String imgurl;
-
-    public String getPlantId() {
-        return plantId;
+    private String imgUrl;
+    public CreatePlantResponse(long plantID, String plantName, String cycle, String watering, String sunlight, String imgUrl) {
+        this.plantID = plantID;
+        this.plantName = plantName;
+        this.cycle = cycle;
+        this.watering = watering;
+        this.sunlight = sunlight;
+        this.imgUrl = imgUrl;
     }
 
-    public void setPlantId(String plantId) {
-        this.plantId = plantId;
+    public long getPlantID() {
+        return plantID;
+    }
+
+    public void setPlantID(long plantID) {
+        this.plantID = plantID;
     }
 
     public String getPlantName() {
@@ -48,11 +56,11 @@ public class PlantDTO {
         this.sunlight = sunlight;
     }
 
-    public String getImgurl() {
-        return imgurl;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setImgurl(String imgurl) {
-        this.imgurl = imgurl;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

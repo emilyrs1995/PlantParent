@@ -1,12 +1,13 @@
 package com.kenzie.appserver.repositories;
 
-import com.kenzie.appserver.repositories.model.Plant;
+import com.kenzie.appserver.model.CreatePlantRequest;
+import com.kenzie.appserver.model.CreatePlantResponse;
+import com.kenzie.appserver.repositories.model.PlantRecord;
+import com.kenzie.capstone.service.model.GetPlantListResponse;
 import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
+import java.util.List;
 @EnableScan
-@Repository
-public interface PlantRepository extends CrudRepository<Plant, String> {
-
+public interface PlantRepository extends CrudRepository<PlantRecord, String> {
 }
