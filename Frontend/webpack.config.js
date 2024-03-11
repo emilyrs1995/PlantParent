@@ -8,7 +8,7 @@ module.exports = {
     usedExports: true
   },
   entry: {
-    examplePage: path.resolve(__dirname, 'src', 'pages', 'examplePage.js'),
+    plantParent: path.resolve(__dirname, 'src', 'pages', 'plantParent.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -21,7 +21,7 @@ module.exports = {
     proxy: [
       {
         context: [
-          '/example',
+          '/plant',
         ],
         target: 'http://localhost:5001'
       }
@@ -29,7 +29,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: './src/dontLeafMeAlone.html',
       filename: 'index.html',
       inject: false
     }),
