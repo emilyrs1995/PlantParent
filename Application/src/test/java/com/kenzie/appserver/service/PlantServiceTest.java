@@ -44,9 +44,14 @@ public class PlantServiceTest {
     @Test
     void createPlant_validFields_returnsResponse() {
         // GIVEN
+        List<String> scientificNames = new ArrayList<>();
+        scientificNames.add("fancy names");
+        scientificNames.add("more fancy names");
+
         CreatePlantRequest request = new CreatePlantRequest();
         request.setPlantId("123");
         request.setPlantName("aloe");
+        request.setScientificName(scientificNames);
         request.setCycle("perennial");
         request.setWatering("average");
         request.setSunlight("full sun");
@@ -55,6 +60,7 @@ public class PlantServiceTest {
         PlantRecord record = new PlantRecord();
         record.setPlantId(request.getPlantId());
         record.setPlantName(request.getPlantName());
+        record.setScientificName(scientificNames);
         record.setCycle(request.getCycle());
         record.setWatering(request.getWatering());
         record.setSunlight(request.getSunlight());
@@ -68,6 +74,7 @@ public class PlantServiceTest {
         Assertions.assertNotNull(response);
         Assertions.assertEquals(request.getPlantId(), response.getPlantId());
         Assertions.assertEquals(request.getPlantName(), response.getPlantName());
+        Assertions.assertEquals(request.getScientificName(), response.getScientificName());
         Assertions.assertEquals(request.getCycle(), response.getCycle());
         Assertions.assertEquals(request.getWatering(), response.getWatering());
         Assertions.assertEquals(request.getSunlight(), response.getSunlight());
@@ -80,9 +87,14 @@ public class PlantServiceTest {
     @Test
     void getPlantCollection_withValidRecords_returnsResponseList() {
         // GIVEN
+        List<String> scientificNames = new ArrayList<>();
+        scientificNames.add("fancy names");
+        scientificNames.add("more fancy names");
+
         PlantRecord record1 = new PlantRecord();
         record1.setPlantId("123");
         record1.setPlantName("aloe");
+        record1.setScientificName(scientificNames);
         record1.setCycle("perennial");
         record1.setWatering("average");
         record1.setSunlight("full sun");
@@ -91,6 +103,7 @@ public class PlantServiceTest {
         PlantRecord record2 = new PlantRecord();
         record2.setPlantId("456");
         record2.setPlantName("spider plant");
+        record2.setScientificName(scientificNames);
         record2.setCycle("annual");
         record2.setWatering("average");
         record2.setSunlight("part shade");
@@ -112,12 +125,14 @@ public class PlantServiceTest {
         for (PlantResponse response : responseList) {
             if(response.getPlantId().equals(record1.getPlantId())) {
                 Assertions.assertEquals(record1.getPlantName(), response.getPlantName());
+                Assertions.assertEquals(record1.getScientificName(), response.getScientificName());
                 Assertions.assertEquals(record1.getCycle(), response.getCycle());
                 Assertions.assertEquals(record1.getWatering(), response.getWatering());
                 Assertions.assertEquals(record1.getSunlight(), response.getSunlight());
                 Assertions.assertEquals(record1.getImgUrl(), response.getImgUrl());
             } else if (response.getPlantId().equals(record2.getPlantId())) {
                 Assertions.assertEquals(record2.getPlantName(), response.getPlantName());
+                Assertions.assertEquals(record2.getScientificName(), response.getScientificName());
                 Assertions.assertEquals(record2.getCycle(), response.getCycle());
                 Assertions.assertEquals(record2.getWatering(), response.getWatering());
                 Assertions.assertEquals(record2.getSunlight(), response.getSunlight());
@@ -136,9 +151,14 @@ public class PlantServiceTest {
         // GIVEN
         String name = "aloe";
 
+        List<String> scientificNames = new ArrayList<>();
+        scientificNames.add("fancy names");
+        scientificNames.add("more fancy names");
+
         PlantRecord record1 = new PlantRecord();
         record1.setPlantId("123");
         record1.setPlantName("aloe");
+        record1.setScientificName(scientificNames);
         record1.setCycle("perennial");
         record1.setWatering("average");
         record1.setSunlight("full sun");
@@ -147,6 +167,7 @@ public class PlantServiceTest {
         PlantRecord record2 = new PlantRecord();
         record2.setPlantId("456");
         record2.setPlantName("spider plant");
+        record2.setScientificName(scientificNames);
         record2.setCycle("annual");
         record2.setWatering("average");
         record2.setSunlight("part shade");
@@ -155,6 +176,7 @@ public class PlantServiceTest {
         PlantRecord record3 = new PlantRecord();
         record3.setPlantId("789");
         record3.setPlantName("aloe vera");
+        record3.setScientificName(scientificNames);
         record3.setCycle("perennial");
         record3.setWatering("average");
         record3.setSunlight("full sun");
@@ -178,12 +200,14 @@ public class PlantServiceTest {
             Assertions.assertTrue(response.getPlantName().contains(name));
             if (response.getPlantId().equals(record1.getPlantId())) {
                 Assertions.assertEquals(record1.getPlantName(), response.getPlantName());
+                Assertions.assertEquals(record1.getScientificName(), response.getScientificName());
                 Assertions.assertEquals(record1.getCycle(), response.getCycle());
                 Assertions.assertEquals(record1.getWatering(), response.getWatering());
                 Assertions.assertEquals(record1.getSunlight(), response.getSunlight());
                 Assertions.assertEquals(record1.getImgUrl(), response.getImgUrl());
             } else if (response.getPlantId().equals(record3.getPlantId())) {
                 Assertions.assertEquals(record3.getPlantName(), response.getPlantName());
+                Assertions.assertEquals(record3.getScientificName(), response.getScientificName());
                 Assertions.assertEquals(record3.getCycle(), response.getCycle());
                 Assertions.assertEquals(record3.getWatering(), response.getWatering());
                 Assertions.assertEquals(record3.getSunlight(), response.getSunlight());

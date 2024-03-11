@@ -3,6 +3,7 @@ package com.kenzie.appserver.controller.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 public class CreatePlantRequest {
 
@@ -12,6 +13,8 @@ public class CreatePlantRequest {
     @NotEmpty
     @JsonProperty("plantName")
     private String plantName;
+    @JsonProperty("scientificName")
+    private List<String> scientificName;
     @JsonProperty("cycle")
     private String cycle;
     @JsonProperty("watering")
@@ -24,9 +27,10 @@ public class CreatePlantRequest {
     public CreatePlantRequest() {
     }
 
-    public CreatePlantRequest(String plantId, String plantName, String cycle, String watering, String sunlight, String imgUrl) {
+    public CreatePlantRequest(String plantId, String plantName, List<String> scientificName, String cycle, String watering, String sunlight, String imgUrl) {
         this.plantId = plantId;
         this.plantName = plantName;
+        this.scientificName = scientificName;
         this.cycle = cycle;
         this.watering = watering;
         this.sunlight = sunlight;
@@ -47,6 +51,14 @@ public class CreatePlantRequest {
 
     public void setPlantName(String plantName) {
         this.plantName = plantName;
+    }
+
+    public List<String> getScientificName() {
+        return scientificName;
+    }
+
+    public void setScientificName(List<String> scientificName) {
+        this.scientificName = scientificName;
     }
 
     public String getCycle() {

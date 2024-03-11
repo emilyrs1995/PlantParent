@@ -92,7 +92,9 @@ public class NonCachingPlantDao implements PlantDao {
         response.setScientificName(apiResponse.getScientific_name());
         response.setCycle(apiResponse.getCycle());
         response.setWatering(apiResponse.getWatering());
-        response.setSunlight(apiResponse.getSunlight());
+
+        // this can be changed if we'd rather have all the sunlight options instead of just the first
+        response.setSunlight(apiResponse.getSunlight().get(0));
 
         // this can be changed if we want a different picture for the frontend
         response.setIMGUrl(apiResponse.getDefaultImage().getThumbnail());

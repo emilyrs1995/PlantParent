@@ -3,6 +3,8 @@ package com.kenzie.appserver.controller.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PlantResponse {
 
@@ -10,6 +12,8 @@ public class PlantResponse {
     private String plantId;
     @JsonProperty("plantName")
     private String plantName;
+    @JsonProperty("scientificName")
+    private List<String> scientificName;
     @JsonProperty("cycle")
     private String cycle;
     @JsonProperty("watering")
@@ -22,9 +26,10 @@ public class PlantResponse {
     public PlantResponse() {
     }
 
-    public PlantResponse(String plantId, String plantName, String cycle, String watering, String sunlight, String imgUrl) {
+    public PlantResponse(String plantId, String plantName, List<String> scientificName, String cycle, String watering, String sunlight, String imgUrl) {
         this.plantId = plantId;
         this.plantName = plantName;
+        this.scientificName = scientificName;
         this.cycle = cycle;
         this.watering = watering;
         this.sunlight = sunlight;
@@ -45,6 +50,14 @@ public class PlantResponse {
 
     public void setPlantName(String plantName) {
         this.plantName = plantName;
+    }
+
+    public List<String> getScientificName() {
+        return scientificName;
+    }
+
+    public void setScientificName(List<String> scientificName) {
+        this.scientificName = scientificName;
     }
 
     public String getCycle() {

@@ -4,12 +4,14 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+import java.util.List;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "PlantCollection")
 public class PlantRecord {
     private String plantId;
     private String plantName;
+    private List<String> scientificName;
     private String cycle;
     private String watering;
     private String sunlight;
@@ -23,6 +25,11 @@ public class PlantRecord {
     @DynamoDBAttribute(attributeName = "PlantName")
     public String getPlantName() {
         return plantName;
+    }
+
+    @DynamoDBAttribute(attributeName = "ScientificName")
+    public List<String> getScientificName() {
+        return scientificName;
     }
 
     @DynamoDBAttribute(attributeName = "Cycle")
@@ -51,6 +58,10 @@ public class PlantRecord {
 
     public void setPlantName(String plantName) {
         this.plantName = plantName;
+    }
+
+    public void setScientificName(List<String> scientificName) {
+        this.scientificName = scientificName;
     }
 
     public void setCycle(String cycle) {

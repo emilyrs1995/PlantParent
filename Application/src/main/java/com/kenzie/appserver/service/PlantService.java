@@ -36,6 +36,7 @@ public class PlantService {
         PlantResponse response = new PlantResponse();
         response.setPlantId(request.getPlantId());
         response.setPlantName(request.getPlantName());
+        response.setScientificName(request.getScientificName());
         response.setCycle(request.getCycle());
         response.setWatering(request.getWatering());
         response.setSunlight(request.getSunlight());
@@ -73,6 +74,7 @@ public class PlantService {
         PlantRecord record = new PlantRecord();
         record.setPlantId(request.getPlantId());
         record.setPlantName(request.getPlantName());
+        record.setScientificName(request.getScientificName());
         record.setCycle(request.getCycle());
         record.setWatering(request.getWatering());
         record.setSunlight(request.getSunlight());
@@ -85,6 +87,7 @@ public class PlantService {
         PlantResponse response = new PlantResponse();
         response.setPlantId(record.getPlantId());
         response.setPlantName(record.getPlantName());
+        response.setScientificName(record.getScientificName());
         response.setCycle(record.getCycle());
         response.setWatering(record.getWatering());
         response.setSunlight(record.getSunlight());

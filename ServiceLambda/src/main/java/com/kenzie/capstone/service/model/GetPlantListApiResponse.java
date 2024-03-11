@@ -18,7 +18,7 @@ public class GetPlantListApiResponse {
     @JsonProperty("watering")
     private String watering;
     @JsonProperty("sunlight")
-    private String sunlight;
+    private List<String> sunlight;
     @JsonProperty("default_image")
     private DefaultImage default_image;
 
@@ -26,7 +26,7 @@ public class GetPlantListApiResponse {
     }
 
     public GetPlantListApiResponse(Integer id, String common_name, List<String> scientific_name,
-                                   List<String> other_name, String cycle, String watering, String sunlight,
+                                   List<String> other_name, String cycle, String watering, List<String> sunlight,
                                    DefaultImage default_image) {
         this.id = id;
         this.common_name = common_name;
@@ -86,11 +86,11 @@ public class GetPlantListApiResponse {
         this.watering = watering;
     }
 
-    public String getSunlight() {
+    public List<String> getSunlight() {
         return sunlight;
     }
 
-    public void setSunlight(String sunlight) {
+    public void setSunlight(List<String> sunlight) {
         this.sunlight = sunlight;
     }
 
