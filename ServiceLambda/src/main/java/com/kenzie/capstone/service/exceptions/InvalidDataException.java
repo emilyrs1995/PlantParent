@@ -11,7 +11,7 @@ public class InvalidDataException extends RuntimeException {
     }
 
     public Map<String, Object> errorPayload() {
-        Map<String, Object> errorPayload = new HashMap();
+        Map<String, Object> errorPayload = new HashMap<>();
         errorPayload.put("errorType", "invalid_data");
         errorPayload.put("message", this.getMessage());
         return errorPayload;

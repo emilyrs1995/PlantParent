@@ -1,14 +1,24 @@
 package com.kenzie.capstone.service.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class DefaultImage {
 
+    @JsonProperty("license")
     private Integer license;
+    @JsonProperty("license_name")
     private String license_name;
+    @JsonProperty("license_url")
     private String license_url;
+    @JsonProperty("original_url")
     private String original_url;
+    @JsonProperty("regular_url")
     private String regular_url;
+    @JsonProperty("medium_url")
     private String medium_url;
+    @JsonProperty("small_url")
     private String small_url;
+    @JsonProperty("thumbnail")
     private String thumbnail;
 
     public DefaultImage() {

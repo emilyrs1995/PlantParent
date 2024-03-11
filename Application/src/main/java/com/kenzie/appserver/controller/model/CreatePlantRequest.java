@@ -18,7 +18,7 @@ public class CreatePlantRequest {
     private String watering;
     @JsonProperty("sunlight")
     private String sunlight;
-    @JsonProperty("ingUrl")
+    @JsonProperty("imgUrl")
     private String imgUrl;
 
     public CreatePlantRequest() {
