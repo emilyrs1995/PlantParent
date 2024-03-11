@@ -1,14 +1,31 @@
-package com.kenzie.appserver.model;
+package com.kenzie.appserver.controller.model;
 
-public class CreatePlantResponse {
-    private long plantID;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.validation.constraints.NotEmpty;
+
+public class CreatePlantRequest {
+
+    @NotEmpty
+    @JsonProperty("plantId")
+    private String plantId;
+    @NotEmpty
+    @JsonProperty("plantName")
     private String plantName;
+    @JsonProperty("cycle")
     private String cycle;
+    @JsonProperty("watering")
     private String watering;
+    @JsonProperty("sunlight")
     private String sunlight;
+    @JsonProperty("ingUrl")
     private String imgUrl;
-    public CreatePlantResponse(long plantID, String plantName, String cycle, String watering, String sunlight, String imgUrl) {
-        this.plantID = plantID;
+
+    public CreatePlantRequest() {
+    }
+
+    public CreatePlantRequest(String plantId, String plantName, String cycle, String watering, String sunlight, String imgUrl) {
+        this.plantId = plantId;
         this.plantName = plantName;
         this.cycle = cycle;
         this.watering = watering;
@@ -16,12 +33,12 @@ public class CreatePlantResponse {
         this.imgUrl = imgUrl;
     }
 
-    public long getPlantID() {
-        return plantID;
+    public String getPlantId() {
+        return plantId;
     }
 
-    public void setPlantID(long plantID) {
-        this.plantID = plantID;
+    public void setPlantId(String plantId) {
+        this.plantId = plantId;
     }
 
     public String getPlantName() {
@@ -63,4 +80,7 @@ public class CreatePlantResponse {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
 }
+
+

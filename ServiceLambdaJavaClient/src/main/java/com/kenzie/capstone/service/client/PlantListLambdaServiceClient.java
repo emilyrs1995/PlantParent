@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PlantListLambdaServiceClient {
 
-    private static final String GET_PLANT_LIST_ENDPOINT = "/plant/{plantName}";
+    private static final String GET_PLANT_LIST_ENDPOINT = "/plants/{plantName}";
 
     private ObjectMapper mapper;
 

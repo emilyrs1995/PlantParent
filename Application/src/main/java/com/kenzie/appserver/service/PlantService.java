@@ -1,89 +1,97 @@
 package com.kenzie.appserver.service;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.Item;
-import com.amazonaws.services.dynamodbv2.document.ItemCollection;
-import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
-import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
-import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
-import com.google.common.collect.Table;
+import com.kenzie.appserver.controller.model.CreatePlantRequest;
+import com.kenzie.appserver.controller.model.PlantResponse;
 import com.kenzie.appserver.repositories.PlantRepository;
-import com.kenzie.appserver.repositories.model.Plant;
-import com.kenzie.appserver.service.model.PlantDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.kenzie.appserver.repositories.model.PlantRecord;
+import com.kenzie.capstone.service.client.PlantListLambdaServiceClient;
+import com.kenzie.capstone.service.model.GetPlantListResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PlantService {
-//    @Autowired
-//    private PlantRepository repository;
-//    AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
-//            .withRegion(Regions.US_EAST_1).build();
-//    DynamoDB dynamoDB = new DynamoDB(client);
-//    public PlantDTO createPlant(PlantDTO plantDTO) {
-//        Plant plant = new Plant();
-//        plant.setPlantId(UUID.randomUUID().toString());
-//        plant.setPlantName(plantDTO.getPlantName());
-//        plant.setCycle(plantDTO.getCycle());
-//        plant.setImgurl(plantDTO.getImgurl());
-//        plant.setSunlight(plantDTO.getSunlight());
-//        plant.setWatering(plantDTO.getWatering());
-//        repository.save(plant);
-//        plantDTO.setPlantId(plant.getPlantId());
-//        return plantDTO;
-//    }
-//    public PlantDTO findByPlantId(String id) {
-//        Plant plant = repository.findById(id).orElse(null);
-//        PlantDTO plantDTO = null;
-//        if (plant != null) {
-//            plantDTO = new PlantDTO();
-//            plantDTO.setSunlight(plant.getSunlight());
-//            plantDTO.setWatering(plant.getWatering());
-//            plantDTO.setImgurl(plant.getImgurl());
-//            plantDTO.setPlantName(plant.getPlantName());
-//            plantDTO.setPlantId(plant.getPlantId());
-//            plantDTO.setCycle(plant.getCycle());
-//        }
-//        return plantDTO;
-//    }
-//    public List<PlantDTO> findAll() {
-//        List<PlantDTO> plantsDTO = new ArrayList<>();
-//        repository.findAll().forEach(plant -> {
-//            PlantDTO plantDTO = new PlantDTO();
-//            plantDTO.setSunlight(plant.getSunlight());
-//            plantDTO.setWatering(plant.getWatering());
-//            plantDTO.setImgurl(plant.getImgurl());
-//            plantDTO.setPlantName(plant.getPlantName());
-//            plantDTO.setPlantId(plant.getPlantId());
-//            plantDTO.setCycle(plant.getCycle());
-//            plantsDTO.add(plantDTO);
-//        });
-//        return plantsDTO;
-//    }
-//    public void delete(String id) {
-//        repository.deleteById(id);
-//    }
-//    public PlantDTO findByName(String name) {
-//        Table table = dynamoDB.getTable("Plant");
-//        QuerySpec spec = new QuerySpec()
-//                .withKeyConditionExpression("PlantName = :v_nome")
-//                .withValueMap(new ValueMap()
-//                .withString(":v_nome", name));
-//        ItemCollection<QueryOutcome> items = table.query(spec);
-//        Iterator<Item> iterator = items.iterator();
-//        Item item = null;
-//        if (iterator.hasNext()) {
-//            item = iterator.next();
-//            return findByPlantId(item.getString("PlantId"));
-//        }
-//        return null;
-//    }
-    //type of id is actulally String
+    private PlantRepository plantRepository;
+    private PlantListLambdaServiceClient plantListLambdaServiceClient;
+
+    public PlantService(PlantRepository repository, PlantListLambdaServiceClient plantListLambdaServiceClient) {
+        this.plantRepository = repository;
+        this.plantListLambdaServiceClient = plantListLambdaServiceClient;
+    }
+
+    public List<GetPlantListResponse> getPlantListByName(String plantName) {
+        return plantListLambdaServiceClient.getPlantList(plantName);
+    }
+
+
+    public PlantResponse createPlant(CreatePlantRequest request) {
+        PlantRecord record = this.convertToRecord(request);
+        plantRepository.save(record);
+
+        PlantResponse response = new PlantResponse();
+        response.setPlantId(request.getPlantId());
+        response.setPlantName(request.getPlantName());
+        response.setCycle(request.getCycle());
+        response.setWatering(request.getWatering());
+        response.setSunlight(request.getSunlight());
+        response.setImgUrl(request.getImgUrl());
+
+        return response;
+    }
+
+    public List<PlantResponse> findAll() {
+        List<PlantResponse> plants = new ArrayList<>();
+
+        Iterable<PlantRecord> plantIterator = plantRepository.findAll();
+        for (PlantRecord record : plantIterator) {
+            plants.add(this.convertFromRecordToResponse(record));
+        }
+
+        return plants;
+    }
+
+    public List<PlantResponse> findByName(String name) {
+        List<PlantResponse> allPlants = this.findAll();
+
+        return Optional.ofNullable(allPlants)
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(plantResponse -> plantResponse.getPlantName().contains(name))
+                .collect(Collectors.toList());
+    }
+
+    public void delete(String id) {
+        plantRepository.deleteById(id);
+    }
+
+    private PlantRecord convertToRecord(CreatePlantRequest request) {
+        PlantRecord record = new PlantRecord();
+        record.setPlantId(request.getPlantId());
+        record.setPlantName(request.getPlantName());
+        record.setCycle(request.getCycle());
+        record.setWatering(request.getWatering());
+        record.setSunlight(request.getSunlight());
+        record.setImgUrl(request.getImgUrl());
+
+        return record;
+    }
+
+    private PlantResponse convertFromRecordToResponse(PlantRecord record) {
+        PlantResponse response = new PlantResponse();
+        response.setPlantId(record.getPlantId());
+        response.setPlantName(record.getPlantName());
+        response.setCycle(record.getCycle());
+        response.setWatering(record.getWatering());
+        response.setSunlight(record.getSunlight());
+        response.setImgUrl(record.getImgUrl());
+
+        return response;
+    }
+
 }
-// delete method
+

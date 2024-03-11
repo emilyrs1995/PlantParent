@@ -1,17 +1,42 @@
-package com.kenzie.appserver.model;
+package com.kenzie.appserver.controller.model;
 
-public class CreatePlantRequest {
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class PlantResponse {
+
+    @JsonProperty("plantId")
+    private String plantId;
+    @JsonProperty("plantName")
     private String plantName;
+    @JsonProperty("cycle")
     private String cycle;
+    @JsonProperty("watering")
     private String watering;
+    @JsonProperty("sunlight")
     private String sunlight;
+    @JsonProperty("imgUrl")
     private String imgUrl;
-    public CreatePlantRequest(String plantName, String cycle, String watering, String sunlight, String imgUrl) {
+
+    public PlantResponse() {
+    }
+
+    public PlantResponse(String plantId, String plantName, String cycle, String watering, String sunlight, String imgUrl) {
+        this.plantId = plantId;
         this.plantName = plantName;
         this.cycle = cycle;
         this.watering = watering;
         this.sunlight = sunlight;
         this.imgUrl = imgUrl;
+    }
+
+    public String getPlantId() {
+        return plantId;
+    }
+
+    public void setPlantId(String plantId) {
+        this.plantId = plantId;
     }
 
     public String getPlantName() {
