@@ -1,19 +1,36 @@
-package com.kenzie.appserver.service.model;
+package com.kenzie.appserver.controller.model;
 
-public class PlantDTO {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
+
+public class CreatePlantRequest {
+
+    @NotEmpty
+    @JsonProperty("plantId")
     private String plantId;
+    @NotEmpty
+    @JsonProperty("plantName")
     private String plantName;
+    @JsonProperty("scientificName")
+    private List<String> scientificName;
+    @JsonProperty("cycle")
     private String cycle;
+    @JsonProperty("watering")
     private String watering;
+    @JsonProperty("sunlight")
     private String sunlight;
+    @JsonProperty("imgUrl")
     private String imgUrl;
 
-    public PlantDTO() {
+    public CreatePlantRequest() {
     }
 
-    public PlantDTO(String plantId, String plantName, String cycle, String watering, String sunlight, String imgUrl) {
+    public CreatePlantRequest(String plantId, String plantName, List<String> scientificName, String cycle, String watering, String sunlight, String imgUrl) {
         this.plantId = plantId;
         this.plantName = plantName;
+        this.scientificName = scientificName;
         this.cycle = cycle;
         this.watering = watering;
         this.sunlight = sunlight;
@@ -34,6 +51,14 @@ public class PlantDTO {
 
     public void setPlantName(String plantName) {
         this.plantName = plantName;
+    }
+
+    public List<String> getScientificName() {
+        return scientificName;
+    }
+
+    public void setScientificName(List<String> scientificName) {
+        this.scientificName = scientificName;
     }
 
     public String getCycle() {
@@ -67,4 +92,7 @@ public class PlantDTO {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
 }
+
+

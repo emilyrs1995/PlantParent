@@ -1,74 +1,79 @@
 package com.kenzie.appserver.controller;
 
-
 import com.kenzie.appserver.controller.model.CreatePlantRequest;
-import com.kenzie.appserver.controller.model.CreatePlantResponse;
-import com.kenzie.appserver.repositories.model.Plant;
+import com.kenzie.appserver.controller.model.PlantResponse;
 import com.kenzie.appserver.service.PlantService;
-import com.kenzie.appserver.service.model.PlantDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.kenzie.capstone.service.model.GetPlantListResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
-import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/plant")
 public class PlantController {
-    @Autowired
     private PlantService plantService;
-//    @GetMapping("/{id}")
-//    public ResponseEntity<CreatePlantResponse> get(@PathVariable("id") String id) {
-//        PlantDTO plantDTO = plantService.findByPlantId(id);
-//        if (plantDTO != null) {
-//            CreatePlantResponse createPlantResponse = buildCreatePlantResponse(plantDTO);
-//            return ResponseEntity.ok(createPlantResponse);
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
-//    private CreatePlantResponse buildCreatePlantResponse(PlantDTO plantDTO) {
-//        CreatePlantResponse createPlantResponse = new CreatePlantResponse(
-//        createPlantResponse.setPlantName(plantDTO.getPlantName()),
-//        createPlantResponse.setWatering(plantDTO.getWatering()),
-//        createPlantResponse.setCycle(plantDTO.getCycle()),
-//        createPlantResponse.setSunlight(plantDTO.getSunlight()),
-//        createPlantResponse.setImgUrl(plantDTO.getImgurl()),
-//        createPlantResponse.setPlantID(plantDTO.getPlantId()));
-//        return createPlantResponse;
-//    }
-//    @PostMapping
-//    public ResponseEntity<CreatePlantResponse> addNewPlant(@RequestBody CreatePlantRequest createPlantRequest) {
-//        PlantDTO plantDTO = new PlantDTO();
-//        plantDTO.setPlantName(createPlantRequest.getPlantName());
-//        plantDTO.setCycle(createPlantRequest.getCycle());
-//        plantDTO.setImgurl(createPlantRequest.getImgUrl());
-//        plantDTO.setWatering(createPlantRequest.getWatering());
-//        plantDTO.setSunlight(createPlantRequest.getSunlight());
-//        PlantDTO createdPlantDTO = plantService.createPlant(plantDTO);
-//        CreatePlantResponse createPlantResponse = buildCreatePlantResponse(createdPlantDTO);
-//        return ResponseEntity.ok(createPlantResponse);
-//    }
-//    //delete obj
-//    @GetMapping
-//    public ResponseEntity<GetPlantListResponse> findAll() {
-//        List<PlantDTO> plantsDTO = plantService.findAll();
-//        List<CreatePlantResponse> plants = plantsDTO.stream().map(plantDTO ->  buildCreatePlantResponse(plantDTO)).collect(Collectors.toList());
-//        GetPlantListResponse response = new GetPlantListResponse();
-//        response.setPlants(plants);
-//        return ResponseEntity.ok(response);
-//    }
-//    @DeleteMapping("/{id}")
-//    public void delete(@PathVariable("id") String id) {
-//        plantService.delete(id);
-//    }
-//    // changing DTO - received by service - via mapping to response - to send it to screen
-//    @GetMapping("/{name}")
-//    public ResponseEntity<CreatePlantResponse> findByName(@PathVariable("name") String name) {
-//        PlantDTO plantDTO = plantService.findByName(name);
-//        if (plantDTO != null) {
-//            CreatePlantResponse createPlantResponse = buildCreatePlantResponse(plantDTO);
-//            return ResponseEntity.ok(createPlantResponse);
-//        }
-//        return ResponseEntity.notFound().build();
-//        //
-//    }
+    public PlantController(PlantService plantService) {
+        this.plantService = plantService;
+    }
+
+    @GetMapping("/{plantName}")
+    public ResponseEntity<List<GetPlantListResponse>> getPlantListByName(@PathVariable("plantName") String plantName) {
+        if (plantName == null || plantName.length() == 0){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Plant Name");
+        }
+
+        List<GetPlantListResponse> response = plantService.getPlantListByName(plantName);
+
+        if (response == null || response.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/collection")
+    public ResponseEntity<PlantResponse> addNewPlant(@RequestBody CreatePlantRequest createPlantRequest) {
+        if (createPlantRequest.getPlantId() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid PlantId");
+        }
+        if (createPlantRequest.getPlantName() == null || createPlantRequest.getPlantName().length() == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Plant Name");
+        }
+
+        PlantResponse response = plantService.createPlant(createPlantRequest);
+
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/collection/all")
+    public ResponseEntity<List<PlantResponse>> getPlantCollection() {
+        List<PlantResponse> plants = plantService.findAll();
+
+        if (plants == null || plants.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(plants);
+    }
+
+    @GetMapping("/collection/{plantName}")
+    public ResponseEntity<List<PlantResponse>> getPlantByName(@PathVariable("plantName") String plantName) {
+        List<PlantResponse> plants = plantService.findByName(plantName);
+
+        if (plants == null || plants.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(plants);
+    }
+
+    @DeleteMapping("/collection/{id}")
+    public ResponseEntity deletePlant(@PathVariable("id") String id) {
+        plantService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
 }
