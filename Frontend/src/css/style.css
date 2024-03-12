@@ -1,9 +1,9 @@
 :root {
-    --primary-color: #023020; /* dark Green */
+    --primary-color: #023020;   /* Dark Green */
     --secondary-color: #ffe7cf; /* Cream */
-    --accent-color: #ffd9b3;  /* Peach */
+    --accent-color: #ffd9b3;    /* Peach */
     --highlight-color: #d4bea8; /* Gold */
-    --error-color: #da7f8f; /* Softened error color for a calmer feel */
+    --error-color: #da7f8f;     /* Softened error color for a calmer feel */
     }
 
 body {
@@ -15,24 +15,20 @@ body {
 
 }
 
-#plant-search {
-  z-index: 2;   /* A value higher than the background */
-  position: relative; /* This is important for z-index to work */
-}
 .background {
-    background-color: var(--secondary-color); /* Cream background */
+    background-color: var(--secondary-color);    /* Cream background underneath image */
 }
 
 .header {
     background-color: var(--accent-color); /* Peach background */
     color: var(--primary-color); /* dark green text */
-    position: fixed;     /* Make the header stay in place */
-    top: 0;              /* Position it at the top */
-    left: 0;             /* Stretch it across the left side */
-    right: 0;            /* Stretch it across the right side */
+    position: fixed;      /* Make the header stay in place */
+    top: 0;               /* Position it at the top */
+    left: 0;              /* Stretch it across the left side */
+    right: 0;             /* Stretch it across the right side */
     width: 100%;          /* Make it take up full width */
-    padding: 1px 0;     /* Adjust padding as needed */
-    z-index: 100;        /* Ensure the header stays on top */
+    padding: 0px 0;       /* thickness of header bar*/
+    z-index: 100;         /* Ensure the header stays on top */
 }
 
 .header_home {
@@ -40,8 +36,8 @@ body {
 }
 
 nav a {
-    color: #333333;  /* Adjust as needed */
-    text-decoration: none; /* Remove the default underline */
+    color: #333333;         /* Adjust as needed */
+    text-decoration: none;  /* Remove the default underline */
 }
 
 nav a.green-button {
@@ -51,25 +47,25 @@ nav a.green-button {
     text-align: center;
     display: inline-block;
     font-size: 16px;
-    border-radius: 2px;   /* slightly rounded corners */
+    border-radius: 2px;        /* slightly rounded corners */
 }
 
 
 
 .button, button {
-    background: var(--accent-color); /* Peach buttons */
-    color: var(--secondary-color); /* Cream text on buttons */
+    background: var(--accent-color);          /* Peach buttons */
+    color: var(--secondary-color);            /* Cream text on buttons */
     border: 1px solid var(--highlight-color); /* Gold border */
 }
 
 .button:hover, button:hover {
     background: var(--highlight-color); /* Gold on hover */
-    color: var(--primary-color); /* dark green text */
+    color: var(--primary-color);        /* dark green text */
 }
 
 .card {
-    color: var(--primary-color); /* dark green text */
-    background-color: var(--secondary-color); /* Cream background */
+    color: var(--primary-color);                 /* dark green text */
+    background-color: var(--secondary-color);    /* Cream background */
 }
 
 .validated-field:invalid {
