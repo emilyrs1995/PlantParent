@@ -1,9 +1,9 @@
 :root {
-    --primary-color: #c8d6cb; /* Sage Green */
+    --primary-color: #023020;   /* Dark Green */
     --secondary-color: #ffe7cf; /* Cream */
-    --accent-color: #ffd9b3;  /* Peach */
+    --accent-color: #ffd9b3;    /* Peach */
     --highlight-color: #d4bea8; /* Gold */
-    --error-color: #da7f8f; /* Softened error color for a calmer feel */
+    --error-color: #da7f8f;     /* Softened error color for a calmer feel */
     }
 
 body {
@@ -11,42 +11,61 @@ body {
   background-repeat: no-repeat;     /* Prevent image repetition */
   background-size: cover;           /* Scale image to cover entire background */
   margin: 0;                        /* Remove browser's default margins */
+  z-index: -1;                      /* Make sure this is negative to stay in the back */
+
 }
 
 .background {
-    background-color: var(--secondary-color); /* Cream background */
+    background-color: var(--secondary-color);    /* Cream background underneath image */
 }
 
 .header {
     background-color: var(--accent-color); /* Peach background */
-    color: var(--secondary-color); /* Cream text */
-    position: fixed;     /* Make the header stay in place */
-    top: 0;              /* Position it at the top */
-    left: 0;             /* Stretch it across the left side */
-    right: 0;            /* Stretch it across the right side */
+    color: var(--primary-color); /* dark green text */
+    position: fixed;      /* Make the header stay in place */
+    top: 0;               /* Position it at the top */
+    left: 0;              /* Stretch it across the left side */
+    right: 0;             /* Stretch it across the right side */
     width: 100%;          /* Make it take up full width */
-    padding: 1px 0;     /* Adjust padding as needed */
-    z-index: 100;        /* Ensure the header stays on top */
+    padding: 0px 0;       /* thickness of header bar*/
+    z-index: 100;         /* Ensure the header stays on top */
 }
 
 .header_home {
     color: var(--accent-color); /* Peach home link */
 }
 
+nav a {
+    color: #333333;         /* Adjust as needed */
+    text-decoration: none;  /* Remove the default underline */
+}
+
+nav a.green-button {
+    background-color: #87a96b; /* asparagus green color */
+    border: 2px solid #2E8B57; /*dark green border */
+    padding: 5px 5px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 2px;        /* slightly rounded corners */
+}
+
+
+
 .button, button {
-    background: var(--accent-color); /* Peach buttons */
-    color: var(--secondary-color); /* Cream text on buttons */
+    background: var(--accent-color);          /* Peach buttons */
+    color: var(--secondary-color);            /* Cream text on buttons */
     border: 1px solid var(--highlight-color); /* Gold border */
 }
 
 .button:hover, button:hover {
     background: var(--highlight-color); /* Gold on hover */
-    color: var(--primary-color); /* Sage green text */
+    color: var(--primary-color);        /* dark green text */
 }
 
 .card {
-    color: var(--primary-color); /* Sage green text */
-    background-color: var(--secondary-color); /* Cream background */
+    color: var(--primary-color);                 /* dark green text */
+    background-color: var(--secondary-color);    /* Cream background */
 }
 
 .validated-field:invalid {

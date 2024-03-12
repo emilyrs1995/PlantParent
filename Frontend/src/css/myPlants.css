@@ -1,0 +1,19 @@
+/* Peach Background */
+.peach-background {
+    background-color: #FFDAB9; /* Peach color */
+}
+
+/* Plant Container */
+.my-plants-container {
+    background-color: #F5F5DC; /* Beige color */
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px; /* Limit width for better layout */
+    border-radius: 8px;  /* Add rounded corners */
+}
+
+/* Styling for the plant list */
+#plant-list {
+    /*  styling for individual plant items here */
+}
