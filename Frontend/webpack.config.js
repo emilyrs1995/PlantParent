@@ -23,7 +23,7 @@ module.exports = {
         context: [
           '/plant',
         ],
-        target: 'http://localhost:5001'
+        target: 'https://perenual.com/docs/api' //http://localhost:5001
       }
     ]
   },

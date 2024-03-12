@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #c8d6cb; /* Sage Green */
+    --primary-color: #023020; /* dark Green */
     --secondary-color: #ffe7cf; /* Cream */
     --accent-color: #ffd9b3;  /* Peach */
     --highlight-color: #d4bea8; /* Gold */
@@ -11,15 +11,21 @@ body {
   background-repeat: no-repeat;     /* Prevent image repetition */
   background-size: cover;           /* Scale image to cover entire background */
   margin: 0;                        /* Remove browser's default margins */
+  z-index: -1;                      /* Make sure this is negative to stay in the back */
+
 }
 
+#plant-search {
+  z-index: 2;   /* A value higher than the background */
+  position: relative; /* This is important for z-index to work */
+}
 .background {
     background-color: var(--secondary-color); /* Cream background */
 }
 
 .header {
     background-color: var(--accent-color); /* Peach background */
-    color: var(--secondary-color); /* Cream text */
+    color: var(--primary-color); /* dark green text */
     position: fixed;     /* Make the header stay in place */
     top: 0;              /* Position it at the top */
     left: 0;             /* Stretch it across the left side */
@@ -33,6 +39,23 @@ body {
     color: var(--accent-color); /* Peach home link */
 }
 
+nav a {
+    color: #333333;  /* Adjust as needed */
+    text-decoration: none; /* Remove the default underline */
+}
+
+nav a.green-button {
+    background-color: #87a96b; /* asparagus green color */
+    border: 2px solid #2E8B57; /*dark green border */
+    padding: 5px 5px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 2px;   /* slightly rounded corners */
+}
+
+
+
 .button, button {
     background: var(--accent-color); /* Peach buttons */
     color: var(--secondary-color); /* Cream text on buttons */
@@ -41,11 +64,11 @@ body {
 
 .button:hover, button:hover {
     background: var(--highlight-color); /* Gold on hover */
-    color: var(--primary-color); /* Sage green text */
+    color: var(--primary-color); /* dark green text */
 }
 
 .card {
-    color: var(--primary-color); /* Sage green text */
+    color: var(--primary-color); /* dark green text */
     background-color: var(--secondary-color); /* Cream background */
 }
 
