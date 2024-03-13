@@ -1,8 +1,10 @@
 package com.kenzie.capstone.service.dao;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kenzie.capstone.service.converter.DataToGetPlantListResponse;
 import com.kenzie.capstone.service.exceptions.ApiGatewayException;
-import com.kenzie.capstone.service.model.GetPlantListApiResponse;
+import com.kenzie.capstone.service.model.Data;
+import com.kenzie.capstone.service.model.ApiResponse;
 import com.kenzie.capstone.service.model.GetPlantListResponse;
 
 import javax.inject.Inject;
@@ -31,6 +33,11 @@ public class NonCachingPlantDao implements PlantDao {
 
     @Override
     public List<GetPlantListResponse> getPlantList(String plantName) {
+
+        //return this.mockingGettingOneResponseFromTheAPI();
+        //return this.mockingGettingFiveResponsesFromTheAPI();
+
+
         String url = apiEndpoint + apiKey + query + plantName;
 
         HttpClient client = HttpClient.newHttpClient();
@@ -46,17 +53,17 @@ public class NonCachingPlantDao implements PlantDao {
 
             int statusCode = httpResponse.statusCode();
             if (statusCode == 200) {
-                List<GetPlantListApiResponse> apiResponseList = this.convertFromStringToApiResponse(httpResponse.body());
+                ApiResponse apiResponseList = this.convertFromStringToApiResponse(httpResponse.body());
 
-                return Optional.of(apiResponseList)
+                return Optional.of(apiResponseList.getData())
                         .orElse(Collections.emptyList())
                         .stream()
                         // filtering out all the plants that are beyond our free tier of Api use
                         .filter(apiResponse -> apiResponse.getId() > 3000)
+                        // converting and the returning the collection
+                        .map(DataToGetPlantListResponse::convertFromApiResponse)
                         // limiting the list to only 5 responses
                         .limit(5)
-                        // converting and the returning the collection
-                        .map(this::convertFromApiResponse)
                         .collect(Collectors.toList());
 
             } else {
@@ -71,34 +78,47 @@ public class NonCachingPlantDao implements PlantDao {
 
     }
 
-    private List<GetPlantListApiResponse> convertFromStringToApiResponse(String httpResponse) {
+    private ApiResponse convertFromStringToApiResponse(String httpResponse) {
         try {
-            return Collections.singletonList(mapper.readValue(httpResponse, GetPlantListApiResponse.class));
+            return mapper.readValue(httpResponse, ApiResponse.class);
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
         }
 
     }
 
-    private GetPlantListResponse convertFromApiResponse(GetPlantListApiResponse apiResponse) {
-        // returning a new getPlantResponse in case the apiResponse is null
-        if (apiResponse == null) {
-            return new GetPlantListResponse();
+    private List<GetPlantListResponse> mockingGettingOneResponseFromTheAPI() {
+        String responseFromMock = MockingAPI.giveMeAString();
+        ApiResponse convertedOnce = convertFromStringToApiResponse(responseFromMock);
+
+        for(Data data : convertedOnce.getData()) {
+            System.out.println(data.toString());
         }
 
-        GetPlantListResponse response = new GetPlantListResponse();
-        response.setPlantId(apiResponse.getId());
-        response.setPlantName(apiResponse.getCommon_name());
-        response.setScientificName(apiResponse.getScientific_name());
-        response.setCycle(apiResponse.getCycle());
-        response.setWatering(apiResponse.getWatering());
-
-        // this can be changed if we'd rather have all the sunlight options instead of just the first
-        response.setSunlight(apiResponse.getSunlight().get(0));
-
-        // this can be changed if we want a different picture for the frontend
-        response.setIMGUrl(apiResponse.getDefaultImage().getThumbnail());
-
-        return response;
+        return Optional.of(convertedOnce.getData())
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(apiResponse -> apiResponse.getId() < 3000)
+                .map(DataToGetPlantListResponse::convertFromApiResponse)
+                .limit(5)
+                .collect(Collectors.toList());
     }
+
+    private List<GetPlantListResponse> mockingGettingFiveResponsesFromTheAPI() {
+        String responseFromMock = MockingAPI.giveMeALongerString();
+        ApiResponse convertedOnce = convertFromStringToApiResponse(responseFromMock);
+
+        for(Data data : convertedOnce.getData()) {
+            System.out.println(data.toString());
+        }
+
+        return Optional.of(convertedOnce.getData())
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(apiResponse -> apiResponse.getId() < 3000)
+                .map(DataToGetPlantListResponse::convertFromApiResponse)
+                .limit(5)
+                .collect(Collectors.toList());
+    }
+
 }
