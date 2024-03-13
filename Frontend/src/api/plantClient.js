@@ -16,6 +16,7 @@ export default class plantClient extends BaseClass {
         this.clientLoaded(axios);
     }
 
+
     /**
      * Run any functions that are supposed to be called once the client has loaded successfully.
      * @param client The client that has been successfully loaded.
@@ -59,7 +60,7 @@ export default class plantClient extends BaseClass {
         }
     }
 
-/**
+    /**
      * Gets the entire plant collection.
      * @param errorCallback (Optional) A function to execute if the call fails.
      * @returns The list of plants in the collection.
@@ -75,33 +76,34 @@ export default class plantClient extends BaseClass {
 
 
     /**
-         * Gets a plant by name from the collection.
-         * @param plantName Name of the plant to search for
-         * @param errorCallback (Optional) A function to execute if the call fails.
-         * @returns The plant
-         */
-        async getPlantByName(plantName, errorCallback) {
-            try {
-                const response = await this.client.get(`/plant/collection/${plantName}`);
-                return response.data;
-            } catch (error) {
-                this.handleError("getPlantByName", error, errorCallback);
-            }
+    * Gets a plant by name from the collection.
+    * @param plantName Name of the plant to search for
+    * @param errorCallback (Optional) A function to execute if the call fails.
+    * @returns The plant
+    */
+    async getPlantByName(plantName, errorCallback) {
+        try {
+            const response = await this.client.get(`/plant/collection/${plantName}`);
+            return response.data;
+        } catch (error) {
+            this.handleError("getPlantByName", error, errorCallback);
         }
+    }
 
 
-        /**
-         * Deletes a plant from the collection.
-         * @param id ID of the plant to delete
-         * @param errorCallback (Optional) A function to execute if the call fails.
-         */
-        async deletePlant(id, errorCallback) {
-            try {
-                await this.client.delete(`/plant/collection/${id}`);
-            } catch (error) {
-                this.handleError("deletePlant", error, errorCallback);
-            }
+    /**
+    * Deletes a plant from the collection.
+    * @param id ID of the plant to delete
+    * @param errorCallback (Optional) A function to execute if the call fails.
+    */
+    async deletePlant(id, errorCallback) {
+        try {
+            await this.client.delete(`/plant/collection/${id}`);
+        } catch (error) {
+            this.handleError("deletePlant", error, errorCallback);
         }
+    }
+
 
 
     /**
