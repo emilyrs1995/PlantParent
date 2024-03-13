@@ -36,6 +36,7 @@ public class NonCachingPlantDao implements PlantDao {
 
         //return this.mockingGettingOneResponseFromTheAPI();
         //return this.mockingGettingFiveResponsesFromTheAPI();
+        //return this.mockingGettingTwoValidResponsesAndOneInvalidResponseFromTheAPI();
 
 
         String url = apiEndpoint + apiKey + query + plantName;
@@ -88,7 +89,7 @@ public class NonCachingPlantDao implements PlantDao {
     }
 
     private List<GetPlantListResponse> mockingGettingOneResponseFromTheAPI() {
-        String responseFromMock = MockingAPI.giveMeAString();
+        String responseFromMock = MockingAPI.giveMeOneResponse();
         ApiResponse convertedOnce = convertFromStringToApiResponse(responseFromMock);
 
         for(Data data : convertedOnce.getData()) {
@@ -105,7 +106,26 @@ public class NonCachingPlantDao implements PlantDao {
     }
 
     private List<GetPlantListResponse> mockingGettingFiveResponsesFromTheAPI() {
-        String responseFromMock = MockingAPI.giveMeALongerString();
+        String responseFromMock = MockingAPI.giveMeFiveResponses();
+        ApiResponse convertedOnce = convertFromStringToApiResponse(responseFromMock);
+
+        for(Data data : convertedOnce.getData()) {
+            System.out.println(data.toString());
+        }
+
+        return Optional.of(convertedOnce.getData())
+                .orElse(Collections.emptyList())
+                .stream()
+                .filter(apiResponse -> apiResponse.getId() < 3000)
+                .map(DataToGetPlantListResponse::convertFromApiResponse)
+                .limit(5)
+                .collect(Collectors.toList());
+    }
+
+
+    // this doesn't work yet...
+    private List<GetPlantListResponse> mockingGettingTwoValidResponsesAndOneInvalidResponseFromTheAPI() {
+        String responseFromMock = MockingAPI.giveMeTwoValidAndOneInvalidResponse();
         ApiResponse convertedOnce = convertFromStringToApiResponse(responseFromMock);
 
         for(Data data : convertedOnce.getData()) {

@@ -35,9 +35,6 @@ public class PlantListLambdaServiceTest {
 
         GetPlantListResponse expectedResponse = new GetPlantListResponse(id, name, scientificName, cycle, watering, sunlight, imgUrl);
 
-        List<GetPlantListResponse> listResponses = new ArrayList<>();
-        listResponses.add(expectedResponse);
-
         // WHEN
         List<GetPlantListResponse> actualResponse = plantListLambdaService.getPlantList(plantName);
 
@@ -110,13 +107,6 @@ public class PlantListLambdaServiceTest {
         String imgUrl5 = "https://perenual.com/storage/species_image/2823_etlingera_elatior/thumbnail/27955726500_9b9213a47a_b.jpg";
         GetPlantListResponse expectedResponse5 = new GetPlantListResponse(id5, name5, scientificName5, cycle5, watering5, sunlight5, imgUrl5);
 
-        List<GetPlantListResponse> listResponses = new ArrayList<>();
-        listResponses.add(expectedResponse1);
-        listResponses.add(expectedResponse2);
-        listResponses.add(expectedResponse3);
-        listResponses.add(expectedResponse4);
-        listResponses.add(expectedResponse5);
-
         // WHEN
         List<GetPlantListResponse> actualResponses = plantListLambdaService.getPlantList(plantName);
 
@@ -164,4 +154,58 @@ public class PlantListLambdaServiceTest {
         }
     }
 
+
+    // this test doesn't work yet because I gotta figure out how to filter out the bad api responses
+    // before it gets to the mapper
+
+//    @Test
+//    void getPlantList_withToValidPlants_andOneInvalid_onlyReturnsValid() {
+//        // GIVEN
+//        String plantName = "orchid";
+//
+//        int id1 = 1191;
+//        String name1 = "Hong Kong orchid tree";
+//        List<String> scientificName1 = new ArrayList<>();
+//        scientificName1.add("Bauhinia blakeana");
+//        String cycle1 = "Perennial";
+//        String watering1 = "Average";
+//        String sunlight1 = "Full sun";
+//        String imgUrl1 = "https://perenual.com/storage/species_image/1191_bauhinia_blakeana/thumbnail/52661560703_469c6c5af9_b.jpg";
+//        GetPlantListResponse expectedResponse1 = new GetPlantListResponse(id1, name1, scientificName1, cycle1, watering1, sunlight1, imgUrl1);
+//
+//        int id2 = 1299;
+//        String name2 = "Chinese ground orchid";
+//        List<String> scientificName2 = new ArrayList<>();
+//        scientificName2.add("Bletilla striata");
+//        String cycle2 = "Perennial";
+//        String watering2 = "Average";
+//        String sunlight2 = "Part shade";
+//        String imgUrl2 = "https://perenual.com/storage/species_image/1299_bletilla_striata/thumbnail/46779845065_57a4c9f61d_b.jpg";
+//        GetPlantListResponse expectedResponse2 = new GetPlantListResponse(id2, name2, scientificName2, cycle2, watering2, sunlight2, imgUrl2);
+//
+//        // WHEN
+//        List<GetPlantListResponse> actualResponses = plantListLambdaService.getPlantList(plantName);
+//
+//        // THEN
+//        Assertions.assertNotNull(actualResponses);
+//        Assertions.assertEquals(2, actualResponses.size());
+//
+//        for (GetPlantListResponse response : actualResponses) {
+//            if (response.getPlantId() == expectedResponse1.getPlantId()) {
+//                Assertions.assertEquals(expectedResponse1.getPlantName(), response.getPlantName());
+//                Assertions.assertEquals(expectedResponse1.getScientificName(), response.getScientificName());
+//                Assertions.assertEquals(expectedResponse1.getCycle(), response.getCycle());
+//                Assertions.assertEquals(expectedResponse1.getWatering(), response.getWatering());
+//                Assertions.assertEquals(expectedResponse1.getSunlight(), response.getSunlight());
+//                Assertions.assertEquals(expectedResponse1.getIMGUrl(), response.getIMGUrl());
+//            } else if (response.getPlantId() == expectedResponse2.getPlantId()) {
+//                Assertions.assertEquals(expectedResponse2.getPlantName(), response.getPlantName());
+//                Assertions.assertEquals(expectedResponse2.getScientificName(), response.getScientificName());
+//                Assertions.assertEquals(expectedResponse2.getCycle(), response.getCycle());
+//                Assertions.assertEquals(expectedResponse2.getWatering(), response.getWatering());
+//                Assertions.assertEquals(expectedResponse2.getSunlight(), response.getSunlight());
+//                Assertions.assertEquals(expectedResponse2.getIMGUrl(), response.getIMGUrl());
+//            }
+//        }
+//    }
 }
