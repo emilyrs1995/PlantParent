@@ -13,7 +13,16 @@
     border-radius: 8px;  /* Add rounded corners */
 }
 
-/* Styling for the plant list */
+/* Styling for the plant list ---MAY NEED TO BE CHANGED!!---*/
 #plant-list {
-    /*  styling for individual plant items here */
+    display: flex;         /* Enable flexbox layout for rows */
+    flex-wrap: wrap;       /* Allow items to wrap to multiple rows if needed */
+    justify-content: space-between; /* Distribute items with space between */
+}
+
+#plant-list .plant-item {
+    border: 1px solid #F5F5DC; /* Cream-colored border */
+    padding: 15px;             /* Add padding within the item */
+    margin: 10px;              /* Space between items */
+    width: calc(30% - 20px);   /* Make items take up around 30% of space with margins */
 }
