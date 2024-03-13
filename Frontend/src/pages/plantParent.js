@@ -139,8 +139,8 @@ class PlantParentPage extends BaseClass {
     * Main method to run when the page contents have loaded.
     */
     const main = async () => {
-        const examplePage = new ExamplePage();
-        examplePage.mount();
+        const plantParentPage = new PlantParentPage();
+        plantParentPage.mount();
     };
 
     window.addEventListener('DOMContentLoaded', main);
