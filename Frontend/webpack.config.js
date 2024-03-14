@@ -31,22 +31,15 @@ module.exports = {
         context: [
           '/plant',
         ],
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        target: 'https://perenual.com/docs/api' //http://localhost:5001
-=======
         target: 'http://localhost:5001' //API server address
->>>>>>> Stashed changes
-=======
-        target: 'http://localhost:5001' //API server address
->>>>>>> Stashed changes
+
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/dontLeafMeAlone.html',
-      filename: 'index.html',
+      filename: 'dontLeafMeAlone.html',
       inject: false
     }),
     new CopyPlugin({
