@@ -10,7 +10,10 @@ header, footer {
     background-color: #2e3d30; /* Asparagus green color */
     color: #FFDAB9;            /* Peach text color */
     padding: 15px 0;
+    width: 100%;               /* Full width */
 }
+
+.white-link { color: #fff; }
 
 nav ul {
     list-style: none; /* Remove bullet points */

@@ -11,7 +11,10 @@ header, footer {
     color: #2e3d30;            /* peach text color */
     padding: 15px 0;
     text-align: center;
+    width: 100%;
 }
+
+.white-link { color: #fff; }
 
 nav ul {
     list-style: none; /* Remove bullet points */

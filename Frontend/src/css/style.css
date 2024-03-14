@@ -28,7 +28,7 @@ body {
     left: 0;              /* Stretch it across the left side */
     right: 0;             /* Stretch it across the right side */
     width: 100%;          /* Make it take up full width */
-    padding: 0px 0;       /* thickness of header bar*/
+    padding: 15px 0;       /* thickness of header bar*/
     z-index: 100;         /* Ensure the header stays on top */
 }
 
