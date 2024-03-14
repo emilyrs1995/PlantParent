@@ -10,10 +10,10 @@ import javax.inject.Singleton;
 @Module
 public class CachingModule {
 
-//    @Provides
-//    @Singleton
-//    @Named("CacheClient")
-//    public CacheClient provideCacheClient() {
-//        return new CacheClient();
-//    }
+    @Singleton
+    @Provides
+    public CacheClient<Integer, String> provideCacheClient() {
+        int maxSize = 5;
+        return new CacheClient<>(maxSize);
+    }
 }
