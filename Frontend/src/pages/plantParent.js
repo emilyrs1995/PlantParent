@@ -134,6 +134,7 @@ class PlantParentPage extends BaseClass {
         showMessage(message) {
             console.log(message);
         }
+    }
 
     /**
     * Main method to run when the page contents have loaded.

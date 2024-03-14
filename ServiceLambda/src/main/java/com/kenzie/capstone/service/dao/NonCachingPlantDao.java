@@ -88,6 +88,14 @@ public class NonCachingPlantDao implements PlantDao {
 
     }
 
+
+    /**
+     * mockingGettingOneResponseFromTheAPI - this is a method mocking converting one response from the external
+     * API and seeing if our mapper reads everything okay and that our converter methods are working as expected.
+     * Uncomment line 37 and run the "getPlantListSuccessful_withOneValidPlant_successful" test in
+     * PlantListLambdaServiceTest to run this method. (please make sure to comment out the actual call to the API first)
+     * @return List<GetPlantListResponse>
+     */
     private List<GetPlantListResponse> mockingGettingOneResponseFromTheAPI() {
         String responseFromMock = MockingAPI.giveMeOneResponse();
         ApiResponse convertedOnce = convertFromStringToApiResponse(responseFromMock);
@@ -105,6 +113,13 @@ public class NonCachingPlantDao implements PlantDao {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * mockingGettingFiveResponsesFromTheAPI - this is a method mocking converting five responses from the external
+     * API and seeing if our mapper reads everything okay and that our converter methods are working as expected.
+     * Uncomment line 38 and run the "getPlantList_withFiveValidPlants_successful" test in PlantListLambdaServiceTest
+     * to run this method. (please make sure to comment out the actual call to the API first)
+     * @return List<GetPlantListResponse>
+     */
     private List<GetPlantListResponse> mockingGettingFiveResponsesFromTheAPI() {
         String responseFromMock = MockingAPI.giveMeFiveResponses();
         ApiResponse convertedOnce = convertFromStringToApiResponse(responseFromMock);
@@ -123,7 +138,14 @@ public class NonCachingPlantDao implements PlantDao {
     }
 
 
-    // this doesn't work yet...
+    /**
+     * mockingGettingTwoValidResponsesAndOneInvalidResponseFromTheAPI - this is a method mocking converting two valid
+     * responses and one invalid response from the external API and seeing if our mapper reads everything okay and that
+     * our converter methods are working as expected. Most of all we're checking to see if the invalid API response is
+     * filtered out and not returned as a GetPlantListResponse.
+     * THIS METHOD DOES NOT WORK YET!!
+     * @return List<GetPlantListResponse>
+     */
     private List<GetPlantListResponse> mockingGettingTwoValidResponsesAndOneInvalidResponseFromTheAPI() {
         String responseFromMock = MockingAPI.giveMeTwoValidAndOneInvalidResponse();
         ApiResponse convertedOnce = convertFromStringToApiResponse(responseFromMock);
