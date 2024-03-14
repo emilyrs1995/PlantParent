@@ -9,7 +9,11 @@ module.exports = {
   },
   entry: {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     plantParent: path.resolve(__dirname, 'src', 'pages', 'plantParent.js'),
+=======
+    plantParent: path.resolve(__dirname, 'src', 'pages', 'plantParent.js'), //main entry point
+>>>>>>> Stashed changes
 =======
     plantParent: path.resolve(__dirname, 'src', 'pages', 'plantParent.js'), //main entry point
 >>>>>>> Stashed changes
@@ -28,7 +32,11 @@ module.exports = {
           '/plant',
         ],
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         target: 'https://perenual.com/docs/api' //http://localhost:5001
+=======
+        target: 'http://localhost:5001' //API server address
+>>>>>>> Stashed changes
 =======
         target: 'http://localhost:5001' //API server address
 >>>>>>> Stashed changes
