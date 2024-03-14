@@ -26,9 +26,4 @@ public class DataToGetPlantListResponse {
 
         return response;
     }
-
-    // TODO write a method to verify all the fields we need are not null before trying to convert to our response
-    private boolean verifyValidFields(Data data) {
-        return false;
-    }
 }
