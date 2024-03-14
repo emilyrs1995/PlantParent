@@ -23,6 +23,13 @@ public class DaoModule {
 
     @Singleton
     @Provides
+    @Named("CacheClient")
+    public CacheClient provideCacheClient() {
+        return new CacheClient(5);
+    }
+
+    @Singleton
+    @Provides
     @Named("DynamoDBMapper")
     public DynamoDBMapper provideDynamoDBMapper() {
         return new DynamoDBMapper(DynamoDbClientProvider.getDynamoDBClient());
@@ -33,8 +40,7 @@ public class DaoModule {
     @Named("PlantDao")
     @Inject
     public PlantDao providePlantDao(@Named("CacheClient") CacheClient cacheClient,
-                                       @Named("NonCachingPlantDao") NonCachingPlantDao nonCachingPlantDao) {
-
+                                    @Named("NonCachingPlantDao") NonCachingPlantDao nonCachingPlantDao) {
         return new CachingPlantDao(cacheClient, nonCachingPlantDao);
     }
 
@@ -45,5 +51,4 @@ public class DaoModule {
     public NonCachingPlantDao provideNonCachingPlantDao() {
         return new NonCachingPlantDao();
     }
-
 }
