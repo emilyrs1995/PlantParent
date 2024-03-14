@@ -1,28 +1,42 @@
-/* Peach Background */
-.peach-background {
-    background-color: #FFDAB9; /* Peach color */
+/* General Styling */
+body {
+    font-family: sans-serif;
+    text-align: center; /* Centers text */
+    margin: 0;          /* Remove default page margins */
+    background-color: #F9F9F9; /* light background */
 }
 
-/* Plant Container */
+header, footer {
+    background-color: #2e3d30; /* Asparagus green color */
+    color: #FFDAB9;            /* Peach text color */
+    padding: 15px 0;
+    width: 100%;               /* Full width */
+}
+
+.white-link { color: #fff; }
+
+nav ul {
+    list-style: none; /* Remove bullet points */
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    color: #FFDAB9;   /* Peach links */
+    text-decoration: none;
+}
+
+/* Main Content Styling */
 .my-plants-container {
-    background-color: #F5F5DC; /* Beige color */
     padding: 20px;
     margin: 20px auto;
-    width: 80%;
-    max-width: 600px; /* Limit width for better layout */
-    border-radius: 8px;  /* Add rounded corners */
+    max-width: 800px;
+    background-color: #ffd9b3; /* Peach background for content area */
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Styling for the plant list ---MAY NEED TO BE CHANGED!!---*/
-#plant-list {
-    display: flex;         /* Enable flexbox layout for rows */
-    flex-wrap: wrap;       /* Allow items to wrap to multiple rows if needed */
-    justify-content: space-between; /* Distribute items with space between */
-}
-
-#plant-list .plant-item {
-    border: 1px solid #F5F5DC; /* Cream-colored border */
-    padding: 15px;             /* Add padding within the item */
-    margin: 10px;              /* Space between items */
-    width: calc(30% - 20px);   /* Make items take up around 30% of space with margins */
+.my-plants-container h2 {
+    color: #2e3d30; /* Asparagus green */
+    margin-bottom: 15px;
 }

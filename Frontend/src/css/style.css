@@ -2,16 +2,17 @@
     --primary-color: #023020;   /* Dark Green */
     --secondary-color: #ffe7cf; /* Cream */
     --accent-color: #ffd9b3;    /* Peach */
-    --highlight-color: #d4bea8; /* Gold */
-    --error-color: #da7f8f;     /* Softened error color for a calmer feel */
+    --error-color: #da7f8f;     /* Softened error color  */
     }
 
 body {
-  background-image: url('https://images.immediate.co.uk/production/volatile/sites/10/2021/08/2048x1365-Senecio-rowleyanus-SEO-GettyImages-1262990653-fbfece2.jpg?quality=90&webp=true&resize=675,450'); /* Your Image URL */
-  background-repeat: no-repeat;     /* Prevent image repetition */
-  background-size: cover;           /* Scale image to cover entire background */
-  margin: 0;                        /* Remove browser's default margins */
-  z-index: -1;                      /* Make sure this is negative to stay in the back */
+    font-family: sans-serif;
+    background-image: url('https://images.immediate.co.uk/production/volatile/sites/10/2021/08/2048x1365-Senecio-rowleyanus-SEO-GettyImages-1262990653-fbfece2.jpg?quality=90&webp=true&resize=675,450'); /* Your Image URL */
+    background-repeat: no-repeat;     /* Prevent image repetition */
+    background-size: cover;           /* Scale image to cover entire background */
+    margin: 0;                        /* Remove browser's default margins */
+    z-index: -1;                      /* Make sure this is negative to stay in the back */
+    text-align: center; /* Centers text within the body */
 
 }
 
@@ -27,12 +28,24 @@ body {
     left: 0;              /* Stretch it across the left side */
     right: 0;             /* Stretch it across the right side */
     width: 100%;          /* Make it take up full width */
-    padding: 0px 0;       /* thickness of header bar*/
+    padding: 15px 0;       /* thickness of header bar*/
     z-index: 100;         /* Ensure the header stays on top */
 }
 
 .header_home {
     color: var(--accent-color); /* Peach home link */
+}
+
+/* Navigation */
+nav ul {
+    list-style: none; /* Remove bullet points */
+    margin: 0;
+    padding: 10px 0;  /* Add some padding within the nav */
+}
+
+nav li {
+    display: inline-block; /* Arrange links horizontally */
+    margin: 0 15px;       /* Space between links */
 }
 
 nav a {

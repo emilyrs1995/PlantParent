@@ -1,0 +1,66 @@
+/* General Styling */
+body {
+    font-family: sans-serif;
+    text-align: center; /* Centers text */
+    margin: 0; /* Remove default page margins */
+    background-color: #F9F9F9; /* light background */
+}
+
+header, footer {
+    background-color: #2e3d30; /* Asparagus green color */
+    color: #2e3d30;            /* peach text color */
+    padding: 15px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.white-link { color: #fff; }
+
+nav ul {
+    list-style: none; /* Remove bullet points */
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    color: #2e3d30; /* peach links */
+    text-decoration: none;
+}
+
+/* Main Content Styling */
+.find-plants-section {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 800px;
+    background-color: #ffd9b3; /* Peach background for content area */
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.find-plants-section h2 {
+    color: #2e3d30; /* Asparagus green */
+    margin-bottom: 15px;
+}
+
+.search-container {
+    display: flex; /* Arrange input and button horizontally */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-container input[type="text"] {
+    flex: 1; /* Input field takes up available space */
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+    border-radius: 5px 0 0 5px; /* Rounded left corners */
+}
+
+.search-container button {
+    background-color: #2e3d30; /* Asparagus green */
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0; /* Rounded right corners */
+}
