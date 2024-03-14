@@ -25,7 +25,6 @@ public class DaoModule {
     @Provides
     @Named("CacheClient")
     public CacheClient provideCacheClient() {
-        // Initialize and return an instance of CacheClient
         return new CacheClient(100);
     }
 
