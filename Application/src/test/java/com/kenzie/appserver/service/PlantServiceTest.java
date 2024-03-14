@@ -5,6 +5,7 @@ import com.kenzie.appserver.controller.model.PlantResponse;
 import com.kenzie.appserver.repositories.PlantRepository;
 import com.kenzie.appserver.repositories.model.PlantRecord;
 import com.kenzie.capstone.service.client.PlantListLambdaServiceClient;
+import com.kenzie.capstone.service.model.GetPlantListResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,39 @@ public class PlantServiceTest {
      *  ------------------------------------------------------------------------ **/
     @Test
     void getPlantListByName() {
+        // GIVEN
+        String plantName = "hogyoku";
 
+        int id = 61;
+        String name = "Hogyoku Japanese Maple";
+        List<String> scientificName = new ArrayList<>();
+        scientificName.add("Acer palmatum 'Hogyoku'");
+        String cycle = "Perennial";
+        String watering = "Average";
+        String sunlight = "full sun";
+        String imgUrl = "https://perenual.com/storage/species_image/61_acer_palmatum_hogyoku/thumbnail/2560px-Kyoto_Japan0431.jpg";
+        GetPlantListResponse expectedResponse = new GetPlantListResponse(id, name, scientificName, cycle, watering, sunlight, imgUrl);
+
+        List<GetPlantListResponse> expectedResponses = new ArrayList<>();
+        expectedResponses.add(expectedResponse);
+
+        when(plantListLambdaServiceClient.getPlantList(plantName)).thenReturn(expectedResponses);
+
+        // WHEN
+        List<PlantResponse> actualResponse = plantService.getPlantListByName(plantName);
+
+        // THEN
+        Assertions.assertEquals(1, actualResponse.size());
+
+        PlantResponse returnedResponse = actualResponse.get(0);
+
+        Assertions.assertEquals(expectedResponse.getPlantId(), Integer.valueOf(returnedResponse.getPlantId()));
+        Assertions.assertEquals(expectedResponse.getPlantName(), returnedResponse.getPlantName());
+        Assertions.assertEquals(expectedResponse.getScientificName(), returnedResponse.getScientificName());
+        Assertions.assertEquals(expectedResponse.getCycle(), returnedResponse.getCycle());
+        Assertions.assertEquals(expectedResponse.getWatering(), returnedResponse.getWatering());
+        Assertions.assertEquals(expectedResponse.getSunlight(), returnedResponse.getSunlight());
+        Assertions.assertEquals(expectedResponse.getIMGUrl(), returnedResponse.getImgUrl());
     }
 
     /** ------------------------------------------------------------------------

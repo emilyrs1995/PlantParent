@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class GetPlantListApiResponse {
+public class Data {
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("common_name")
@@ -22,10 +22,10 @@ public class GetPlantListApiResponse {
     @JsonProperty("default_image")
     private DefaultImage default_image;
 
-    public GetPlantListApiResponse() {
+    public Data() {
     }
 
-    public GetPlantListApiResponse(Integer id, String common_name, List<String> scientific_name,
+    public Data(Integer id, String common_name, List<String> scientific_name,
                                    List<String> other_name, String cycle, String watering, List<String> sunlight,
                                    DefaultImage default_image) {
         this.id = id;
@@ -100,5 +100,18 @@ public class GetPlantListApiResponse {
 
     public void setDefaultImage(DefaultImage default_image) {
         this.default_image = default_image;
+    }
+
+    @Override
+    public String toString() {
+        return "Data {" +
+                "id=" + id +
+                ", common_name='" + common_name + '\'' +
+                ", scientific_name=" + scientific_name +
+                ", other_name=" + other_name +
+                ", cycle='" + cycle + '\'' +
+                ", watering='" + watering + '\'' +
+                ", sunlight=" + sunlight +
+                '}';
     }
 }

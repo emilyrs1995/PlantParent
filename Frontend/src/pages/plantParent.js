@@ -186,7 +186,12 @@ function displaySearchResults(plantData) {
         showMessage(message) {
             console.log(message);
         }
+<<<<<<< HEAD
 }
+=======
+    }
+
+>>>>>>> main
     /**
     * Main method to run when the page contents have loaded.
     */

@@ -3,7 +3,6 @@ package com.kenzie.appserver.controller;
 import com.kenzie.appserver.controller.model.CreatePlantRequest;
 import com.kenzie.appserver.controller.model.PlantResponse;
 import com.kenzie.appserver.service.PlantService;
-import com.kenzie.capstone.service.model.GetPlantListResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +14,18 @@ import java.util.List;
 @RequestMapping("/plant")
 public class PlantController {
     private PlantService plantService;
+
     public PlantController(PlantService plantService) {
         this.plantService = plantService;
     }
 
     @GetMapping("/{plantName}")
-    public ResponseEntity<List<GetPlantListResponse>> getPlantListByName(@PathVariable("plantName") String plantName) {
-        if (plantName == null || plantName.length() == 0){
+    public ResponseEntity<List<PlantResponse>> getPlantListByName(@PathVariable("plantName") String plantName) {
+        if (plantName == null || plantName.length() == 0 || !validatePlantName(plantName)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Plant Name");
         }
 
-        List<GetPlantListResponse> response = plantService.getPlantListByName(plantName);
+        List<PlantResponse> response = plantService.getPlantListByName(plantName);
 
         if (response == null || response.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -36,10 +36,12 @@ public class PlantController {
 
     @PostMapping("/collection")
     public ResponseEntity<PlantResponse> addNewPlant(@RequestBody CreatePlantRequest createPlantRequest) {
-        if (createPlantRequest.getPlantId() == null) {
+        if (createPlantRequest.getPlantId() == null || createPlantRequest.getPlantId().isEmpty()
+                || !validateId(createPlantRequest.getPlantId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid PlantId");
         }
-        if (createPlantRequest.getPlantName() == null || createPlantRequest.getPlantName().length() == 0) {
+        if (createPlantRequest.getPlantName() == null || createPlantRequest.getPlantName().length() == 0
+                || !validatePlantName(createPlantRequest.getPlantName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Plant Name");
         }
 
@@ -61,6 +63,10 @@ public class PlantController {
 
     @GetMapping("/collection/{plantName}")
     public ResponseEntity<List<PlantResponse>> getPlantByName(@PathVariable("plantName") String plantName) {
+        if (plantName == null || plantName.length() == 0 || !validatePlantName(plantName)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Plant Name");
+        }
+
         List<PlantResponse> plants = plantService.findByName(plantName);
 
         if (plants == null || plants.isEmpty()) {
@@ -72,8 +78,46 @@ public class PlantController {
 
     @DeleteMapping("/collection/{id}")
     public ResponseEntity deletePlant(@PathVariable("id") String id) {
+        if (id == null || id.isEmpty() || !validateId(id)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid PlantId");
+        }
+
         plantService.delete(id);
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * validateId - checks the id to see if it is between 1 and 3001 (the only ids that are valid for our
+     * free tier access to the external API. No id outside of these values should be stored or accessed. Returns true
+     * or false.
+     * @param id the id that we're checking.
+     * @return boolean
+     */
+    private boolean validateId(String id) {
+        int plantId = Integer.parseInt(id);
+        return plantId > 0 && plantId <= 3000;
+    }
+
+    /**
+     * validatePlantName - checks the plant name that is coming in from the frontend to make sure it's not longer than
+     * 20 characters and only contains letters of the alphabet. Returns true or false.
+     * @param name the name that we're checking.
+     * @return boolean
+     */
+    private boolean validatePlantName(String name) {
+        if (name.length() > 20) {
+            return false;
+        }
+
+        String allowedStrings = "abcdefghijklmnopqrstupvwxyz";
+        StringBuilder validatedString = new StringBuilder();
+        validatedString.append(name.toLowerCase());
+
+        for (int i = 0; i < validatedString.length(); i++) {
+            if(!allowedStrings.contains(validatedString.substring(i, i + 1))) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
