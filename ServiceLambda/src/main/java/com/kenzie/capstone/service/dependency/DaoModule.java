@@ -25,7 +25,7 @@ public class DaoModule {
     @Provides
     @Named("CacheClient")
     public CacheClient provideCacheClient() {
-        return new CacheClient(100);
+        return new CacheClient(5);
     }
 
     @Singleton
