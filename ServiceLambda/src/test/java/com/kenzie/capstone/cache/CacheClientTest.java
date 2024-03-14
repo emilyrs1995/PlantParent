@@ -33,6 +33,7 @@ public class CacheClientTest {
         cacheClient.put("key2", "value2");
 
         assertNotNull(cacheClient.get("key1"));
+        assertNotNull(cacheClient.get("key2"));
 
         cacheClient.put("key3", "value3");
 
