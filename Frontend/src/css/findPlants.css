@@ -1,8 +1,8 @@
 /* General Styling */
 body {
     font-family: sans-serif;
-    text-align: center; /* Centers text */
-    margin: 0; /* Remove default page margins */
+    text-align: center;        /* Centers text */
+    margin: 0;                 /* Remove default page margins */
     background-color: #F9F9F9; /* light background */
 }
 
@@ -23,7 +23,7 @@ nav ul {
 }
 
 nav a {
-    color: #2e3d30; /* peach links */
+    color: #fff; /* white link to myPlants page*/
     text-decoration: none;
 }
 
