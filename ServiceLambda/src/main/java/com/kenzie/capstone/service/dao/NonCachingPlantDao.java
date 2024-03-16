@@ -3,8 +3,8 @@ package com.kenzie.capstone.service.dao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kenzie.capstone.service.converter.DataToGetPlantListResponse;
 import com.kenzie.capstone.service.exceptions.ApiGatewayException;
-import com.kenzie.capstone.service.model.Data;
 import com.kenzie.capstone.service.model.ApiResponse;
+import com.kenzie.capstone.service.model.Data;
 import com.kenzie.capstone.service.model.GetPlantListResponse;
 
 import javax.inject.Inject;
@@ -36,50 +36,49 @@ public class NonCachingPlantDao implements PlantDao {
     public List<GetPlantListResponse> getPlantList(String plantName) {
 
         //return this.mockingGettingOneResponseFromTheAPI();
-        //return this.mockingGettingFiveResponsesFromTheAPI();
+        return this.mockingGettingFiveResponsesFromTheAPI();
         //return this.mockingGettingTwoValidResponsesAndOneInvalidResponseFromTheAPI();
 
 
-        String url = apiEndpoint + apiKey + query + plantName;
-
-        HttpClient client = HttpClient.newHttpClient();
-        URI uri = URI.create(url);
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(uri)
-                .header("Accept", "application/json")
-                .GET()
-                .build();
-
-        try {
-            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            int statusCode = httpResponse.statusCode();
-            if (statusCode == 200) {
-                // converting from the String to our ApiResponse object
-                ApiResponse apiResponse = this.convertFromStringToApiResponse(httpResponse.body());
-
-                // validating the data in the ApiResponse. Filtering out any data that has null values for the
-                // fields that we need
-                List<Data> validatedData = this.validateDataFromApiResponse(apiResponse.getData());
-
-                return Optional.of(validatedData)
-                        .orElse(Collections.emptyList())
-                        .stream()
-                        // converting to GetPlantListResponse
-                        .map(DataToGetPlantListResponse::convertFromApiResponse)
-                        // limiting the list to only 5 responses and then returning the collection
-                        .limit(5)
-                        .collect(Collectors.toList());
-
-            } else {
-                throw new ApiGatewayException("GET plant list request failed: " + statusCode + " status code received"
-                        + "\n body: " + httpResponse.body());
-            }
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
+//        String url = apiEndpoint + apiKey + query + plantName;
+//
+//        HttpClient client = HttpClient.newHttpClient();
+//        URI uri = URI.create(url);
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(uri)
+//                .header("Accept", "application/json")
+//                .GET()
+//                .build();
+//
+//        try {
+//            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+//
+//            int statusCode = httpResponse.statusCode();
+//            if (statusCode == 200) {
+//                // converting from the String to our ApiResponse object
+//                ApiResponse apiResponse = this.convertFromStringToApiResponse(httpResponse.body());
+//
+//                // validating the data in the ApiResponse. Filtering out any data that has null values or has an id over 3000
+//                List<Data> validatedData = this.validateDataFromApiResponse(apiResponse.getData());
+//
+//                return Optional.of(validatedData)
+//                        .orElse(Collections.emptyList())
+//                        .stream()
+//                        // converting to GetPlantListResponse
+//                        .map(DataToGetPlantListResponse::convertFromDataToGetPlantListResponse)
+//                        // limiting the list to only 5 responses and then returning the collection
+//                        .limit(5)
+//                        .collect(Collectors.toList());
+//
+//            } else {
+//                throw new ApiGatewayException("GET plant list request failed: " + statusCode + " status code received"
+//                        + "\n body: " + httpResponse.body());
+//            }
+//
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//            return Collections.emptyList();
+//        }
 
     }
 
@@ -98,18 +97,18 @@ public class NonCachingPlantDao implements PlantDao {
 
     }
 
-
     /**
-     * validateDataFromApiResponse - takes in the list of Data from the ApiResponse and checks for null fields. We need
-     * these specific fields, and we don't want to send any responses without these necessary fields out to our frontend.
-     * After filtering our the Data objects that contain null values we return the List of validated Data objects.
+     * validateDataFromApiResponse - takes in the list of Data from the ApiResponse and checks for null fields and
+     * that the ID is less than 3001. We need these specific fields, and we don't want to send any responses without
+     * these necessary fields out to our frontend. After filtering out the Data objects that contain null values we
+     * return the List of validated Data objects.
      * @param dataList the List of Data that we're trying to validate.
      * @return List<Data>
      */
     private List<Data> validateDataFromApiResponse(List<Data> dataList) {
         List<Data> goodData = new ArrayList<>();
         for (Data data : dataList) {
-            if (data.getId() != null && data.getCommon_name() != null && data.getScientific_name() != null
+            if (data.getId() <= 3000 && data.getId() != null && data.getCommon_name() != null && data.getScientific_name() != null
                     && data.getCycle() != null && data.getSunlight() != null && data.getWatering() != null
                     && data.getDefaultImage().getThumbnail() != null) {
                 goodData.add(data);
@@ -120,12 +119,18 @@ public class NonCachingPlantDao implements PlantDao {
     }
 
 
+
+
+    // THESE ARE THE MOCKING METHODS USED TO TEST OUR CONVERSIONS/FRONTEND BEFORE WE ACTUALLY CALL THE EXTERNAL API
+
+
+
     /**
      * mockingGettingOneResponseFromTheAPI - this is a method mocking converting one response from the external
      * API and seeing if our mapper reads everything okay and that our converter methods are working as expected.
      * It calls the MockingApi.giveMeOneResponse() method which returns a JSON String.
      *
-     * Uncomment line 37 and run the "getPlantListSuccessful_withOneValidPlant_successful" test in
+     * Uncomment line 38 and run the "getPlantListSuccessful_withOneValidPlant_successful" test in
      * PlantListLambdaServiceTest to run this method. (please make sure to comment out the actual call to the API first)
      * @return List<GetPlantListResponse>
      */
@@ -134,14 +139,10 @@ public class NonCachingPlantDao implements PlantDao {
         ApiResponse convertedOnce = convertFromStringToApiResponse(responseFromMock);
         List<Data> validatedData = this.validateDataFromApiResponse(convertedOnce.getData());
 
-        for(Data data : validatedData) {
-            System.out.println(data.toString());
-        }
-
         return Optional.of(validatedData)
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(DataToGetPlantListResponse::convertFromApiResponse)
+                .map(DataToGetPlantListResponse::convertFromDataToGetPlantListResponse)
                 .limit(5)
                 .collect(Collectors.toList());
     }
@@ -151,7 +152,7 @@ public class NonCachingPlantDao implements PlantDao {
      * API and seeing if our mapper reads everything okay and that our converter methods are working as expected.
      * It calls the MockingApi.giveMeFiveResponses() method which returns a JSON String.
      *
-     * Uncomment line 38 and run the "getPlantList_withFiveValidPlants_successful" test in PlantListLambdaServiceTest
+     * Uncomment line 39 and run the "getPlantList_withFiveValidPlants_successful" test in PlantListLambdaServiceTest
      * to run this method. (please make sure to comment out the actual call to the API first)
      * @return List<GetPlantListResponse>
      */
@@ -160,14 +161,10 @@ public class NonCachingPlantDao implements PlantDao {
         ApiResponse convertedOnce = convertFromStringToApiResponse(responseFromMock);
         List<Data> validatedData = this.validateDataFromApiResponse(convertedOnce.getData());
 
-        for(Data data : validatedData) {
-            System.out.println(data.toString());
-        }
-
         return Optional.of(validatedData)
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(DataToGetPlantListResponse::convertFromApiResponse)
+                .map(DataToGetPlantListResponse::convertFromDataToGetPlantListResponse)
                 .limit(5)
                 .collect(Collectors.toList());
     }
@@ -180,7 +177,8 @@ public class NonCachingPlantDao implements PlantDao {
      * filtered out and not returned as a GetPlantListResponse. It calls the MockingApi.giveMeTwoValidAndOneInvalidResponse()
      * method which returns a JSON String.
      *
-     * THIS METHOD DOES NOT WORK YET!!
+     * Uncomment line 40 and run the "getPlantList_withTwoValidPlants_andOneInvalid_onlyReturnsValid" test in
+     * PlantListLambdaServiceTest to run this method. (please make sure to comment out the actual call to the API first)
      * @return List<GetPlantListResponse>
      */
     private List<GetPlantListResponse> mockingGettingTwoValidResponsesAndOneInvalidResponseFromTheAPI() {
@@ -188,14 +186,10 @@ public class NonCachingPlantDao implements PlantDao {
         ApiResponse convertedOnce = convertFromStringToApiResponse(responseFromMock);
         List<Data> validatedData = this.validateDataFromApiResponse(convertedOnce.getData());
 
-        for(Data data : validatedData) {
-            System.out.println(data.toString());
-        }
-
         return Optional.of(validatedData)
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(DataToGetPlantListResponse::convertFromApiResponse)
+                .map(DataToGetPlantListResponse::convertFromDataToGetPlantListResponse)
                 .limit(5)
                 .collect(Collectors.toList());
     }
