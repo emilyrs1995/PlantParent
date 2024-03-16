@@ -22,7 +22,7 @@ nav ul {
 }
 
 nav a {
-    color: #FFDAB9;   /* Peach links */
+    color: #fff;   /* Peach links */
     text-decoration: none;
 }
 
@@ -39,4 +39,30 @@ nav a {
 .my-plants-container h2 {
     color: #2e3d30; /* Asparagus green */
     margin-bottom: 15px;
+}
+
+.plant-item {
+  display: flex;         /* Use flexbox for easy side-by-side layout */
+  align-items: center;   /* Vertically center elements */
+  border: 1px solid var(--primary-color); /* Sage green border */
+  margin-bottom: 15px;
+  padding: 10px;
+}
+
+.plant-item img {
+  width: 80px;          /* Adjust image size as needed */
+  height: 80px;
+  object-fit: cover;    /* Maintain aspect ratio if image is resized */
+  margin-right: 15px;
+}
+
+.plant-info {
+  flex-grow: 1;         /* Allow the info section to take up remaining space */
+}
+
+.delete-button {
+  background-color: var(--error-color);
+  color: white;
+  border: none;
+  padding: 5px 10px;
 }

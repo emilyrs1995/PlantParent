@@ -8,15 +8,8 @@ module.exports = {
     usedExports: true
   },
   entry: {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    plantParent: path.resolve(__dirname, 'src', 'pages', 'plantParent.js'),
-=======
+
     plantParent: path.resolve(__dirname, 'src', 'pages', 'plantParent.js'), //main entry point
->>>>>>> Stashed changes
-=======
-    plantParent: path.resolve(__dirname, 'src', 'pages', 'plantParent.js'), //main entry point
->>>>>>> Stashed changes
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -31,22 +24,15 @@ module.exports = {
         context: [
           '/plant',
         ],
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-        target: 'https://perenual.com/docs/api' //http://localhost:5001
-=======
-        target: 'http://localhost:5001' //API server address
->>>>>>> Stashed changes
-=======
-        target: 'http://localhost:5001' //API server address
->>>>>>> Stashed changes
+        target: 'http://localhost:5001'
+
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/dontLeafMeAlone.html',
-      filename: 'index.html',
+      filename: 'dontLeafMeAlone.html',
       inject: false
     }),
     new CopyPlugin({
