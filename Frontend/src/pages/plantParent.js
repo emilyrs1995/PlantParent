@@ -72,55 +72,48 @@ class PlantParentPage extends BaseClass {
         }
     }
 
-const searchButton = document.getElementById('search-button');
-const searchResultsContainer = document.getElementById('search-results');
 
-searchButton.addEventListener('click', () => {
-    const plantName = document.getElementById('plant-search-field').value;
-    fetchPlantData(plantName);
-});
+    async function fetchPlantData(plantName ) {
+        const response = await fetch(`/searchPlant?name=${encodeURIComponent(plantName)}`);
 
-async function fetchPlantData(plantName ) {
-    const apiEndpoint = 'https://perenual.com/docs/api/search?plantName=' + encodeURIComponent(plantName);
+        try {
+            const response = await fetch(apiEndpoint);
 
-    try {
-        const response = await fetch(apiEndpoint);
+            if (!response.ok) {
+                throw new Error(`API request failed with status ${response.status}`);
+            }
 
-        if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}`);
+            const plantData = await response.json();
+            displaySearchResults(plantData);
+        } catch (error) {
+            console.error("Error fetching plant data:", error);
+        }
+    }
+
+    function displaySearchResults(plantData) {
+        searchResultsContainer.innerHTML = ''; // clear theprevious search results
+
+        if (plantData.length === 0) {
+            const noResultsMessage = document.createElement('p');
+            noResultsMessage.textContent = "No plants found. Try a different search.";
+            searchResultsContainer.appendChild(noResultsMessage);
+            return;
         }
 
-        const plantData = await response.json();
-        displaySearchResults(plantData);
-    } catch (error) {
-        console.error("Error fetching plant data:", error);
+        plantData.forEach(plant => {
+            const plantResult = document.createElement('div');
+            plantResult.classList.add('plant-result');
+
+            plantResult.innerHTML = `
+                <h3>${plant.plantName}</h3>
+                <p>Scientific Name: ${plant.scientificName.join(', ')}</p>
+                <img src="${plant.imgUrl}" alt="${plant.plantName}"/>
+                <p>Watering: ${plant.watering}</p>
+                <p>Sunlight: ${plant.sunlight}</p>
+            `;
+            searchResultsContainer.appendChild(plantResult);
+        });
     }
-}
-
-function displaySearchResults(plantData) {
-    searchResultsContainer.innerHTML = ''; // clear theprevious search results
-
-    if (plantData.length === 0) {
-        const noResultsMessage = document.createElement('p');
-        noResultsMessage.textContent = "No plants found. Try a different search.";
-        searchResultsContainer.appendChild(noResultsMessage);
-        return;
-    }
-
-    plantData.forEach(plant => {
-        const plantResult = document.createElement('div');
-        plantResult.classList.add('plant-result'); // Add a class for styling
-
-        plantResult.innerHTML = `
-            <h3>${plant.plantName}</h3>
-            <p>Scientific Name: ${plant.scientificName.join(', ')}</p>
-            <img src="${plant.imgUrl}" alt="${plant.plantName}"/>
-            <p>Watering: ${plant.watering}</p>
-            <p>Sunlight: ${plant.sunlight}</p>
-        `;
-        searchResultsContainer.appendChild(plantResult);
-    });
-}
 
 /*...........*/
     async onCreatePlant(event) {
@@ -186,12 +179,7 @@ function displaySearchResults(plantData) {
         showMessage(message) {
             console.log(message);
         }
-<<<<<<< HEAD
-}
-=======
-    }
 
->>>>>>> main
     /**
     * Main method to run when the page contents have loaded.
     */
