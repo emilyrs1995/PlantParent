@@ -7,19 +7,31 @@ import com.kenzie.capstone.service.model.GetPlantListResponse;
 import javax.inject.Inject;
 import java.util.List;
 
-public class CachingPlantDao implements PlantDao {
+public class CachingPlantDao implements PlantDao{
+    private final CacheClient<String, List<GetPlantListResponse>> cacheClient;
+    private final NonCachingPlantDao nonCachingPlantDao;
 
-    private final CacheClient cacheClient;
-    private final NonCachingPlantDao plantDao;
-
-    @Inject
-    public CachingPlantDao(CacheClient cacheClient, NonCachingPlantDao plantDao) {
+    public CachingPlantDao(CacheClient<String, List<GetPlantListResponse>> cacheClient, NonCachingPlantDao nonCachingPlantDao) {
         this.cacheClient = cacheClient;
-        this.plantDao = plantDao;
+        this.nonCachingPlantDao = nonCachingPlantDao;
     }
 
-    @Override
-    public List<GetPlantListResponse> getPlantList(String plantName) {
-        return null;
+    public List<GetPlantListResponse> getPlantList(String query) {
+        String cacheKey = generateCacheKey(query);
+
+        List<GetPlantListResponse> cachedResult = cacheClient.get(cacheKey);
+        if (cachedResult != null) {
+            return cachedResult;
+        }
+
+        List<GetPlantListResponse> result = nonCachingPlantDao.getPlantList(query);
+
+        cacheClient.put(cacheKey, result);
+
+        return result;
+    }
+
+    private String generateCacheKey(String query) {
+        return "PlantList_" + query;
     }
 }

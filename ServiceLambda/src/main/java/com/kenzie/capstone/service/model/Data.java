@@ -5,37 +5,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class Data {
+
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("common_name")
     private String common_name;
     @JsonProperty("scientific_name")
-    private List<String> scientific_name;
+    private Object scientific_name;
     @JsonProperty("other_name")
-    private List<String> other_name;
+    private Object other_name;
     @JsonProperty("cycle")
     private String cycle;
     @JsonProperty("watering")
     private String watering;
     @JsonProperty("sunlight")
-    private List<String> sunlight;
+    private Object sunlight;
     @JsonProperty("default_image")
     private DefaultImage default_image;
 
     public Data() {
-    }
-
-    public Data(Integer id, String common_name, List<String> scientific_name,
-                                   List<String> other_name, String cycle, String watering, List<String> sunlight,
-                                   DefaultImage default_image) {
-        this.id = id;
-        this.common_name = common_name;
-        this.scientific_name = scientific_name;
-        this.other_name = other_name;
-        this.cycle = cycle;
-        this.watering = watering;
-        this.sunlight = sunlight;
-        this.default_image = default_image;
     }
 
     public Integer getId() {
@@ -54,19 +42,19 @@ public class Data {
         this.common_name = common_name;
     }
 
-    public List<String> getScientific_name() {
+    public Object getScientific_name() {
         return scientific_name;
     }
 
-    public void setScientific_name(List<String> scientific_name) {
+    public void setScientific_name(Object scientific_name) {
         this.scientific_name = scientific_name;
     }
 
-    public List<String> getOther_name() {
+    public Object getOther_name() {
         return other_name;
     }
 
-    public void setOther_name(List<String> other_name) {
+    public void setOther_name(Object other_name) {
         this.other_name = other_name;
     }
 
@@ -86,11 +74,11 @@ public class Data {
         this.watering = watering;
     }
 
-    public List<String> getSunlight() {
+    public Object getSunlight() {
         return sunlight;
     }
 
-    public void setSunlight(List<String> sunlight) {
+    public void setSunlight(Object sunlight) {
         this.sunlight = sunlight;
     }
 
@@ -104,7 +92,7 @@ public class Data {
 
     @Override
     public String toString() {
-        return "Data {" +
+        return "DummyData {" +
                 "id=" + id +
                 ", common_name='" + common_name + '\'' +
                 ", scientific_name=" + scientific_name +
