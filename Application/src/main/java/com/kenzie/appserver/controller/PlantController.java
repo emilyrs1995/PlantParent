@@ -109,7 +109,7 @@ public class PlantController {
             return false;
         }
 
-        String allowedStrings = "abcdefghijklmnopqrstupvwxyz";
+        String allowedStrings = "abcdefghijklmnopqrstupvwxyz ";
         StringBuilder validatedString = new StringBuilder();
         validatedString.append(name.toLowerCase());
 
