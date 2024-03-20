@@ -9,21 +9,17 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlantListLambdaServiceTest {
+public class PlantDaoMockingTest {
 
-    private PlantListLambdaService plantListLambdaService;
     private NonCachingPlantDao plantDao;
 
     @BeforeEach
     void setup() {
         this.plantDao = new NonCachingPlantDao();
-        this.plantListLambdaService = new PlantListLambdaService(plantDao);
     }
     @Test
     void getPlantListSuccessful_withOneValidPlant_successful() {
         // GIVEN
-        String plantName = "hogyoku";
-
         int id = 61;
         String name = "Hogyoku Japanese Maple";
         List<String> scientificName = new ArrayList<>();
@@ -36,7 +32,7 @@ public class PlantListLambdaServiceTest {
         GetPlantListResponse expectedResponse = new GetPlantListResponse(id, name, scientificName, cycle, watering, sunlight, imgUrl);
 
         // WHEN
-        List<GetPlantListResponse> actualResponse = plantListLambdaService.getPlantList(plantName);
+        List<GetPlantListResponse> actualResponse = plantDao.mockingGettingOneResponseFromTheAPI();
 
         // THEN
         Assertions.assertEquals(1, actualResponse.size());
@@ -56,8 +52,6 @@ public class PlantListLambdaServiceTest {
     @Test
     void getPlantList_withFiveValidPlants_successful() {
         // GIVEN
-        String plantName = "torch";
-
         int id1 = 644;
         String name1 = "bugleweed";
         List<String> scientificName1 = new ArrayList<>();
@@ -109,7 +103,7 @@ public class PlantListLambdaServiceTest {
         GetPlantListResponse expectedResponse5 = new GetPlantListResponse(id5, name5, scientificName5, cycle5, watering5, sunlight5, imgUrl5);
 
         // WHEN
-        List<GetPlantListResponse> actualResponses = plantListLambdaService.getPlantList(plantName);
+        List<GetPlantListResponse> actualResponses = plantDao.mockingGettingFiveResponsesFromTheAPI();
 
         // THEN
         Assertions.assertNotNull(actualResponses);
@@ -162,8 +156,6 @@ public class PlantListLambdaServiceTest {
     @Test
     void getPlantList_withTwoValidPlants_andOneInvalid_onlyReturnsValid() {
         // GIVEN
-        String plantName = "orchid";
-
         int id1 = 1191;
         String name1 = "Hong Kong orchid tree";
         List<String> scientificName1 = new ArrayList<>();
@@ -185,7 +177,7 @@ public class PlantListLambdaServiceTest {
         GetPlantListResponse expectedResponse2 = new GetPlantListResponse(id2, name2, scientificName2, cycle2, watering2, sunlight2, imgUrl2);
 
         // WHEN
-        List<GetPlantListResponse> actualResponses = plantListLambdaService.getPlantList(plantName);
+        List<GetPlantListResponse> actualResponses = plantDao.mockingGettingTwoValidResponsesAndOneInvalidResponseFromTheAPI();
 
         // THEN
         Assertions.assertNotNull(actualResponses);
