@@ -21,6 +21,7 @@ class PlantParentPage extends BaseClass {
         document.getElementById('plant-search-form').addEventListener('submit', this.onPlantSearch);
         document.getElementById('create-plant-form').addEventListener('submit', this.onCreatePlant);
         document.getElementById('show-my-plants').addEventListener('click', this.onGetPlant);
+        //add delete event listener
 
         this.client = new plantClient();
         this.dataStore.addChangeListener(this.renderPlants);
@@ -185,7 +186,8 @@ class PlantParentPage extends BaseClass {
     */
     const main = async () => {
         const plantParentPage = new PlantParentPage();
-        plantParentPage.mount();
+        await plantParentPage.mount();
+        console.log(plantParentPage); //debug line
     };
 
     window.addEventListener('DOMContentLoaded', main);
