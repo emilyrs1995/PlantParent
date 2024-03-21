@@ -91,7 +91,7 @@ class PlantParentPage extends BaseClass {
     }
 
     function displaySearchResults(plantData) {
-        searchResultsContainer.innerHTML = ''; // clear theprevious search results
+        searchResultsContainer.innerHTML = ''; // clear the previous search results
 
         if (plantData.length === 0) {
             const noResultsMessage = document.createElement('p');
@@ -147,7 +147,7 @@ class PlantParentPage extends BaseClass {
     async onDeletePlant(event) {
             event.preventDefault();
 
-            const plantId = event.target.dataset.plantId; // add this in the HTML
+            const plantId = event.target.dataset.plantId;
 
             try {
                 await this.client.deletePlant(plantId);

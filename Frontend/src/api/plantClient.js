@@ -39,7 +39,10 @@ export default class plantClient extends BaseClass {
             const response = await this.client.get(`/plant/${plantName}`);
             return response.data;
         } catch (error) {
-            this.handleError("getPlant", error, errorCallback)
+            if (error.response && error.response.status === 404) {
+                    errorCallback('Plant not found');
+            } else {
+                this.handleError("getPlant", error, errorCallback)
         }
     }
 
