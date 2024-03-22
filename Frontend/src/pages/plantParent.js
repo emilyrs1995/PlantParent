@@ -109,8 +109,11 @@ class PlantParentPage extends BaseClass {
                 <h3>${plant.plantName}</h3>
                 <p>Scientific Name: ${plant.scientificName.join(', ')}</p>
                 <img src="${plant.imgUrl}" alt="${plant.plantName}"/>
+                <p>Cycle: ${plant.cycle}</p>
                 <p>Watering: ${plant.watering}</p>
                 <p>Sunlight: ${plant.sunlight}</p>
+                <button class="delete-button" data-plant-id="${plant.id}">Delete</button>
+
             `;
             searchResultsContainer.appendChild(plantResult);
         });
