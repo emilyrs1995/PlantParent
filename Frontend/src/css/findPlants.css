@@ -8,9 +8,8 @@ body {
 
 header, footer {
     background-color: #2e3d30; /* Asparagus green color */
-    color: #2e3d30;            /* peach text color */
+    color: #FFDAB9;            /* peach text color */
     padding: 15px 0;
-    text-align: center;
     width: 100%;
 }
 

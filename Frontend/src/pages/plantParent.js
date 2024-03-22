@@ -21,6 +21,7 @@ class PlantParentPage extends BaseClass {
         document.getElementById('plant-search-form').addEventListener('submit', this.onPlantSearch);
         document.getElementById('create-plant-form').addEventListener('submit', this.onCreatePlant);
         document.getElementById('show-my-plants').addEventListener('click', this.onGetPlant);
+        //add delete event listener
 
         this.client = new plantClient();
         this.dataStore.addChangeListener(this.renderPlants);
@@ -91,7 +92,7 @@ class PlantParentPage extends BaseClass {
     }
 
     function displaySearchResults(plantData) {
-        searchResultsContainer.innerHTML = ''; // clear theprevious search results
+        searchResultsContainer.innerHTML = ''; // clear the previous search results
 
         if (plantData.length === 0) {
             const noResultsMessage = document.createElement('p');
@@ -147,7 +148,7 @@ class PlantParentPage extends BaseClass {
     async onDeletePlant(event) {
             event.preventDefault();
 
-            const plantId = event.target.dataset.plantId; // add this in the HTML
+            const plantId = event.target.dataset.plantId;
 
             try {
                 await this.client.deletePlant(plantId);
@@ -185,7 +186,8 @@ class PlantParentPage extends BaseClass {
     */
     const main = async () => {
         const plantParentPage = new PlantParentPage();
-        plantParentPage.mount();
+        await plantParentPage.mount();
+        console.log(plantParentPage); //debug line
     };
 
     window.addEventListener('DOMContentLoaded', main);
