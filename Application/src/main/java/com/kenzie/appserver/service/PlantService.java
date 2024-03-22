@@ -1,11 +1,13 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.controller.model.CreatePlantRequest;
+import com.kenzie.appserver.controller.model.PlantDetailsResponse;
 import com.kenzie.appserver.controller.model.PlantResponse;
 import com.kenzie.appserver.converter.PlantResponseConverter;
 import com.kenzie.appserver.repositories.PlantRepository;
 import com.kenzie.appserver.repositories.model.PlantRecord;
 import com.kenzie.capstone.service.client.PlantListLambdaServiceClient;
+import com.kenzie.capstone.service.model.GetPlantDetailsResponse;
 import com.kenzie.capstone.service.model.GetPlantListResponse;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,18 @@ public class PlantService {
                 .stream()
                 .map(PlantResponseConverter::convertFromGetPlantListResponseToPlantResponse)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * getPlantDetails -
+     * @param id the id of the plant we want details for
+     * @return PlantDetailsResponse
+     */
+    public PlantDetailsResponse getPlantDetails(String id) {
+        GetPlantDetailsResponse lambdaResponse = plantListLambdaServiceClient.getPlantDetails(id);
+
+        // TODO convert to a plantDetailsResponse here and then return to the client
+        return null;
     }
 
     /**

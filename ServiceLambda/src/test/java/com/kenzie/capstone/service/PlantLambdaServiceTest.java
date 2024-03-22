@@ -15,10 +15,10 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
-public class PlantListLambdaServiceTest {
+public class PlantLambdaServiceTest {
 
     @InjectMocks
-    private PlantListLambdaService plantListLambdaService;
+    private PlantLambdaService plantLambdaService;
 
     @Mock
     private NonCachingPlantDao nonCachingPlantDao;
@@ -52,7 +52,7 @@ public class PlantListLambdaServiceTest {
         when(nonCachingPlantDao.getPlantList(plantName)).thenReturn(expectedResponses);
 
         // WHEN
-        List<GetPlantListResponse> actualResponse = plantListLambdaService.getPlantList(plantName);
+        List<GetPlantListResponse> actualResponse = plantLambdaService.getPlantList(plantName);
 
         // THEN
         Assertions.assertEquals(1, actualResponse.size());
@@ -76,7 +76,7 @@ public class PlantListLambdaServiceTest {
 
         // WHEN
         // THEN
-        Assertions.assertThrows(InvalidDataException.class, () -> plantListLambdaService.getPlantList(plantName));
+        Assertions.assertThrows(InvalidDataException.class, () -> plantLambdaService.getPlantList(plantName));
     }
 
     @Test
@@ -86,6 +86,6 @@ public class PlantListLambdaServiceTest {
 
         // WHEN
         // THEN
-        Assertions.assertThrows(InvalidDataException.class, () -> plantListLambdaService.getPlantList(plantName));
+        Assertions.assertThrows(InvalidDataException.class, () -> plantLambdaService.getPlantList(plantName));
     }
 }

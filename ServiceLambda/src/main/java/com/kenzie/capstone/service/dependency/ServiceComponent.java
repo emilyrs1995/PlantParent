@@ -1,6 +1,6 @@
 package com.kenzie.capstone.service.dependency;
 
-import com.kenzie.capstone.service.PlantListLambdaService;
+import com.kenzie.capstone.service.PlantLambdaService;
 import dagger.Component;
 
 import javax.inject.Singleton;
@@ -11,5 +11,5 @@ import javax.inject.Singleton;
 @Singleton
 @Component(modules = {DaoModule.class, CachingModule.class, ServiceModule.class})
 public interface ServiceComponent {
-    PlantListLambdaService providePlantListLambdaService();
+    PlantLambdaService providePlantListLambdaService();
 }

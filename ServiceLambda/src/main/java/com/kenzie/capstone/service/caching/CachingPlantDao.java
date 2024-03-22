@@ -2,6 +2,7 @@ package com.kenzie.capstone.service.caching;
 
 import com.kenzie.capstone.service.dao.NonCachingPlantDao;
 import com.kenzie.capstone.service.dao.PlantDao;
+import com.kenzie.capstone.service.model.GetPlantDetailsResponse;
 import com.kenzie.capstone.service.model.GetPlantListResponse;
 
 import javax.inject.Inject;
@@ -29,6 +30,11 @@ public class CachingPlantDao implements PlantDao{
         cacheClient.put(cacheKey, result);
 
         return result;
+    }
+
+    @Override
+    public GetPlantDetailsResponse getPlantDetails(String id) {
+        return null;
     }
 
     private String generateCacheKey(String query) {

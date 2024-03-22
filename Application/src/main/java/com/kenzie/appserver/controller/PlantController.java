@@ -1,6 +1,7 @@
 package com.kenzie.appserver.controller;
 
 import com.kenzie.appserver.controller.model.CreatePlantRequest;
+import com.kenzie.appserver.controller.model.PlantDetailsResponse;
 import com.kenzie.appserver.controller.model.PlantResponse;
 import com.kenzie.appserver.service.PlantService;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class PlantController {
         this.plantService = plantService;
     }
 
-    @GetMapping("/{plantName}")
+    @GetMapping("/list/{plantName}")
     public ResponseEntity<List<PlantResponse>> getPlantListByName(@PathVariable("plantName") String plantName) {
         if (plantName == null || plantName.length() == 0 || !validatePlantName(plantName)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Plant Name");
@@ -34,11 +35,26 @@ public class PlantController {
         return ResponseEntity.ok().body(response);
     }
 
+    @GetMapping("/details/{id}")
+    public ResponseEntity<PlantDetailsResponse> getPlantDetails(@PathVariable("id") String id) {
+        if (id == null || id.length() == 0 || !validateId(id)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Plant Id");
+        }
+
+        PlantDetailsResponse response = plantService.getPlantDetails(id);
+
+        if (response == null) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok().body(response);
+    }
+
     @PostMapping("/collection")
     public ResponseEntity<PlantResponse> addNewPlant(@RequestBody CreatePlantRequest createPlantRequest) {
         if (createPlantRequest.getPlantId() == null || createPlantRequest.getPlantId().isEmpty()
                 || !validateId(createPlantRequest.getPlantId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid PlantId");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Plant Id");
         }
         if (createPlantRequest.getPlantName() == null || createPlantRequest.getPlantName().length() == 0
                 || !validatePlantName(createPlantRequest.getPlantName())) {
