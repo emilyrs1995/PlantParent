@@ -65,4 +65,23 @@ nav a {
   color: white;
   border: none;
   padding: 5px 10px;
+
+  /*
+  plant mourning popup
+  */
+
+  .hidden {
+      display: none;
+  }
+
+  #plant-mourning-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      z-index: 100;               /* Ensure it's on top */
 }

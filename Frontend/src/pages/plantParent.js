@@ -23,6 +23,9 @@ class PlantParentPage extends BaseClass {
         document.getElementById('show-my-plants').addEventListener('click', this.onGetPlant);
         //add delete event listener
 
+        document.getElementById('close-mourning-popup').addEventListener('click', () => {
+            document.getElementById('plant-mourning-popup').classList.add('hidden');
+
         this.client = new plantClient();
         this.dataStore.addChangeListener(this.renderPlants);
     }
@@ -45,6 +48,13 @@ class PlantParentPage extends BaseClass {
 
                 const plantImageElement = document.createElement("img");
                 plantImageElement.src = plant.imgUrl;
+
+            // Delete button creation
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.classList.add('delete-button');
+                deleteButton.dataset.plantId = plant.plantId;
+
 
                 plantItem.appendChild(plantNameElement);
                 plantItem.appendChild(plantImageElement);
@@ -109,8 +119,11 @@ class PlantParentPage extends BaseClass {
                 <h3>${plant.plantName}</h3>
                 <p>Scientific Name: ${plant.scientificName.join(', ')}</p>
                 <img src="${plant.imgUrl}" alt="${plant.plantName}"/>
+                <p>Cycle: ${plant.cycle}</p>
                 <p>Watering: ${plant.watering}</p>
                 <p>Sunlight: ${plant.sunlight}</p>
+                <button class="delete-button" data-plant-id="${plant.id}">Delete</button>
+
             `;
             searchResultsContainer.appendChild(plantResult);
         });
@@ -159,6 +172,8 @@ class PlantParentPage extends BaseClass {
                 this.dataStore.set("plants", updatedPlants);
 
                 this.showMessage(`RIP`); // show RIP image to mourn plant here? moment of silence?
+                // Show the pop-up
+                document.getElementById('plant-mourning-popup').classList.remove('hidden');
             } catch (error) {
                 this.errorHandler("Error deleting plant. Please try again.");
             }
