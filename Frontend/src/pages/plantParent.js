@@ -21,6 +21,10 @@ class PlantParentPage extends BaseClass {
         document.getElementById('plant-search-form').addEventListener('submit', this.onPlantSearch);
         document.getElementById('create-plant-form').addEventListener('submit', this.onCreatePlant);
         document.getElementById('show-my-plants').addEventListener('click', this.onGetPlant);
+        //add delete event listener
+
+        document.getElementById('close-mourning-popup').addEventListener('click', () => {
+            document.getElementById('plant-mourning-popup').classList.add('hidden');
 
         this.client = new plantClient();
         this.dataStore.addChangeListener(this.renderPlants);
@@ -44,6 +48,13 @@ class PlantParentPage extends BaseClass {
 
                 const plantImageElement = document.createElement("img");
                 plantImageElement.src = plant.imgUrl;
+
+            // Delete button creation
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.classList.add('delete-button');
+                deleteButton.dataset.plantId = plant.plantId;
+
 
                 plantItem.appendChild(plantNameElement);
                 plantItem.appendChild(plantImageElement);
@@ -72,55 +83,51 @@ class PlantParentPage extends BaseClass {
         }
     }
 
-const searchButton = document.getElementById('search-button');
-const searchResultsContainer = document.getElementById('search-results');
 
-searchButton.addEventListener('click', () => {
-    const plantName = document.getElementById('plant-search-field').value;
-    fetchPlantData(plantName);
-});
+    async function fetchPlantData(plantName ) {
+        const response = await fetch(`/searchPlant?name=${encodeURIComponent(plantName)}`);
 
-async function fetchPlantData(plantName ) {
-    const apiEndpoint = 'https://perenual.com/docs/api/search?plantName=' + encodeURIComponent(plantName);
+        try {
+            const response = await fetch(apiEndpoint);
 
-    try {
-        const response = await fetch(apiEndpoint);
+            if (!response.ok) {
+                throw new Error(`API request failed with status ${response.status}`);
+            }
 
-        if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}`);
+            const plantData = await response.json();
+            displaySearchResults(plantData);
+        } catch (error) {
+            console.error("Error fetching plant data:", error);
+        }
+    }
+
+    function displaySearchResults(plantData) {
+        searchResultsContainer.innerHTML = ''; // clear the previous search results
+
+        if (plantData.length === 0) {
+            const noResultsMessage = document.createElement('p');
+            noResultsMessage.textContent = "No plants found. Try a different search.";
+            searchResultsContainer.appendChild(noResultsMessage);
+            return;
         }
 
-        const plantData = await response.json();
-        displaySearchResults(plantData);
-    } catch (error) {
-        console.error("Error fetching plant data:", error);
+        plantData.forEach(plant => {
+            const plantResult = document.createElement('div');
+            plantResult.classList.add('plant-result');
+
+            plantResult.innerHTML = `
+                <h3>${plant.plantName}</h3>
+                <p>Scientific Name: ${plant.scientificName.join(', ')}</p>
+                <img src="${plant.imgUrl}" alt="${plant.plantName}"/>
+                <p>Cycle: ${plant.cycle}</p>
+                <p>Watering: ${plant.watering}</p>
+                <p>Sunlight: ${plant.sunlight}</p>
+                <button class="delete-button" data-plant-id="${plant.id}">Delete</button>
+
+            `;
+            searchResultsContainer.appendChild(plantResult);
+        });
     }
-}
-
-function displaySearchResults(plantData) {
-    searchResultsContainer.innerHTML = ''; // clear theprevious search results
-
-    if (plantData.length === 0) {
-        const noResultsMessage = document.createElement('p');
-        noResultsMessage.textContent = "No plants found. Try a different search.";
-        searchResultsContainer.appendChild(noResultsMessage);
-        return;
-    }
-
-    plantData.forEach(plant => {
-        const plantResult = document.createElement('div');
-        plantResult.classList.add('plant-result'); // Add a class for styling
-
-        plantResult.innerHTML = `
-            <h3>${plant.plantName}</h3>
-            <p>Scientific Name: ${plant.scientificName.join(', ')}</p>
-            <img src="${plant.imgUrl}" alt="${plant.plantName}"/>
-            <p>Watering: ${plant.watering}</p>
-            <p>Sunlight: ${plant.sunlight}</p>
-        `;
-        searchResultsContainer.appendChild(plantResult);
-    });
-}
 
 /*...........*/
     async onCreatePlant(event) {
@@ -154,7 +161,7 @@ function displaySearchResults(plantData) {
     async onDeletePlant(event) {
             event.preventDefault();
 
-            const plantId = event.target.dataset.plantId; // add this in the HTML
+            const plantId = event.target.dataset.plantId;
 
             try {
                 await this.client.deletePlant(plantId);
@@ -165,6 +172,8 @@ function displaySearchResults(plantData) {
                 this.dataStore.set("plants", updatedPlants);
 
                 this.showMessage(`RIP`); // show RIP image to mourn plant here? moment of silence?
+                // Show the pop-up
+                document.getElementById('plant-mourning-popup').classList.remove('hidden');
             } catch (error) {
                 this.errorHandler("Error deleting plant. Please try again.");
             }
@@ -186,18 +195,14 @@ function displaySearchResults(plantData) {
         showMessage(message) {
             console.log(message);
         }
-<<<<<<< HEAD
-}
-=======
-    }
 
->>>>>>> main
     /**
     * Main method to run when the page contents have loaded.
     */
     const main = async () => {
         const plantParentPage = new PlantParentPage();
-        plantParentPage.mount();
+        await plantParentPage.mount();
+        console.log(plantParentPage); //debug line
     };
 
     window.addEventListener('DOMContentLoaded', main);

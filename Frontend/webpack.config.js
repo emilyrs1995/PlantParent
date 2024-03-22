@@ -35,6 +35,17 @@ module.exports = {
       filename: 'dontLeafMeAlone.html',
       inject: false
     }),
+    new HtmlWebpackPlugin({
+          template: './src/findPlants.html',
+          filename: 'findPlants.html',
+          inject: false
+    }),
+    new HtmlWebpackPlugin({
+          template: './src/myPlants.html',
+          filename: 'myPlants.html',
+          inject: false
+    }),
+
     new CopyPlugin({
       patterns: [
         {
