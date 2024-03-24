@@ -1,11 +1,11 @@
 package com.kenzie.capstone.service.dao;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kenzie.capstone.service.converter.APIDetailsResponseToGetPlantDetailsResponse;
 import com.kenzie.capstone.service.converter.DataToGetPlantListResponse;
 import com.kenzie.capstone.service.exceptions.ApiGatewayException;
 import com.kenzie.capstone.service.model.*;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.inject.Inject;
 
 public class NonCachingPlantDao implements PlantDao {
 
@@ -78,7 +79,6 @@ public class NonCachingPlantDao implements PlantDao {
             e.printStackTrace();
             return Collections.emptyList();
         }
-
     }
 
     /**
@@ -93,7 +93,6 @@ public class NonCachingPlantDao implements PlantDao {
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
         }
-
     }
 
     /**
@@ -109,7 +108,7 @@ public class NonCachingPlantDao implements PlantDao {
         for (Data data : dataList) {
             if (data.getId() <= 3000 && data.getId() != null && data.getCommon_name() != null && data.getScientific_name() != null
                     && data.getCycle() != null && data.getSunlight() != null && data.getWatering() != null
-                    && data.getDefaultImage().getThumbnail() != null) {
+                    && data.getDefaultImage() != null && data.getDefaultImage().getThumbnail() != null) {
                 goodData.add(data);
             }
         }
@@ -119,36 +118,37 @@ public class NonCachingPlantDao implements PlantDao {
 
     @Override
     public GetPlantDetailsResponse getPlantDetails(String id) {
-        // TODO finish writing this method
-//        String url = DETAILS_ENDPOINT + id + apiKey;
-//
-//        HttpClient client = HttpClient.newHttpClient();
-//        URI uri = URI.create(url);
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(uri)
-//                .header("Accept", "application/json")
-//                .GET()
-//                .build();
-//
-//        try {
-//            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-//
-//            int statusCode = httpResponse.statusCode();
-//            if (statusCode == 200) {
-//                ApiDetailsResponse apiDetailsResponse = this.convertFromStringToApiDetailsResponse(httpResponse.body());
-//
-//            } else {
-//                throw new ApiGatewayException("GET plant details request failed: " + statusCode + " status code received"
-//                        + "\n body: " + httpResponse.body());
-//            }
-//
-//        } catch (IOException | InterruptedException e) {
-//            e.printStackTrace();
-//            // figure out what to return here
-//            return null;
-//        }
-//
-        return null;
+
+        // return this.mockingGettingPlantDetailsForValidId();
+
+        String url = DETAILS_ENDPOINT + id + apiKey;
+
+        HttpClient client = HttpClient.newHttpClient();
+        URI uri = URI.create(url);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(uri)
+                .header("Accept", "application/json")
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            int statusCode = httpResponse.statusCode();
+            if (statusCode == 200) {
+                ApiDetailsResponse apiDetailsResponse = this.convertFromStringToApiDetailsResponse(httpResponse.body());
+
+                return APIDetailsResponseToGetPlantDetailsResponse.convertToGetPlantDetailsResponse(apiDetailsResponse);
+
+            } else {
+                throw new ApiGatewayException("GET plant details request failed: " + statusCode + " status code received"
+                        + "\n body: " + httpResponse.body());
+            }
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return new GetPlantDetailsResponse();
+        }
     }
 
     /**
@@ -163,7 +163,6 @@ public class NonCachingPlantDao implements PlantDao {
         } catch (Exception e) {
             throw new ApiGatewayException("Unable to map deserialize JSON: " + e);
         }
-
     }
 
 
@@ -237,6 +236,23 @@ public class NonCachingPlantDao implements PlantDao {
                 .map(DataToGetPlantListResponse::convertFromDataToGetPlantListResponse)
                 .limit(5)
                 .collect(Collectors.toList());
+    }
+
+
+    /**
+     * mockingGettingPlantDetailsForValidId - this is a method mocking converting from a Json string to an ApiDetailsResponse
+     * object and then converting again from an ApiDetailsResponse to a GetPlantDetailsResponse which is just reducing it down
+     * to only the values we want and then returning it. It calls the MockingApi.giveMeTheDetailsOfOnePlantWithAValidId()
+     * method which returns a JSON String.
+     *
+     * Uncomment line 122 to run this method. (please make sure to comment out the actual call to the API first)
+     * @return GetPlantDetailsResponse
+     */
+    public GetPlantDetailsResponse mockingGettingPlantDetailsForValidId() {
+        String responseFromMock = MockingAPI.giveMeTheDetailsOfOnePlantWithAValidId();
+        ApiDetailsResponse convertedOnce = convertFromStringToApiDetailsResponse(responseFromMock);
+
+        return APIDetailsResponseToGetPlantDetailsResponse.convertToGetPlantDetailsResponse(convertedOnce);
     }
 
 }

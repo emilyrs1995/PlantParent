@@ -1,14 +1,23 @@
 package com.kenzie.capstone.service.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class GetPlantListResponse {
+    @JsonProperty("plantId")
     private int plantId;
+    @JsonProperty("plantName")
     private String plantName;
+    @JsonProperty("scientificName")
     private List<String> scientificName;
+    @JsonProperty("cycle")
     private String cycle;
+    @JsonProperty("watering")
     private String watering;
+    @JsonProperty("sunlight")
     private String sunlight;
+    @JsonProperty("IMGUrl")
     private String IMGUrl;
 
     public GetPlantListResponse(int plantId, String plantName, List<String> scientificName, String cycle, String watering,

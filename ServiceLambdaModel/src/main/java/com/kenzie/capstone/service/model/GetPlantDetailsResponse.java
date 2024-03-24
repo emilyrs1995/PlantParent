@@ -1,18 +1,34 @@
 package com.kenzie.capstone.service.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class GetPlantDetailsResponse {
 
+    @JsonProperty("PlantId")
     private String plantId;
+    @JsonProperty("plantName")
     private String plantName;
+    @JsonProperty("flowerColor")
     private String flowerColor;
+    @JsonProperty("maintenance")
     private String maintenance;
+    @JsonProperty("careLevel")
     private String careLevel;
+    @JsonProperty("growthRate")
     private String growthRate;
+    @JsonProperty("indoor")
     private String indoor;
+    @JsonProperty("hardinessZone")
     private String hardinessZone;
+    @JsonProperty("wateringBenchmark")
     private String wateringBenchmark;
+    @JsonProperty("medicinal")
     private String medicinal;
+    @JsonProperty("description")
     private String description;
+
+    public GetPlantDetailsResponse() {
+    }
 
     public GetPlantDetailsResponse(String plantId, String plantName, String flowerColor, String maintenance, String careLevel,
                                    String growthRate, String indoor, String hardinessZone, String wateringBenchmark, String medicinal, String description) {

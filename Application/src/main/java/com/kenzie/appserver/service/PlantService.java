@@ -3,6 +3,7 @@ package com.kenzie.appserver.service;
 import com.kenzie.appserver.controller.model.CreatePlantRequest;
 import com.kenzie.appserver.controller.model.PlantDetailsResponse;
 import com.kenzie.appserver.controller.model.PlantResponse;
+import com.kenzie.appserver.converter.PlantDetailsResponseConverter;
 import com.kenzie.appserver.converter.PlantResponseConverter;
 import com.kenzie.appserver.repositories.PlantRepository;
 import com.kenzie.appserver.repositories.model.PlantRecord;
@@ -28,8 +29,8 @@ public class PlantService {
     }
 
     /**
-     * getPlantListByName - calls the PlantListLambdaServiceClient.getPlantList which in turn sends the requests to
-     * the Lambda and external API. PlantListLambdaServiceClient.getPlantList returns a list of GetPlantListResponses
+     * getPlantListByName - calls the PlantListLambdaServiceClient.getPlantList() which in turn sends the requests to
+     * the Lambda and external API. PlantListLambdaServiceClient.getPlantList() returns a list of GetPlantListResponses
      * which we then convert to our PlantResponse to send back to the frontend.
      * @param plantName the name of the plant that we're sending to the external API.
      * @return List<PlantResponse>
@@ -45,15 +46,17 @@ public class PlantService {
     }
 
     /**
-     * getPlantDetails -
-     * @param id the id of the plant we want details for
+     * getPlantDetails - calls the PlantListLambdaServiceClient.getPlantDetails() which in turn sends the requests to
+     * the Lambda and external API. PlantListLambdaServiceClient.getPlantDetails() returns a GetPlantDetailsResponse
+     * which we then convert to our PlantDetailsResponse to send back to the frontend.
+     * @param id the id of the plant that we're sending to the external API.
      * @return PlantDetailsResponse
      */
     public PlantDetailsResponse getPlantDetails(String id) {
+        // TODO figure out why this is coming back null
         GetPlantDetailsResponse lambdaResponse = plantListLambdaServiceClient.getPlantDetails(id);
 
-        // TODO convert to a plantDetailsResponse here and then return to the client
-        return null;
+        return PlantDetailsResponseConverter.convertFromGetPlantDetailsResponseToPlantDetailsResponse(lambdaResponse);
     }
 
     /**
