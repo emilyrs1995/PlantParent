@@ -1,37 +1,37 @@
 package com.kenzie.capstone.service.caching;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CacheClient<K, V> {
-    private final Map<K, V> cache;
+    private final Cache<K, V> cache;
 
     public CacheClient(int maxSize) {
-        this.cache = new LinkedHashMap<K, V>(maxSize + 1, 0.75F, true) {
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
-                return size() > maxSize;
-            }
-        };
+        this.cache = CacheBuilder.newBuilder()
+                .maximumSize(maxSize)
+                .build();
     }
 
-    public synchronized void put(K key, V value) {
+    public void put(K key, V value) {
         cache.put(key, value);
     }
 
-    public synchronized V get(K key) {
-        return cache.get(key);
+    public V get(K key) {
+        return cache.getIfPresent(key);
     }
 
-    public synchronized void remove(K key) {
-        cache.remove(key);
+    public void remove(K key) {
+        cache.invalidate(key);
     }
 
-    public synchronized void clear() {
-        cache.clear();
+    public void clear() {
+        cache.invalidateAll();
     }
 
-    public synchronized int size() {
-        return cache.size();
+    public int size() {
+        return (int) cache.size();
     }
 }
