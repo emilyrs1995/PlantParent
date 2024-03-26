@@ -121,7 +121,7 @@ public class PlantController {
      * @return boolean
      */
     private boolean validatePlantName(String name) {
-        if (name.length() > 20) {
+        if (name.length() > 50) {
             return false;
         }
 

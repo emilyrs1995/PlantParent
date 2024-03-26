@@ -53,7 +53,6 @@ public class PlantService {
      * @return PlantDetailsResponse
      */
     public PlantDetailsResponse getPlantDetails(String id) {
-        // TODO figure out why this is coming back null
         GetPlantDetailsResponse lambdaResponse = plantListLambdaServiceClient.getPlantDetails(id);
 
         return PlantDetailsResponseConverter.convertFromGetPlantDetailsResponseToPlantDetailsResponse(lambdaResponse);

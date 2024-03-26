@@ -34,7 +34,7 @@ public class CachingPlantDao implements PlantDao{
 
     @Override
     public GetPlantDetailsResponse getPlantDetails(String id) {
-        return null;
+        return nonCachingPlantDao.getPlantDetails(id);
     }
 
     private String generateCacheKey(String query) {

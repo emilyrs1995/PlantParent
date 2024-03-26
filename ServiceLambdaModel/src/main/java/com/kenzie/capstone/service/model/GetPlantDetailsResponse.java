@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GetPlantDetailsResponse {
 
-    @JsonProperty("PlantId")
+    @JsonProperty("plantId")
     private String plantId;
     @JsonProperty("plantName")
     private String plantName;
