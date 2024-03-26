@@ -1,7 +1,7 @@
-package com.kenzie.capstone.service;
+package com.kenzie.capstone;
 
+import com.kenzie.capstone.service.PlantLambdaService;
 import com.kenzie.capstone.service.dao.NonCachingPlantDao;
-import com.kenzie.capstone.service.model.GetPlantDetailsResponse;
 import com.kenzie.capstone.service.model.GetPlantListResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,22 +10,21 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlantDaoMockingTest {
+public class GetPlantListFromAPITest {
 
+    private PlantLambdaService plantLambdaService;
     private NonCachingPlantDao plantDao;
 
     @BeforeEach
     void setup() {
         this.plantDao = new NonCachingPlantDao();
+        this.plantLambdaService = new PlantLambdaService(plantDao);
     }
 
-
-    /** ------------------------------------------------------------------------
-     *  plantDao.getPlantList
-     *  ------------------------------------------------------------------------ **/
     @Test
-    void getPlantListSuccessful_withOneValidPlant_successful() {
-        // GIVEN
+    void getPlantList_withValidName_returnsListFromApi() {
+        String plantName = "hogyoku";
+
         int id = 61;
         String name = "Hogyoku Japanese Maple";
         List<String> scientificName = new ArrayList<>();
@@ -38,7 +37,7 @@ public class PlantDaoMockingTest {
         GetPlantListResponse expectedResponse = new GetPlantListResponse(id, name, scientificName, cycle, watering, sunlight, imgUrl);
 
         // WHEN
-        List<GetPlantListResponse> actualResponse = plantDao.mockingGettingOneResponseFromTheAPI();
+        List<GetPlantListResponse> actualResponse = plantLambdaService.getPlantList(plantName);
 
         // THEN
         Assertions.assertEquals(1, actualResponse.size());
@@ -55,9 +54,12 @@ public class PlantDaoMockingTest {
         Assertions.assertEquals(expectedResponse.getIMGUrl(), returnedResponse.getIMGUrl());
     }
 
+
     @Test
-    void getPlantList_withFiveValidPlants_successful() {
+    void getPlantList_withValidName_returnsFiveResponses() {
         // GIVEN
+        String plantName = "torch";
+
         int id1 = 644;
         String name1 = "bugleweed";
         List<String> scientificName1 = new ArrayList<>();
@@ -109,7 +111,7 @@ public class PlantDaoMockingTest {
         GetPlantListResponse expectedResponse5 = new GetPlantListResponse(id5, name5, scientificName5, cycle5, watering5, sunlight5, imgUrl5);
 
         // WHEN
-        List<GetPlantListResponse> actualResponses = plantDao.mockingGettingFiveResponsesFromTheAPI();
+        List<GetPlantListResponse> actualResponses = plantLambdaService.getPlantList(plantName);
 
         // THEN
         Assertions.assertNotNull(actualResponses);
@@ -160,101 +162,11 @@ public class PlantDaoMockingTest {
     }
 
     @Test
-    void getPlantList_withTwoValidPlants_andOneInvalid_onlyReturnsValid() {
-        // GIVEN
-        int id1 = 1191;
-        String name1 = "Hong Kong orchid tree";
-        List<String> scientificName1 = new ArrayList<>();
-        scientificName1.add("Bauhinia blakeana");
-        String cycle1 = "Perennial";
-        String watering1 = "Average";
-        String sunlight1 = "Full sun";
-        String imgUrl1 = "https://perenual.com/storage/species_image/1191_bauhinia_blakeana/thumbnail/52661560703_469c6c5af9_b.jpg";
-        GetPlantListResponse expectedResponse1 = new GetPlantListResponse(id1, name1, scientificName1, cycle1, watering1, sunlight1, imgUrl1);
+    void getPlantList_withValidName_withIdAbove3000_returnsEmptyList() {
+        String plantName = "monstera";
 
-        int id2 = 1299;
-        String name2 = "Chinese ground orchid";
-        List<String> scientificName2 = new ArrayList<>();
-        scientificName2.add("Bletilla striata");
-        String cycle2 = "Perennial";
-        String watering2 = "Average";
-        String sunlight2 = "Part shade";
-        String imgUrl2 = "https://perenual.com/storage/species_image/1299_bletilla_striata/thumbnail/46779845065_57a4c9f61d_b.jpg";
-        GetPlantListResponse expectedResponse2 = new GetPlantListResponse(id2, name2, scientificName2, cycle2, watering2, sunlight2, imgUrl2);
+        List<GetPlantListResponse> actualResponses = plantLambdaService.getPlantList(plantName);
 
-        // WHEN
-        List<GetPlantListResponse> actualResponses = plantDao.mockingGettingTwoValidResponsesAndOneInvalidResponseFromTheAPI();
-
-        // THEN
-        Assertions.assertNotNull(actualResponses);
-        Assertions.assertEquals(2, actualResponses.size());
-
-        for (GetPlantListResponse printResponses : actualResponses) {
-            System.out.println(printResponses);
-        }
-
-        for (GetPlantListResponse response : actualResponses) {
-            if (response.getPlantId() == expectedResponse1.getPlantId()) {
-                Assertions.assertEquals(expectedResponse1.getPlantName(), response.getPlantName());
-                Assertions.assertEquals(expectedResponse1.getScientificName(), response.getScientificName());
-                Assertions.assertEquals(expectedResponse1.getCycle(), response.getCycle());
-                Assertions.assertEquals(expectedResponse1.getWatering(), response.getWatering());
-                Assertions.assertEquals(expectedResponse1.getSunlight(), response.getSunlight());
-                Assertions.assertEquals(expectedResponse1.getIMGUrl(), response.getIMGUrl());
-            } else if (response.getPlantId() == expectedResponse2.getPlantId()) {
-                Assertions.assertEquals(expectedResponse2.getPlantName(), response.getPlantName());
-                Assertions.assertEquals(expectedResponse2.getScientificName(), response.getScientificName());
-                Assertions.assertEquals(expectedResponse2.getCycle(), response.getCycle());
-                Assertions.assertEquals(expectedResponse2.getWatering(), response.getWatering());
-                Assertions.assertEquals(expectedResponse2.getSunlight(), response.getSunlight());
-                Assertions.assertEquals(expectedResponse2.getIMGUrl(), response.getIMGUrl());
-            }
-        }
+        Assertions.assertEquals(0, actualResponses.size());
     }
-
-
-    /** ------------------------------------------------------------------------
-     *  plantDao.getPlantDetails
-     *  ------------------------------------------------------------------------ **/
-    @Test
-    void getPlantDetails_withValidId_returnsDetails() {
-        // GIVEN
-        String id = "61";
-        String name = "Hogyoku Japanese Maple";
-        String flowerColor = "Reddish-purple";
-        String maintenance = "Low";
-        String careLevel = "Unknown";
-        String growthRate = "Low";
-        String indoor = "false";
-        String hardinessZone = "7 - 7";
-        String wateringBenchmark = "Every 3-4 days";
-        String medicinal = "false";
-        String description = "Hogyoku Japanese Maple (Acer palmatum 'Hogyoku') is an amazing plant species noted for its striking beauty. " +
-                "Its delicate foliage emerges with a golden hue and develops into a vibrant, deep scarlet during the cooler months. " +
-                "Bright red flowers bloom in spring and bring in stunning hues all season long. The foliage turns to yellow, orange, " +
-                "and pink in the fall. Outstanding bark color is a nice addition to the landscape - from cinnamon-red to orange and yellow. " +
-                "The beauty of tiger-striped bark truly stands out in the winter. Hogyoku is easy to grow and low-maintenance. " +
-                "It also does extremely well in containers and makes a stunning accent for any garden.";
-
-        GetPlantDetailsResponse expectedResponse = new GetPlantDetailsResponse(id, name, flowerColor, maintenance, careLevel,
-                growthRate, indoor, hardinessZone, wateringBenchmark, medicinal, description);
-
-        // WHEN
-        GetPlantDetailsResponse actualResponse = plantDao.mockingGettingPlantDetailsForValidId();
-
-        // THEN
-        Assertions.assertNotNull(actualResponse);
-        Assertions.assertEquals(expectedResponse.getPlantId(), actualResponse.getPlantId());
-        Assertions.assertEquals(expectedResponse.getPlantName(), actualResponse.getPlantName());
-        Assertions.assertEquals(expectedResponse.getFlowerColor(), actualResponse.getFlowerColor());
-        Assertions.assertEquals(expectedResponse.getMaintenance(), actualResponse.getMaintenance());
-        Assertions.assertEquals(expectedResponse.getCareLevel(), actualResponse.getCareLevel());
-        Assertions.assertEquals(expectedResponse.getGrowthRate(), actualResponse.getGrowthRate());
-        Assertions.assertEquals(expectedResponse.getIndoor(), actualResponse.getIndoor());
-        Assertions.assertEquals(expectedResponse.getHardinessZone(), actualResponse.getHardinessZone());
-        Assertions.assertEquals(expectedResponse.getWateringBenchmark(), actualResponse.getWateringBenchmark());
-        Assertions.assertEquals(expectedResponse.getMedicinal(), actualResponse.getMedicinal());
-        Assertions.assertEquals(expectedResponse.getDescription(), actualResponse.getDescription());
-    }
-
 }

@@ -9,15 +9,14 @@ import com.google.gson.GsonBuilder;
 import com.kenzie.capstone.service.PlantLambdaService;
 import com.kenzie.capstone.service.dependency.DaggerServiceComponent;
 import com.kenzie.capstone.service.dependency.ServiceComponent;
-import com.kenzie.capstone.service.model.GetPlantListResponse;
+import com.kenzie.capstone.service.model.GetPlantDetailsResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class GetPlantList implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+public class GetPlantDetails implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     static final Logger log = LogManager.getLogger();
     @Override
@@ -36,18 +35,18 @@ public class GetPlantList implements RequestHandler<APIGatewayProxyRequestEvent,
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
 
-        String plantName = input.getPathParameters().get("plantName");
+        String id = input.getPathParameters().get("id");
 
-        if (plantName == null || plantName.length() == 0) {
+        if (id == null || id.length() == 0) {
             return response
                     .withStatusCode(400)
-                    .withBody("Name is invalid");
+                    .withBody("Id is invalid");
         }
 
         try {
-            List<GetPlantListResponse> responseList = plantLambdaService.getPlantList(plantName);
+            GetPlantDetailsResponse details = plantLambdaService.getPlantDetails(id);
 
-            String output = gson.toJson(responseList);
+            String output = gson.toJson(details);
 
             return response
                     .withStatusCode(200)

@@ -1,11 +1,14 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.controller.model.CreatePlantRequest;
+import com.kenzie.appserver.controller.model.PlantDetailsResponse;
 import com.kenzie.appserver.controller.model.PlantResponse;
+import com.kenzie.appserver.converter.PlantDetailsResponseConverter;
 import com.kenzie.appserver.converter.PlantResponseConverter;
 import com.kenzie.appserver.repositories.PlantRepository;
 import com.kenzie.appserver.repositories.model.PlantRecord;
 import com.kenzie.capstone.service.client.PlantListLambdaServiceClient;
+import com.kenzie.capstone.service.model.GetPlantDetailsResponse;
 import com.kenzie.capstone.service.model.GetPlantListResponse;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +29,8 @@ public class PlantService {
     }
 
     /**
-     * getPlantListByName - calls the PlantListLambdaServiceClient.getPlantList which in turn sends the requests to
-     * the Lambda and external API. PlantListLambdaServiceClient.getPlantList returns a list of GetPlantListResponses
+     * getPlantListByName - calls the PlantListLambdaServiceClient.getPlantList() which in turn sends the requests to
+     * the Lambda and external API. PlantListLambdaServiceClient.getPlantList() returns a list of GetPlantListResponses
      * which we then convert to our PlantResponse to send back to the frontend.
      * @param plantName the name of the plant that we're sending to the external API.
      * @return List<PlantResponse>
@@ -40,6 +43,19 @@ public class PlantService {
                 .stream()
                 .map(PlantResponseConverter::convertFromGetPlantListResponseToPlantResponse)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * getPlantDetails - calls the PlantListLambdaServiceClient.getPlantDetails() which in turn sends the requests to
+     * the Lambda and external API. PlantListLambdaServiceClient.getPlantDetails() returns a GetPlantDetailsResponse
+     * which we then convert to our PlantDetailsResponse to send back to the frontend.
+     * @param id the id of the plant that we're sending to the external API.
+     * @return PlantDetailsResponse
+     */
+    public PlantDetailsResponse getPlantDetails(String id) {
+        GetPlantDetailsResponse lambdaResponse = plantListLambdaServiceClient.getPlantDetails(id);
+
+        return PlantDetailsResponseConverter.convertFromGetPlantDetailsResponseToPlantDetailsResponse(lambdaResponse);
     }
 
     /**
