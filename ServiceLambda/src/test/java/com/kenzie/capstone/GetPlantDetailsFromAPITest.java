@@ -61,4 +61,46 @@ public class GetPlantDetailsFromAPITest {
         Assertions.assertEquals(expectedResponse.getDescription(), actualResponse.getDescription());
     }
 
+    @Test
+    void getPlantDetails_withDifferentFields_returnsDetails () {
+        String id = "45";
+        String name = "Brandt's Dwarf Japanese Maple";
+        String flowerColor = "The Brandt's Dwarf Japanese Maple plant does not have flowers.";
+        String maintenance = "Unknown";
+        String careLevel = "Moderate";
+        String growthRate = "Low";
+        String indoor = "false";
+        String hardinessZone = "6 - 6";
+        String wateringBenchmark = "Every 3-4 days";
+        String medicinal = "false";
+        String description = "Brandt's Dwarf Japanese Maple is truly a unique and amazing species. Reaching a maximum size of " +
+                "only two feet in height and three feet in width, this miniature maple tree features lacey, finely-cut leaves " +
+                "in a deep burgundy color. In the spring, Brandt's Dwarf Japanese Maple bears small, star-shaped reddish-pink " +
+                "flowers, which are followed in autumn by cloud-like clusters of tiny red fruits. Fascinating and resilient, " +
+                "this plant is drought-tolerant and slow-growing, perfect for gardens and containers. Its vibrant foliage and " +
+                "low maintenance make it a great addition to any landscape.";
+
+        GetPlantDetailsResponse expectedResponse = new GetPlantDetailsResponse(id, name, flowerColor, maintenance, careLevel,
+                growthRate, indoor, hardinessZone, wateringBenchmark, medicinal, description);
+
+        // WHEN
+        GetPlantDetailsResponse actualResponse = plantLambdaService.getPlantDetails(id);
+
+        System.out.println(actualResponse);
+
+        // THEN
+        Assertions.assertNotNull(actualResponse);
+        Assertions.assertEquals(expectedResponse.getPlantId(), actualResponse.getPlantId());
+        Assertions.assertEquals(expectedResponse.getPlantName(), actualResponse.getPlantName());
+        Assertions.assertEquals(expectedResponse.getFlowerColor(), actualResponse.getFlowerColor());
+        Assertions.assertEquals(expectedResponse.getMaintenance(), actualResponse.getMaintenance());
+        Assertions.assertEquals(expectedResponse.getCareLevel(), actualResponse.getCareLevel());
+        Assertions.assertEquals(expectedResponse.getGrowthRate(), actualResponse.getGrowthRate());
+        Assertions.assertEquals(expectedResponse.getIndoor(), actualResponse.getIndoor());
+        Assertions.assertEquals(expectedResponse.getHardinessZone(), actualResponse.getHardinessZone());
+        Assertions.assertEquals(expectedResponse.getWateringBenchmark(), actualResponse.getWateringBenchmark());
+        Assertions.assertEquals(expectedResponse.getMedicinal(), actualResponse.getMedicinal());
+        Assertions.assertEquals(expectedResponse.getDescription(), actualResponse.getDescription());
+    }
+
 }
