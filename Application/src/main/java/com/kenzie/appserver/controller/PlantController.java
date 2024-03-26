@@ -110,8 +110,12 @@ public class PlantController {
      * @return boolean
      */
     private boolean validateId(String id) {
-        int plantId = Integer.parseInt(id);
-        return plantId > 0 && plantId <= 3000;
+        try {
+            int plantId = Integer.parseInt(id);
+            return plantId > 0 && plantId <= 3000;
+        } catch (NumberFormatException e){
+            return false;
+        }
     }
 
     /**
