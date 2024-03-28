@@ -45,11 +45,13 @@ class PlantControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(plantResponses, responseEntity.getBody());
     }
+
     @Test
     void testGetPlantListByName_InvalidName() {
         String invalidPlantName = "12345";
         assertThrows(ResponseStatusException.class, () -> plantController.getPlantListByName(invalidPlantName));
     }
+
     @Test
     void testGetPlantListByName_EmptyResponse() {
         String validPlantName = "rose";
@@ -59,6 +61,7 @@ class PlantControllerTest {
 
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
     }
+
     @Test
     void testAddNewPlant_ValidRequest() {
         CreatePlantRequest validRequest = new CreatePlantRequest("1", "Rose", null, null, null, null, null);
@@ -70,11 +73,19 @@ class PlantControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(createdResponse, responseEntity.getBody());
     }
+
     @Test
     void testAddNewPlant_InvalidPlantId() {
-        CreatePlantRequest invalidPlantIdRequest = new CreatePlantRequest("1", "Rose", null, null, null, null, null);
+        CreatePlantRequest invalidPlantIdRequest = new CreatePlantRequest("3001", "Rose", null, null, null, null, null);
         assertThrows(ResponseStatusException.class, () -> plantController.addNewPlant(invalidPlantIdRequest));
     }
+
+    @Test
+    void testAddNewPlant_InvalidStringPlantId() {
+        String invalidPlantId = "Invalid";
+        assertThrows(ResponseStatusException.class, () -> plantController.deletePlant(invalidPlantId));
+    }
+
     @Test
     void testGetPlantCollection_NoPlantsFound() {
         when(plantService.findAll()).thenReturn(new ArrayList<>());
@@ -97,6 +108,7 @@ class PlantControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(plants, responseEntity.getBody());
     }
+
     @Test
     void testGetPlantByName_InvalidName() {
         String invalidPlantName = "12345";
@@ -115,7 +127,13 @@ class PlantControllerTest {
 
     @Test
     void testDeletePlant_InvalidPlantId() {
-        String invalidPlantId = "invalid";
+        String invalidPlantId = "-1";
+        assertThrows(ResponseStatusException.class, () -> plantController.deletePlant(invalidPlantId));
+    }
+
+    @Test
+    void testDeletePlant_InvalidStringPlantId() {
+        String invalidPlantId = "Invalid";
         assertThrows(ResponseStatusException.class, () -> plantController.deletePlant(invalidPlantId));
     }
 

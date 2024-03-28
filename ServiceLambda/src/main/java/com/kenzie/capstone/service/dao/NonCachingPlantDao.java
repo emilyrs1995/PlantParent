@@ -36,49 +36,49 @@ public class NonCachingPlantDao implements PlantDao {
     public List<GetPlantListResponse> getPlantList(String plantName) {
 
         //return this.mockingGettingOneResponseFromTheAPI();
-        //return this.mockingGettingFiveResponsesFromTheAPI();
+        return this.mockingGettingFiveResponsesFromTheAPI();
         //return this.mockingGettingTwoValidResponsesAndOneInvalidResponseFromTheAPI();
 
 
-        String url = PLANT_LIST_ENDPOINT + apiKey + query + plantName;
-
-        HttpClient client = HttpClient.newHttpClient();
-        URI uri = URI.create(url);
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(uri)
-                .header("Accept", "application/json")
-                .GET()
-                .build();
-
-        try {
-            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            int statusCode = httpResponse.statusCode();
-            if (statusCode == 200) {
-                // converting from the String to our ApiResponse object
-                ApiResponse apiResponse = this.convertFromStringToApiResponse(httpResponse.body());
-
-                // validating the data in the ApiResponse. Filtering out any data that has null values or has an id over 3000
-                List<Data> validatedData = this.validateDataFromApiResponse(apiResponse.getData());
-
-                return Optional.of(validatedData)
-                        .orElse(Collections.emptyList())
-                        .stream()
-                        // converting to GetPlantListResponse
-                        .map(DataToGetPlantListResponse::convertFromDataToGetPlantListResponse)
-                        // limiting the list to only 5 responses and then returning the collection
-                        .limit(5)
-                        .collect(Collectors.toList());
-
-            } else {
-                throw new ApiGatewayException("GET plant list request failed: " + statusCode + " status code received"
-                        + "\n body: " + httpResponse.body());
-            }
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
+//        String url = PLANT_LIST_ENDPOINT + apiKey + query + plantName;
+//
+//        HttpClient client = HttpClient.newHttpClient();
+//        URI uri = URI.create(url);
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(uri)
+//                .header("Accept", "application/json")
+//                .GET()
+//                .build();
+//
+//        try {
+//            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+//
+//            int statusCode = httpResponse.statusCode();
+//            if (statusCode == 200) {
+//                // converting from the String to our ApiResponse object
+//                ApiResponse apiResponse = this.convertFromStringToApiResponse(httpResponse.body());
+//
+//                // validating the data in the ApiResponse. Filtering out any data that has null values or has an id over 3000
+//                List<Data> validatedData = this.validateDataFromApiResponse(apiResponse.getData());
+//
+//                return Optional.of(validatedData)
+//                        .orElse(Collections.emptyList())
+//                        .stream()
+//                        // converting to GetPlantListResponse
+//                        .map(DataToGetPlantListResponse::convertFromDataToGetPlantListResponse)
+//                        // limiting the list to only 5 responses and then returning the collection
+//                        .limit(5)
+//                        .collect(Collectors.toList());
+//
+//            } else {
+//                throw new ApiGatewayException("GET plant list request failed: " + statusCode + " status code received"
+//                        + "\n body: " + httpResponse.body());
+//            }
+//
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//            return Collections.emptyList();
+//        }
     }
 
     /**
@@ -119,36 +119,36 @@ public class NonCachingPlantDao implements PlantDao {
     @Override
     public GetPlantDetailsResponse getPlantDetails(String id) {
 
-        // return this.mockingGettingPlantDetailsForValidId();
+        return this.mockingGettingPlantDetailsForValidId();
 
-        String url = DETAILS_ENDPOINT + id + apiKey;
-
-        HttpClient client = HttpClient.newHttpClient();
-        URI uri = URI.create(url);
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(uri)
-                .header("Accept", "application/json")
-                .GET()
-                .build();
-
-        try {
-            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            int statusCode = httpResponse.statusCode();
-            if (statusCode == 200) {
-                ApiDetailsResponse apiDetailsResponse = this.convertFromStringToApiDetailsResponse(httpResponse.body());
-
-                return APIDetailsResponseToGetPlantDetailsResponse.convertToGetPlantDetailsResponse(apiDetailsResponse);
-
-            } else {
-                throw new ApiGatewayException("GET plant details request failed: " + statusCode + " status code received"
-                        + "\n body: " + httpResponse.body());
-            }
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return new GetPlantDetailsResponse();
-        }
+//        String url = DETAILS_ENDPOINT + id + apiKey;
+//
+//        HttpClient client = HttpClient.newHttpClient();
+//        URI uri = URI.create(url);
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(uri)
+//                .header("Accept", "application/json")
+//                .GET()
+//                .build();
+//
+//        try {
+//            HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+//
+//            int statusCode = httpResponse.statusCode();
+//            if (statusCode == 200) {
+//                ApiDetailsResponse apiDetailsResponse = this.convertFromStringToApiDetailsResponse(httpResponse.body());
+//
+//                return APIDetailsResponseToGetPlantDetailsResponse.convertToGetPlantDetailsResponse(apiDetailsResponse);
+//
+//            } else {
+//                throw new ApiGatewayException("GET plant details request failed: " + statusCode + " status code received"
+//                        + "\n body: " + httpResponse.body());
+//            }
+//
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//            return new GetPlantDetailsResponse();
+//        }
     }
 
     /**

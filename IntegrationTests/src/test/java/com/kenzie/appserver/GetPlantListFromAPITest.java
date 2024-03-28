@@ -1,7 +1,6 @@
-package com.kenzie.capstone;
+package com.kenzie.appserver;
 
-import com.kenzie.capstone.service.PlantLambdaService;
-import com.kenzie.capstone.service.dao.NonCachingPlantDao;
+import com.kenzie.capstone.service.client.PlantListLambdaServiceClient;
 import com.kenzie.capstone.service.model.GetPlantListResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,19 +9,19 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+@IntegrationTest
 public class GetPlantListFromAPITest {
 
-    private PlantLambdaService plantLambdaService;
-    private NonCachingPlantDao plantDao;
+    private PlantListLambdaServiceClient client;
 
     @BeforeEach
     void setup() {
-        this.plantDao = new NonCachingPlantDao();
-        this.plantLambdaService = new PlantLambdaService(plantDao);
+        client = new PlantListLambdaServiceClient();
     }
 
     @Test
     void getPlantList_withValidName_returnsListFromApi() {
+        // GIVEN
         String plantName = "hogyoku";
 
         int id = 61;
@@ -37,7 +36,7 @@ public class GetPlantListFromAPITest {
         GetPlantListResponse expectedResponse = new GetPlantListResponse(id, name, scientificName, cycle, watering, sunlight, imgUrl);
 
         // WHEN
-        List<GetPlantListResponse> actualResponse = plantLambdaService.getPlantList(plantName);
+        List<GetPlantListResponse> actualResponse = client.getPlantList(plantName);
 
         // THEN
         Assertions.assertEquals(1, actualResponse.size());
@@ -111,7 +110,7 @@ public class GetPlantListFromAPITest {
         GetPlantListResponse expectedResponse5 = new GetPlantListResponse(id5, name5, scientificName5, cycle5, watering5, sunlight5, imgUrl5);
 
         // WHEN
-        List<GetPlantListResponse> actualResponses = plantLambdaService.getPlantList(plantName);
+        List<GetPlantListResponse> actualResponses = client.getPlantList(plantName);
 
         // THEN
         Assertions.assertNotNull(actualResponses);
@@ -163,10 +162,13 @@ public class GetPlantListFromAPITest {
 
     @Test
     void getPlantList_withValidName_withIdAbove3000_returnsEmptyList() {
+        // GIVEN
         String plantName = "monstera";
 
-        List<GetPlantListResponse> actualResponses = plantLambdaService.getPlantList(plantName);
+        // WHEN
+        List<GetPlantListResponse> actualResponses = client.getPlantList(plantName);
 
+        // THEN
         Assertions.assertEquals(0, actualResponses.size());
     }
 }

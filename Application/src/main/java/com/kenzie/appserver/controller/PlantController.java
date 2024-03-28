@@ -110,13 +110,17 @@ public class PlantController {
      * @return boolean
      */
     private boolean validateId(String id) {
-        int plantId = Integer.parseInt(id);
-        return plantId > 0 && plantId <= 3000;
+        try {
+            int plantId = Integer.parseInt(id);
+            return plantId > 0 && plantId <= 3000;
+        } catch (NumberFormatException e){
+            return false;
+        }
     }
 
     /**
      * validatePlantName - checks the plant name that is coming in from the frontend to make sure it's not longer than
-     * 20 characters and only contains letters of the alphabet. Returns true or false.
+     * 50 characters, is not made up of only white space and only contains letters of the alphabet. Returns true or false.
      * @param name the name that we're checking.
      * @return boolean
      */
@@ -125,9 +129,14 @@ public class PlantController {
             return false;
         }
 
+        String strippedName = name.strip();
+        if (strippedName.isEmpty()) {
+            return false;
+        }
+
         String allowedStrings = "abcdefghijklmnopqrstupvwxyz ";
         StringBuilder validatedString = new StringBuilder();
-        validatedString.append(name.toLowerCase());
+        validatedString.append(strippedName.toLowerCase());
 
         for (int i = 0; i < validatedString.length(); i++) {
             if(!allowedStrings.contains(validatedString.substring(i, i + 1))) {

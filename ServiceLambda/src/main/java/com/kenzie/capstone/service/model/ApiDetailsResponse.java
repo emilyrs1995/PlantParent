@@ -2,7 +2,6 @@ package com.kenzie.capstone.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
 import java.util.Optional;
 
 public class ApiDetailsResponse {
@@ -26,17 +25,17 @@ public class ApiDetailsResponse {
     @JsonProperty("maintenance")
     private String maintenance;
     @JsonProperty("watering_general_benchmark")
-    private WateringGeneralBenchmark wateringGeneralBenchmark;
+    private Object wateringGeneralBenchmark;
     @JsonProperty("hardiness")
-    private Hardiness hardiness;
+    private Object hardiness;
     @JsonProperty("description")
     private String description;
     @JsonProperty("other_name")
-    private List<String> otherName;
+    private Object otherName;
     @JsonProperty("scientific_name")
-    private List<String> scientificName;
+    private Object scientificName;
     @JsonProperty("default_image")
-    private DefaultImage defaultImage;
+    private Object defaultImage;
     @JsonProperty("poisonous_to_pets")
     private int poisonousToPets;
     @JsonProperty("poisonous_to_humans")
@@ -46,11 +45,11 @@ public class ApiDetailsResponse {
     @JsonProperty("edible_leaf")
     private boolean edibleLeaf;
     @JsonProperty("leaf_color")
-    private List<String> leafColor;
+    private Object leafColor;
     @JsonProperty("leaf")
     private boolean leaf;
     @JsonProperty("fruit_color")
-    private List<String> fruitColor;
+    private Object fruitColor;
     @JsonProperty("fruit_nutritional_value")
     private String fruitNutritionalValue;
     @JsonProperty("edible_fruit_taste_profile")
@@ -64,7 +63,7 @@ public class ApiDetailsResponse {
     @JsonProperty("pest_susceptibility_api")
     private String pestSusceptibilityApi;
     @JsonProperty("pest_susceptibility")
-    private List<String> pestSusceptibility;
+    private Object pestSusceptibility;
     @JsonProperty("tropical")
     private boolean tropical;
     @JsonProperty("invasive")
@@ -76,43 +75,43 @@ public class ApiDetailsResponse {
     @JsonProperty("drought_tolerant")
     private boolean droughtTolerant;
     @JsonProperty("soil")
-    private List<String> soil;
+    private Object soil;
     @JsonProperty("care-guides")
     private String careGuides;
     @JsonProperty("seeds")
     private int seeds;
     @JsonProperty("pruning_count")
-    private PruningCount pruningCount;
+    private Object pruningCount;
     @JsonProperty("pruning_month")
-    private List<String> pruningMonth;
+    private Object pruningMonth;
     @JsonProperty("sunlight")
-    private List<String> sunlight;
+    private Object sunlight;
     @JsonProperty("plant_anatomy")
-    private List<PlantAnatomy> plantAnatomy;
+    private Object plantAnatomy;
     @JsonProperty("volume_water_requirement")
-    private List<String> volumeWaterRequirement;
+    private Object volumeWaterRequirement;
     @JsonProperty("watering_period")
     private String wateringPeriod;
     @JsonProperty("depth_water_requirement")
-    private DepthWaterRequirement depthWaterRequirement;
+    private Object depthWaterRequirement;
     @JsonProperty("watering")
     private String watering;
     @JsonProperty("hardiness_location")
-    private HardinessLocation hardinessLocation;
+    private Object hardinessLocation;
     @JsonProperty("propagation")
-    private List<String> propagation;
+    private Object propagation;
     @JsonProperty("attracts")
-    private List<String> attracts;
+    private Object attracts;
     @JsonProperty("cycle")
     private String cycle;
     @JsonProperty("dimensions")
-    private Dimensions dimensions;
+    private Object dimensions;
     @JsonProperty("dimension")
     private String dimension;
     @JsonProperty("type")
     private String type;
     @JsonProperty("origin")
-    private List<String> origin;
+    private Object origin;
     @JsonProperty("family")
     private String family;
     @JsonProperty("flowering_season")
@@ -197,19 +196,19 @@ public class ApiDetailsResponse {
         this.maintenance = maintenance;
     }
 
-    public Optional<WateringGeneralBenchmark> getWateringGeneralBenchmark() {
+    public Optional<Object> getWateringGeneralBenchmark() {
         return Optional.ofNullable(wateringGeneralBenchmark);
     }
 
-    public void setWateringGeneralBenchmark(WateringGeneralBenchmark wateringGeneralBenchmark) {
+    public void setWateringGeneralBenchmark(Object wateringGeneralBenchmark) {
         this.wateringGeneralBenchmark = wateringGeneralBenchmark;
     }
 
-    public Optional<Hardiness> getHardiness() {
+    public Optional<Object> getHardiness() {
         return Optional.ofNullable(hardiness);
     }
 
-    public void setHardiness(Hardiness hardiness) {
+    public void setHardiness(Object hardiness) {
         this.hardiness = hardiness;
     }
 
@@ -221,27 +220,27 @@ public class ApiDetailsResponse {
         this.description = description;
     }
 
-    public List<String> getOtherName() {
+    public Object getOtherName() {
         return otherName;
     }
 
-    public void setOtherName(List<String> otherName) {
+    public void setOtherName(Object otherName) {
         this.otherName = otherName;
     }
 
-    public List<String> getScientificName() {
+    public Object getScientificName() {
         return scientificName;
     }
 
-    public void setScientificName(List<String> scientificName) {
+    public void setScientificName(Object scientificName) {
         this.scientificName = scientificName;
     }
 
-    public DefaultImage getDefaultImage() {
+    public Object getDefaultImage() {
         return defaultImage;
     }
 
-    public void setDefaultImage(DefaultImage defaultImage) {
+    public void setDefaultImage(Object defaultImage) {
         this.defaultImage = defaultImage;
     }
 
@@ -277,11 +276,11 @@ public class ApiDetailsResponse {
         this.edibleLeaf = edibleLeaf;
     }
 
-    public List<String> getLeafColor() {
+    public Object getLeafColor() {
         return leafColor;
     }
 
-    public void setLeafColor(List<String> leafColor) {
+    public void setLeafColor(Object leafColor) {
         this.leafColor = leafColor;
     }
 
@@ -293,11 +292,11 @@ public class ApiDetailsResponse {
         this.leaf = leaf;
     }
 
-    public List<String> getFruitColor() {
+    public Object getFruitColor() {
         return fruitColor;
     }
 
-    public void setFruitColor(List<String> fruitColor) {
+    public void setFruitColor(Object fruitColor) {
         this.fruitColor = fruitColor;
     }
 
@@ -349,11 +348,11 @@ public class ApiDetailsResponse {
         this.pestSusceptibilityApi = pestSusceptibilityApi;
     }
 
-    public List<String> getPestSusceptibility() {
+    public Object getPestSusceptibility() {
         return pestSusceptibility;
     }
 
-    public void setPestSusceptibility(List<String> pestSusceptibility) {
+    public void setPestSusceptibility(Object pestSusceptibility) {
         this.pestSusceptibility = pestSusceptibility;
     }
 
@@ -397,11 +396,11 @@ public class ApiDetailsResponse {
         this.droughtTolerant = droughtTolerant;
     }
 
-    public List<String> getSoil() {
+    public Object getSoil() {
         return soil;
     }
 
-    public void setSoil(List<String> soil) {
+    public void setSoil(Object soil) {
         this.soil = soil;
     }
 
@@ -421,51 +420,51 @@ public class ApiDetailsResponse {
         this.seeds = seeds;
     }
 
-    public PruningCount getPruningCount() {
+    public Object getPruningCount() {
         return pruningCount;
     }
 
-    public void setPruningCount(PruningCount pruningCount) {
+    public void setPruningCount(Object pruningCount) {
         this.pruningCount = pruningCount;
     }
 
-    public List<String> getPruningMonth() {
+    public Object getPruningMonth() {
         return pruningMonth;
     }
 
-    public void setPruningMonth(List<String> pruningMonth) {
+    public void setPruningMonth(Object pruningMonth) {
         this.pruningMonth = pruningMonth;
     }
 
-    public List<String> getSunlight() {
+    public Object getSunlight() {
         return sunlight;
     }
 
-    public void setSunlight(List<String> sunlight) {
+    public void setSunlight(Object sunlight) {
         this.sunlight = sunlight;
     }
 
-    public List<PlantAnatomy> getPlantAnatomy() {
+    public Object getPlantAnatomy() {
         return plantAnatomy;
     }
 
-    public void setPlantAnatomy(List<PlantAnatomy> plantAnatomy) {
+    public void setPlantAnatomy(Object plantAnatomy) {
         this.plantAnatomy = plantAnatomy;
     }
 
-    public List<String> getVolumeWaterRequirement() {
+    public Object getVolumeWaterRequirement() {
         return volumeWaterRequirement;
     }
 
-    public void setVolumeWaterRequirement(List<String> volumeWaterRequirement) {
+    public void setVolumeWaterRequirement(Object volumeWaterRequirement) {
         this.volumeWaterRequirement = volumeWaterRequirement;
     }
 
-    public DepthWaterRequirement getDepthWaterRequirement() {
+    public Object getDepthWaterRequirement() {
         return depthWaterRequirement;
     }
 
-    public void setDepthWaterRequirement(DepthWaterRequirement depthWaterRequirement) {
+    public void setDepthWaterRequirement(Object depthWaterRequirement) {
         this.depthWaterRequirement = depthWaterRequirement;
     }
 
@@ -477,27 +476,27 @@ public class ApiDetailsResponse {
         this.watering = watering;
     }
 
-    public HardinessLocation getHardinessLocation() {
+    public Object getHardinessLocation() {
         return hardinessLocation;
     }
 
-    public void setHardinessLocation(HardinessLocation hardinessLocation) {
+    public void setHardinessLocation(Object hardinessLocation) {
         this.hardinessLocation = hardinessLocation;
     }
 
-    public List<String> getPropagation() {
+    public Object getPropagation() {
         return propagation;
     }
 
-    public void setPropagation(List<String> propagation) {
+    public void setPropagation(Object propagation) {
         this.propagation = propagation;
     }
 
-    public List<String> getAttracts() {
+    public Object getAttracts() {
         return attracts;
     }
 
-    public void setAttracts(List<String> attracts) {
+    public void setAttracts(Object attracts) {
         this.attracts = attracts;
     }
 
@@ -509,11 +508,11 @@ public class ApiDetailsResponse {
         this.cycle = cycle;
     }
 
-    public Dimensions getDimensions() {
+    public Object getDimensions() {
         return dimensions;
     }
 
-    public void setDimensions(Dimensions dimensions) {
+    public void setDimensions(Object dimensions) {
         this.dimensions = dimensions;
     }
 
@@ -533,11 +532,11 @@ public class ApiDetailsResponse {
         this.type = type;
     }
 
-    public List<String> getOrigin() {
+    public Object getOrigin() {
         return origin;
     }
 
-    public void setOrigin(List<String> origin) {
+    public void setOrigin(Object origin) {
         this.origin = origin;
     }
 

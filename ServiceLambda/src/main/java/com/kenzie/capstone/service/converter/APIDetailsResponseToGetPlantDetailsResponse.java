@@ -2,6 +2,10 @@ package com.kenzie.capstone.service.converter;
 
 import com.kenzie.capstone.service.model.ApiDetailsResponse;
 import com.kenzie.capstone.service.model.GetPlantDetailsResponse;
+import com.kenzie.capstone.service.model.Hardiness;
+import com.kenzie.capstone.service.model.WateringGeneralBenchmark;
+
+import java.util.LinkedHashMap;
 
 public class APIDetailsResponseToGetPlantDetailsResponse {
 
@@ -19,13 +23,23 @@ public class APIDetailsResponseToGetPlantDetailsResponse {
         }
 
         if (apiDetailsResponse.getHardiness().isPresent()) {
-            getPlantDetailsResponse.setHardinessZone(apiDetailsResponse.getHardiness().get().toString());
+            LinkedHashMap<String, String> hashmap = (LinkedHashMap<String, String>) apiDetailsResponse.getHardiness().get();
+
+            Hardiness hardiness = new Hardiness();
+            hardiness.setMin(hashmap.get("min"));
+            hardiness.setMax(hashmap.get("max"));
+            getPlantDetailsResponse.setHardinessZone(hardiness.toString());
         } else {
             getPlantDetailsResponse.setHardinessZone("Unknown");
         }
 
         if (apiDetailsResponse.getWateringGeneralBenchmark().isPresent()) {
-            getPlantDetailsResponse.setWateringBenchmark(apiDetailsResponse.getWateringGeneralBenchmark().get().toString());
+            LinkedHashMap<String, String> hashmap = (LinkedHashMap<String, String>) apiDetailsResponse.getWateringGeneralBenchmark().get();
+
+            WateringGeneralBenchmark benchmark = new WateringGeneralBenchmark();
+            benchmark.setUnit(hashmap.get("unit"));
+            benchmark.setValue(hashmap.get("value"));
+            getPlantDetailsResponse.setWateringBenchmark(benchmark.toString());
         } else {
             getPlantDetailsResponse.setWateringBenchmark("Unknown");
         }
@@ -69,7 +83,7 @@ public class APIDetailsResponseToGetPlantDetailsResponse {
         if (apiDetailsResponse.isFlowers().isPresent() && apiDetailsResponse.isFlowers().get() && apiDetailsResponse.getFlowerColor().isPresent()) {
             getPlantDetailsResponse.setFlowerColor(apiDetailsResponse.getFlowerColor().get());
         } else {
-            getPlantDetailsResponse.setFlowerColor(String.format("The %s plant does not have flowers.", apiDetailsResponse.getCommonName()));
+            getPlantDetailsResponse.setFlowerColor(String.format("The %s plant does not have flowers.", apiDetailsResponse.getCommonName().get()));
         }
 
         return getPlantDetailsResponse;

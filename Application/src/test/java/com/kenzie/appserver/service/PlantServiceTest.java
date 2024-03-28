@@ -1,10 +1,12 @@
 package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.controller.model.CreatePlantRequest;
+import com.kenzie.appserver.controller.model.PlantDetailsResponse;
 import com.kenzie.appserver.controller.model.PlantResponse;
 import com.kenzie.appserver.repositories.PlantRepository;
 import com.kenzie.appserver.repositories.model.PlantRecord;
 import com.kenzie.capstone.service.client.PlantListLambdaServiceClient;
+import com.kenzie.capstone.service.model.GetPlantDetailsResponse;
 import com.kenzie.capstone.service.model.GetPlantListResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,6 +71,53 @@ public class PlantServiceTest {
         Assertions.assertEquals(expectedResponse.getWatering(), returnedResponse.getWatering());
         Assertions.assertEquals(expectedResponse.getSunlight(), returnedResponse.getSunlight());
         Assertions.assertEquals(expectedResponse.getIMGUrl(), returnedResponse.getImgUrl());
+    }
+
+    /** ------------------------------------------------------------------------
+     *  plantService.getPlantListByName
+     *  ------------------------------------------------------------------------ **/
+    @Test
+    void getPlantDetails() {
+        // GIVEN
+        String id = "61";
+        String name = "Hogyoku Japanese Maple";
+        String flowerColor = "Reddish-purple";
+        String maintenance = "Low";
+        String careLevel = "Unknown";
+        String growthRate = "Low";
+        String indoor = "false";
+        String hardinessZone = "7 - 7";
+        String wateringBenchmark = "Every 3-4 days";
+        String medicinal = "false";
+        String description = "Hogyoku Japanese Maple (Acer palmatum 'Hogyoku') is an amazing plant species noted for its striking beauty. " +
+                "Its delicate foliage emerges with a golden hue and develops into a vibrant, deep scarlet during the cooler months. " +
+                "Bright red flowers bloom in spring and bring in stunning hues all season long. The foliage turns to yellow, orange, " +
+                "and pink in the fall. Outstanding bark color is a nice addition to the landscape - from cinnamon-red to orange and yellow. " +
+                "The beauty of tiger-striped bark truly stands out in the winter. Hogyoku is easy to grow and low-maintenance. " +
+                "It also does extremely well in containers and makes a stunning accent for any garden.";
+
+        GetPlantDetailsResponse expectedResponse = new GetPlantDetailsResponse(id, name, flowerColor, maintenance, careLevel,
+                growthRate, indoor, hardinessZone, wateringBenchmark, medicinal, description);
+
+        when(plantListLambdaServiceClient.getPlantDetails(id)).thenReturn(expectedResponse);
+
+        // WHEN
+        PlantDetailsResponse actualResponse = plantService.getPlantDetails(id);
+
+        // THEN
+        Assertions.assertNotNull(actualResponse);
+        Assertions.assertEquals(expectedResponse.getPlantId(), actualResponse.getPlantId());
+        Assertions.assertEquals(expectedResponse.getPlantName(), actualResponse.getPlantName());
+        Assertions.assertEquals(expectedResponse.getFlowerColor(), actualResponse.getFlowerColor());
+        Assertions.assertEquals(expectedResponse.getMaintenance(), actualResponse.getMaintenance());
+        Assertions.assertEquals(expectedResponse.getCareLevel(), actualResponse.getCareLevel());
+        Assertions.assertEquals(expectedResponse.getGrowthRate(), actualResponse.getGrowthRate());
+        Assertions.assertEquals(expectedResponse.getIndoor(), actualResponse.getIndoor());
+        Assertions.assertEquals(expectedResponse.getHardinessZone(), actualResponse.getHardinessZone());
+        Assertions.assertEquals(expectedResponse.getWateringBenchmark(), actualResponse.getWateringBenchmark());
+        Assertions.assertEquals(expectedResponse.getMedicinal(), actualResponse.getMedicinal());
+        Assertions.assertEquals(expectedResponse.getDescription(), actualResponse.getDescription());
+
     }
 
     /** ------------------------------------------------------------------------

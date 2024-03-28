@@ -1,4 +1,4 @@
-package com.kenzie.capstone.service;
+package com.kenzie.capstone;
 
 import com.kenzie.capstone.service.dao.NonCachingPlantDao;
 import com.kenzie.capstone.service.model.GetPlantDetailsResponse;
@@ -256,5 +256,4 @@ public class PlantDaoMockingTest {
         Assertions.assertEquals(expectedResponse.getMedicinal(), actualResponse.getMedicinal());
         Assertions.assertEquals(expectedResponse.getDescription(), actualResponse.getDescription());
     }
-
 }
