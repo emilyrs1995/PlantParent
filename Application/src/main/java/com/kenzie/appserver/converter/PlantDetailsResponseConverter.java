@@ -9,6 +9,10 @@ public class PlantDetailsResponseConverter {
         PlantDetailsResponse response = new PlantDetailsResponse();
         response.setPlantId(getPlantListResponse.getPlantId());
         response.setPlantName(getPlantListResponse.getPlantName());
+        response.setScientificName(getPlantListResponse.getScientificName());
+        response.setCycle(getPlantListResponse.getCycle());
+        response.setWatering(getPlantListResponse.getWatering());
+        response.setSunlight(getPlantListResponse.getSunlight());
         response.setFlowerColor(getPlantListResponse.getFlowerColor());
         response.setMaintenance(getPlantListResponse.getMaintenance());
         response.setCareLevel(getPlantListResponse.getCareLevel());
@@ -17,6 +21,7 @@ public class PlantDetailsResponseConverter {
         response.setHardinessZone(getPlantListResponse.getHardinessZone());
         response.setWateringBenchmark(getPlantListResponse.getWateringBenchmark());
         response.setMedicinal(getPlantListResponse.getMedicinal());
+        response.setImgUrl(getPlantListResponse.getIMGUrl());
         response.setDescription(getPlantListResponse.getDescription());
 
         return response;

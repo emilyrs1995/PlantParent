@@ -220,28 +220,52 @@ public class ApiDetailsResponse {
         this.description = description;
     }
 
-    public Object getOtherName() {
-        return otherName;
-    }
-
-    public void setOtherName(Object otherName) {
-        this.otherName = otherName;
-    }
-
-    public Object getScientificName() {
-        return scientificName;
+    public Optional<Object> getScientificName() {
+        return Optional.ofNullable(scientificName);
     }
 
     public void setScientificName(Object scientificName) {
         this.scientificName = scientificName;
     }
 
-    public Object getDefaultImage() {
-        return defaultImage;
+    public Optional<Object> getDefaultImage() {
+        return Optional.ofNullable(defaultImage);
     }
 
     public void setDefaultImage(Object defaultImage) {
         this.defaultImage = defaultImage;
+    }
+
+    public Optional<Object> getSunlight() {
+        return Optional.ofNullable(sunlight);
+    }
+
+    public void setSunlight(Object sunlight) {
+        this.sunlight = sunlight;
+    }
+
+    public Optional<String> getWatering() {
+        return Optional.ofNullable(watering);
+    }
+
+    public void setWatering(String watering) {
+        this.watering = watering;
+    }
+
+    public Optional<String> getCycle() {
+        return Optional.ofNullable(cycle);
+    }
+
+    public void setCycle(String cycle) {
+        this.cycle = cycle;
+    }
+
+    public Object getOtherName() {
+        return otherName;
+    }
+
+    public void setOtherName(Object otherName) {
+        this.otherName = otherName;
     }
 
     public int getPoisonousToPets() {
@@ -436,14 +460,6 @@ public class ApiDetailsResponse {
         this.pruningMonth = pruningMonth;
     }
 
-    public Object getSunlight() {
-        return sunlight;
-    }
-
-    public void setSunlight(Object sunlight) {
-        this.sunlight = sunlight;
-    }
-
     public Object getPlantAnatomy() {
         return plantAnatomy;
     }
@@ -468,14 +484,6 @@ public class ApiDetailsResponse {
         this.depthWaterRequirement = depthWaterRequirement;
     }
 
-    public String getWatering() {
-        return watering;
-    }
-
-    public void setWatering(String watering) {
-        this.watering = watering;
-    }
-
     public Object getHardinessLocation() {
         return hardinessLocation;
     }
@@ -498,14 +506,6 @@ public class ApiDetailsResponse {
 
     public void setAttracts(Object attracts) {
         this.attracts = attracts;
-    }
-
-    public String getCycle() {
-        return cycle;
-    }
-
-    public void setCycle(String cycle) {
-        this.cycle = cycle;
     }
 
     public Object getDimensions() {

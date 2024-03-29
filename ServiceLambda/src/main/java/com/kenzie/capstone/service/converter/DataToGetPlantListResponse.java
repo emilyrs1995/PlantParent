@@ -32,7 +32,7 @@ public class DataToGetPlantListResponse {
         response.setSunlight(sunlight.get(0));
 
         // this can be changed if we want a different picture for the frontend
-        response.setIMGUrl(data.getDefaultImage().getThumbnail());
+        response.setIMGUrl(data.getDefaultImage().getSmall_url());
 
         return response;
     }

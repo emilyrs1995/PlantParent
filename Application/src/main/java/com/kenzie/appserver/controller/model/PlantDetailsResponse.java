@@ -3,6 +3,8 @@ package com.kenzie.appserver.controller.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PlantDetailsResponse {
 
@@ -10,6 +12,14 @@ public class PlantDetailsResponse {
     private String plantId;
     @JsonProperty("plantName")
     private String plantName;
+    @JsonProperty("scientificName")
+    private List<String> scientificName;
+    @JsonProperty("cycle")
+    private String cycle;
+    @JsonProperty("watering")
+    private String watering;
+    @JsonProperty("sunlight")
+    private String sunlight;
     @JsonProperty("flowerColor")
     private String flowerColor;
     @JsonProperty("maintenance")
@@ -26,17 +36,24 @@ public class PlantDetailsResponse {
     private String wateringBenchmark;
     @JsonProperty("medicinal")
     private String medicinal;
+    @JsonProperty("imgUrl")
+    private String imgUrl;
     @JsonProperty("description")
     private String description;
 
     public PlantDetailsResponse() {
     }
 
-    public PlantDetailsResponse(String plantId, String plantName, String flowerColor, String maintenance, String careLevel,
-                                String growthRate, String indoor, String hardinessZone, String wateringBenchmark, String medicinal,
-                                String description) {
+    public PlantDetailsResponse(String plantId, String plantName, List<String> scientificName, String cycle, String watering,
+                                String sunlight, String flowerColor, String maintenance, String careLevel, String growthRate,
+                                String indoor, String hardinessZone, String wateringBenchmark, String medicinal,
+                                String imgUrl, String description) {
         this.plantId = plantId;
         this.plantName = plantName;
+        this.scientificName = scientificName;
+        this.cycle = cycle;
+        this.watering = watering;
+        this.sunlight = sunlight;
         this.flowerColor = flowerColor;
         this.maintenance = maintenance;
         this.careLevel = careLevel;
@@ -45,6 +62,7 @@ public class PlantDetailsResponse {
         this.hardinessZone = hardinessZone;
         this.wateringBenchmark = wateringBenchmark;
         this.medicinal = medicinal;
+        this.imgUrl = imgUrl;
         this.description = description;
     }
 
@@ -62,6 +80,38 @@ public class PlantDetailsResponse {
 
     public void setPlantName(String plantName) {
         this.plantName = plantName;
+    }
+
+    public List<String> getScientificName() {
+        return scientificName;
+    }
+
+    public void setScientificName(List<String> scientificName) {
+        this.scientificName = scientificName;
+    }
+
+    public String getCycle() {
+        return cycle;
+    }
+
+    public void setCycle(String cycle) {
+        this.cycle = cycle;
+    }
+
+    public String getWatering() {
+        return watering;
+    }
+
+    public void setWatering(String watering) {
+        this.watering = watering;
+    }
+
+    public String getSunlight() {
+        return sunlight;
+    }
+
+    public void setSunlight(String sunlight) {
+        this.sunlight = sunlight;
     }
 
     public String getFlowerColor() {
@@ -126,6 +176,14 @@ public class PlantDetailsResponse {
 
     public void setMedicinal(String medicinal) {
         this.medicinal = medicinal;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public String getDescription() {
