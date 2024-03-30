@@ -1,5 +1,6 @@
-package com.kenzie.appserver.controller;
+package com.kenzie.appserver.service;
 
+import com.kenzie.appserver.controller.PlantController;
 import com.kenzie.appserver.controller.model.CreatePlantRequest;
 import com.kenzie.appserver.controller.model.PlantResponse;
 import com.kenzie.appserver.service.PlantService;
