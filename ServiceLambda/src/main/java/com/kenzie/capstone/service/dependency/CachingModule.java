@@ -12,8 +12,9 @@ public class CachingModule {
 
     @Singleton
     @Provides
+    @Named("CacheClient")
     public CacheClient<Integer, String> provideCacheClient() {
-        int maxSize = 5;
+        int maxSize = 50;
         return new CacheClient<>(maxSize);
     }
 }
