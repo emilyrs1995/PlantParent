@@ -2,8 +2,8 @@ package com.kenzie.appserver.service;
 
 import com.kenzie.appserver.controller.PlantController;
 import com.kenzie.appserver.controller.model.CreatePlantRequest;
+import com.kenzie.appserver.controller.model.PlantDetailsResponse;
 import com.kenzie.appserver.controller.model.PlantResponse;
-import com.kenzie.appserver.service.PlantService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -64,6 +64,36 @@ class PlantControllerTest {
     }
 
     @Test
+    void testGetPlantDetails_ValidId() {
+        String validId = "1";
+        PlantDetailsResponse plantDetailsResponse = new PlantDetailsResponse();
+        plantDetailsResponse.setPlantId(validId);
+
+        when(plantService.getPlantDetails(validId)).thenReturn(plantDetailsResponse);
+
+        ResponseEntity<PlantDetailsResponse> responseEntity = plantController.getPlantDetails(validId);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(plantDetailsResponse, responseEntity.getBody());
+    }
+
+    @Test
+    void testGetPlantDetails_InvalidId() {
+        String invalidId = "-1";
+        assertThrows(ResponseStatusException.class, () -> plantController.getPlantDetails(invalidId));
+    }
+
+    @Test
+    void testGetPlantDetails_EmptyResponse() {
+        String validId = "1";
+        when(plantService.getPlantDetails(validId)).thenReturn(null);
+
+        ResponseEntity<PlantDetailsResponse> responseEntity = plantController.getPlantDetails(validId);
+
+        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+    }
+
+    @Test
     void testAddNewPlant_ValidRequest() {
         CreatePlantRequest validRequest = new CreatePlantRequest("1", "Rose", null, null, null, null, null);
         PlantResponse createdResponse = new PlantResponse("1", "Rose", null, null, null, null, null);
@@ -88,6 +118,12 @@ class PlantControllerTest {
     }
 
     @Test
+    void testAddNewPlant_InvalidPlantName() {
+        CreatePlantRequest invalidPlantIdRequest = new CreatePlantRequest("1", "#$:<&", null, null, null, null, null);
+        assertThrows(ResponseStatusException.class, () -> plantController.addNewPlant(invalidPlantIdRequest));
+    }
+
+    @Test
     void testGetPlantCollection_NoPlantsFound() {
         when(plantService.findAll()).thenReturn(new ArrayList<>());
 
@@ -105,6 +141,20 @@ class PlantControllerTest {
         when(plantService.findAll()).thenReturn(plants);
 
         ResponseEntity<List<PlantResponse>> responseEntity = plantController.getPlantCollection();
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(plants, responseEntity.getBody());
+    }
+
+    @Test
+    void testGetPlantByName_validName() {
+        String validName = "orchid";
+        List<PlantResponse> plants = new ArrayList<>();
+        plants.add(new PlantResponse("1", validName, null, null, null, null, null));
+
+        when(plantService.findByName(validName)).thenReturn(plants);
+
+        ResponseEntity<List<PlantResponse>> responseEntity = plantController.getPlantByName(validName);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(plants, responseEntity.getBody());
