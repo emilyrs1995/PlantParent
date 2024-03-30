@@ -2,12 +2,22 @@ package com.kenzie.capstone.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class GetPlantDetailsResponse {
 
     @JsonProperty("plantId")
     private String plantId;
     @JsonProperty("plantName")
     private String plantName;
+    @JsonProperty("scientificName")
+    private List<String> scientificName;
+    @JsonProperty("cycle")
+    private String cycle;
+    @JsonProperty("watering")
+    private String watering;
+    @JsonProperty("sunlight")
+    private String sunlight;
     @JsonProperty("flowerColor")
     private String flowerColor;
     @JsonProperty("maintenance")
@@ -26,14 +36,22 @@ public class GetPlantDetailsResponse {
     private String medicinal;
     @JsonProperty("description")
     private String description;
+    @JsonProperty("IMGUrl")
+    private String IMGUrl;
 
     public GetPlantDetailsResponse() {
     }
 
-    public GetPlantDetailsResponse(String plantId, String plantName, String flowerColor, String maintenance, String careLevel,
-                                   String growthRate, String indoor, String hardinessZone, String wateringBenchmark, String medicinal, String description) {
+    public GetPlantDetailsResponse(String plantId, String plantName, List<String> scientificName, String cycle,
+                                   String watering, String sunlight, String flowerColor, String maintenance,
+                                   String careLevel, String growthRate, String indoor, String hardinessZone,
+                                   String wateringBenchmark, String medicinal, String description, String IMGUrl) {
         this.plantId = plantId;
         this.plantName = plantName;
+        this.scientificName = scientificName;
+        this.cycle = cycle;
+        this.watering = watering;
+        this.sunlight = sunlight;
         this.flowerColor = flowerColor;
         this.maintenance = maintenance;
         this.careLevel = careLevel;
@@ -43,6 +61,7 @@ public class GetPlantDetailsResponse {
         this.wateringBenchmark = wateringBenchmark;
         this.medicinal = medicinal;
         this.description = description;
+        this.IMGUrl = IMGUrl;
     }
 
     public String getPlantId() {
@@ -59,6 +78,38 @@ public class GetPlantDetailsResponse {
 
     public void setPlantName(String plantName) {
         this.plantName = plantName;
+    }
+
+    public List<String> getScientificName() {
+        return scientificName;
+    }
+
+    public void setScientificName(List<String> scientificName) {
+        this.scientificName = scientificName;
+    }
+
+    public String getCycle() {
+        return cycle;
+    }
+
+    public void setCycle(String cycle) {
+        this.cycle = cycle;
+    }
+
+    public String getWatering() {
+        return watering;
+    }
+
+    public void setWatering(String watering) {
+        this.watering = watering;
+    }
+
+    public String getSunlight() {
+        return sunlight;
+    }
+
+    public void setSunlight(String sunlight) {
+        this.sunlight = sunlight;
     }
 
     public String getFlowerColor() {
@@ -133,20 +184,33 @@ public class GetPlantDetailsResponse {
         this.description = description;
     }
 
+    public String getIMGUrl() {
+        return IMGUrl;
+    }
+
+    public void setIMGUrl(String IMGUrl) {
+        this.IMGUrl = IMGUrl;
+    }
+
     @Override
     public String toString() {
-        return "GetPlantDetailsResponse {" +
-                "plantId = '" + plantId + '\'' +
-                ", plantName = '" + plantName + '\'' +
-                ", flowerColor = '" + flowerColor + '\'' +
-                ", maintenance = '" + maintenance + '\'' +
-                ", careLevel = '" + careLevel + '\'' +
-                ", growthRate = '" + growthRate + '\'' +
-                ", indoor = '" + indoor + '\'' +
-                ", hardinessZone = '" + hardinessZone + '\'' +
-                ", wateringBenchmark = '" + wateringBenchmark + '\'' +
-                ", medicinal = '" + medicinal + '\'' +
-                ", description = '" + description + '\'' +
+        return "GetPlantDetailsResponse{" +
+                "plantId='" + plantId + '\'' +
+                ", plantName='" + plantName + '\'' +
+                ", scientificName=" + scientificName +
+                ", cycle='" + cycle + '\'' +
+                ", watering='" + watering + '\'' +
+                ", sunlight='" + sunlight + '\'' +
+                ", flowerColor='" + flowerColor + '\'' +
+                ", maintenance='" + maintenance + '\'' +
+                ", careLevel='" + careLevel + '\'' +
+                ", growthRate='" + growthRate + '\'' +
+                ", indoor='" + indoor + '\'' +
+                ", hardinessZone='" + hardinessZone + '\'' +
+                ", wateringBenchmark='" + wateringBenchmark + '\'' +
+                ", medicinal='" + medicinal + '\'' +
+                ", description='" + description + '\'' +
+                ", IMGUrl='" + IMGUrl + '\'' +
                 '}';
     }
 }

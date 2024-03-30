@@ -1,11 +1,10 @@
 package com.kenzie.capstone.service.converter;
 
-import com.kenzie.capstone.service.model.ApiDetailsResponse;
-import com.kenzie.capstone.service.model.GetPlantDetailsResponse;
-import com.kenzie.capstone.service.model.Hardiness;
-import com.kenzie.capstone.service.model.WateringGeneralBenchmark;
+import com.kenzie.capstone.service.model.*;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class APIDetailsResponseToGetPlantDetailsResponse {
 
@@ -56,6 +55,31 @@ public class APIDetailsResponseToGetPlantDetailsResponse {
             getPlantDetailsResponse.setPlantName("Unknown");
         }
 
+        if (apiDetailsResponse.getScientificName().isPresent()) {
+            getPlantDetailsResponse.setScientificName((List<String>) apiDetailsResponse.getScientificName().get());
+        } else {
+            getPlantDetailsResponse.setScientificName(Collections.emptyList());
+        }
+
+        if (apiDetailsResponse.getCycle().isPresent()) {
+            getPlantDetailsResponse.setCycle(apiDetailsResponse.getCycle().get());
+        } else {
+            getPlantDetailsResponse.setCycle("Unknown");
+        }
+
+        if (apiDetailsResponse.getSunlight().isPresent()) {
+            List<String> sunlight = (List<String>) apiDetailsResponse.getSunlight().get();
+            getPlantDetailsResponse.setSunlight(sunlight.get(0));
+        } else {
+            getPlantDetailsResponse.setSunlight("Unknown");
+        }
+
+        if (apiDetailsResponse.getWatering().isPresent()) {
+            getPlantDetailsResponse.setWatering(apiDetailsResponse.getWatering().get());
+        } else {
+            getPlantDetailsResponse.setWatering("Unknown");
+        }
+
         if (apiDetailsResponse.getMaintenance().isPresent()) {
             getPlantDetailsResponse.setMaintenance(apiDetailsResponse.getMaintenance().get());
         } else {
@@ -78,6 +102,12 @@ public class APIDetailsResponseToGetPlantDetailsResponse {
             getPlantDetailsResponse.setDescription(apiDetailsResponse.getDescription().get());
         } else {
             getPlantDetailsResponse.setDescription("Unknown");
+        }
+
+        if (apiDetailsResponse.getDefaultImage().isPresent()) {
+            LinkedHashMap<String, String> hashmap = (LinkedHashMap<String, String>) apiDetailsResponse.getDefaultImage().get();
+            String imgUrl = hashmap.get("regular_url");
+            getPlantDetailsResponse.setIMGUrl(imgUrl);
         }
 
         if (apiDetailsResponse.isFlowers().isPresent() && apiDetailsResponse.isFlowers().get() && apiDetailsResponse.getFlowerColor().isPresent()) {

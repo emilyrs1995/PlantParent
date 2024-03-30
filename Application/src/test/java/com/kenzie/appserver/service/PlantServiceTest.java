@@ -48,7 +48,7 @@ public class PlantServiceTest {
         String cycle = "Perennial";
         String watering = "Average";
         String sunlight = "full sun";
-        String imgUrl = "https://perenual.com/storage/species_image/61_acer_palmatum_hogyoku/thumbnail/2560px-Kyoto_Japan0431.jpg";
+        String imgUrl = "https://perenual.com/storage/species_image/61_acer_palmatum_hogyoku/small/2560px-Kyoto_Japan0431.jpg";
         GetPlantListResponse expectedResponse = new GetPlantListResponse(id, name, scientificName, cycle, watering, sunlight, imgUrl);
 
         List<GetPlantListResponse> expectedResponses = new ArrayList<>();
@@ -81,6 +81,11 @@ public class PlantServiceTest {
         // GIVEN
         String id = "61";
         String name = "Hogyoku Japanese Maple";
+        List<String> scientificName = new ArrayList<>();
+        scientificName.add("Acer palmatum 'Hogyoku'");
+        String cycle = "Perennial";
+        String watering = "Average";
+        String sunlight = "full sun";
         String flowerColor = "Reddish-purple";
         String maintenance = "Low";
         String careLevel = "Unknown";
@@ -89,6 +94,7 @@ public class PlantServiceTest {
         String hardinessZone = "7 - 7";
         String wateringBenchmark = "Every 3-4 days";
         String medicinal = "false";
+        String imgUrl = "https://perenual.com/storage/species_image/61_acer_palmatum_hogyoku/regular/2560px-Kyoto_Japan0431.jpg";
         String description = "Hogyoku Japanese Maple (Acer palmatum 'Hogyoku') is an amazing plant species noted for its striking beauty. " +
                 "Its delicate foliage emerges with a golden hue and develops into a vibrant, deep scarlet during the cooler months. " +
                 "Bright red flowers bloom in spring and bring in stunning hues all season long. The foliage turns to yellow, orange, " +
@@ -96,8 +102,8 @@ public class PlantServiceTest {
                 "The beauty of tiger-striped bark truly stands out in the winter. Hogyoku is easy to grow and low-maintenance. " +
                 "It also does extremely well in containers and makes a stunning accent for any garden.";
 
-        GetPlantDetailsResponse expectedResponse = new GetPlantDetailsResponse(id, name, flowerColor, maintenance, careLevel,
-                growthRate, indoor, hardinessZone, wateringBenchmark, medicinal, description);
+        GetPlantDetailsResponse expectedResponse = new GetPlantDetailsResponse(id, name, scientificName, cycle, watering, sunlight, flowerColor, maintenance, careLevel,
+                growthRate, indoor, hardinessZone, wateringBenchmark, medicinal, description, imgUrl);
 
         when(plantListLambdaServiceClient.getPlantDetails(id)).thenReturn(expectedResponse);
 
@@ -108,6 +114,10 @@ public class PlantServiceTest {
         Assertions.assertNotNull(actualResponse);
         Assertions.assertEquals(expectedResponse.getPlantId(), actualResponse.getPlantId());
         Assertions.assertEquals(expectedResponse.getPlantName(), actualResponse.getPlantName());
+        Assertions.assertEquals(expectedResponse.getScientificName(), actualResponse.getScientificName());
+        Assertions.assertEquals(expectedResponse.getCycle(), actualResponse.getCycle());
+        Assertions.assertEquals(expectedResponse.getWatering(), actualResponse.getWatering());
+        Assertions.assertEquals(expectedResponse.getSunlight(), actualResponse.getSunlight());
         Assertions.assertEquals(expectedResponse.getFlowerColor(), actualResponse.getFlowerColor());
         Assertions.assertEquals(expectedResponse.getMaintenance(), actualResponse.getMaintenance());
         Assertions.assertEquals(expectedResponse.getCareLevel(), actualResponse.getCareLevel());
@@ -116,8 +126,8 @@ public class PlantServiceTest {
         Assertions.assertEquals(expectedResponse.getHardinessZone(), actualResponse.getHardinessZone());
         Assertions.assertEquals(expectedResponse.getWateringBenchmark(), actualResponse.getWateringBenchmark());
         Assertions.assertEquals(expectedResponse.getMedicinal(), actualResponse.getMedicinal());
+        Assertions.assertEquals(expectedResponse.getIMGUrl(), actualResponse.getImgUrl());
         Assertions.assertEquals(expectedResponse.getDescription(), actualResponse.getDescription());
-
     }
 
     /** ------------------------------------------------------------------------
