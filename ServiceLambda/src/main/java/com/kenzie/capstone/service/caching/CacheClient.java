@@ -3,9 +3,6 @@ package com.kenzie.capstone.service.caching;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 public class CacheClient<K, V> {
     private final Cache<K, V> cache;
 

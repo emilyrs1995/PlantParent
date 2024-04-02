@@ -1,5 +1,6 @@
-package com.kenzie.appserver;
+package com.kenzie.appserver.api;
 
+import com.kenzie.appserver.IntegrationTest;
 import com.kenzie.capstone.service.client.PlantListLambdaServiceClient;
 import com.kenzie.capstone.service.model.GetPlantListResponse;
 import org.junit.jupiter.api.Assertions;
