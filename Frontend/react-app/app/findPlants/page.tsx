@@ -30,11 +30,24 @@ export default function FindPlants() {
     const renderSearchResults = () => {
         return plants?.map((plant) => {
             return (
-                <div key={plant?.plantId} className="bg-white p-4 mb-4 rounded-md text-black">
-                    <img src={plant?.imgUrl}></img>
-                    <p>{plant?.plantName}</p>
-                    <div className="bg-emerald-800 rounded-lg text-white items-center justify-center">
-                        <button className="p-1 self-center" onClick={ () => {addToCollection(plant)} }>Add to collection</button>
+                <div key={plant?.plantId} className="bg-white p-4 mb-4 rounded-md text-black w-full flex">
+                    <div className="">
+                        <img className="h-48" src={plant?.imgUrl}></img>
+                    </div>
+                    <div className="w-3/5 px-4 items-center flex-1 flex-col content-evenly">
+                        <p><strong>Name: </strong>{plant?.plantName}</p>
+                        <p><strong>Also known as: </strong>{plant?.scientificName}</p>
+                        <p><strong>Planting cycle: </strong>{plant?.cycle}</p>
+                        <p><strong>Watering frequency: </strong>{plant?.watering}</p>
+                        <p><strong>Sunlight: </strong>{plant?.sunlight}</p>
+                    </div>
+                    <div className="w-1/5 px-4 items-end flex-1 flex-col content-evenly justify-between">
+                        <div className="bg-emerald-800 w-32 rounded-lg text-white items-center justify-center">
+                            <button className="p-1 self-center" onClick={ () => {addToCollection(plant)} }>Add to collection</button>
+                        </div>
+                        <div className="bg-emerald-800 w-32 rounded-lg text-white items-center justify-center">
+                            <button className="p-1 self-center" onClick={ () => {addToCollection(plant)} }>Get plant details</button>
+                        </div>
                     </div>
                 </div>
             )
@@ -54,7 +67,7 @@ export default function FindPlants() {
         }
     }
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
+    <main className="flex min-h-screen flex-col items-center p-12">
         <Navbar/>
         <div className='mt-8 flex-col'>
             <form onSubmit={handleSubmit} className='flex flex-col text-white items-center justify-center'>
@@ -69,7 +82,7 @@ export default function FindPlants() {
                 <button type="submit" className="mt-2 bg-emerald-800 rounded-lg text-white items-center justify-center px-4 py-1">Search</button>
             </form>
         </div>
-        <div className='mt-8'>
+        <div className='mt-8 w-full px-24'>
             { loading ? <p>Searching...</p> : renderSearchResults() }
         </div>
     </main>
