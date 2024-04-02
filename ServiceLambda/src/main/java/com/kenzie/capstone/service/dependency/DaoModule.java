@@ -18,14 +18,14 @@ import javax.inject.Singleton;
 /**
  * Provides DynamoDBMapper instance to DAO classes.
  */
-@Module
+@Module(includes = CachingModule.class)
 public class DaoModule {
 
     @Singleton
     @Provides
     @Named("CacheClient")
-    public CacheClient provideCacheClient() {
-        return new CacheClient(5);
+    public CacheClient<String, String> provideCacheClient() {
+        return new CacheClient<>(50);
     }
 
     @Singleton
@@ -39,7 +39,7 @@ public class DaoModule {
     @Provides
     @Named("PlantDao")
     @Inject
-    public PlantDao providePlantDao(@Named("CacheClient") CacheClient cacheClient,
+    public PlantDao providePlantDao(@Named("CacheClient") CacheClient<String, String> cacheClient,
                                     @Named("NonCachingPlantDao") NonCachingPlantDao nonCachingPlantDao) {
         return new CachingPlantDao(cacheClient, nonCachingPlantDao);
     }
