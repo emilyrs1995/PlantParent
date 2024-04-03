@@ -19,7 +19,7 @@ public class PlantListLambdaServiceClient {
 
     public List<GetPlantListResponse> getPlantList(String plantName) {
         EndpointUtility endpointUtility = new EndpointUtility();
-        String response = endpointUtility.getEndpoint(GET_PLANT_LIST_ENDPOINT.replace("{plantName}", plantName));
+        String response = endpointUtility.getEndpoint(GET_PLANT_LIST_ENDPOINT.replace("{plantName}", this.replaceWhitespace(plantName)));
 
         List<GetPlantListResponse> responseList;
 
@@ -49,5 +49,7 @@ public class PlantListLambdaServiceClient {
         return response;
     }
 
-
+    private String replaceWhitespace(String plantName) {
+        return plantName.replace(" ", "%20");
+    }
 }
