@@ -1,5 +1,6 @@
 package com.kenzie.appserver.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.kenzie.appserver.IntegrationTest;
@@ -7,7 +8,9 @@ import com.kenzie.appserver.controller.model.CreatePlantRequest;
 import com.kenzie.appserver.controller.model.PlantDetailsResponse;
 import com.kenzie.appserver.controller.model.PlantResponse;
 import com.kenzie.appserver.service.PlantService;
+import io.restassured.internal.common.assertion.Assertion;
 import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -25,6 +30,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 @IntegrationTest
 public class PlantControllerIntegrationTest {
@@ -183,12 +190,38 @@ public class PlantControllerIntegrationTest {
      *  plantController.addNewPlant()
      *  ------------------------------------------------------------------------ **/
     @Test
-    public void plantController_addNewPlant_successful() {
+    public void plantController_addNewPlant_successful() throws Exception {
+        CreatePlantRequest request = new CreatePlantRequest();
+        request.setCycle("annual");
+        request.setImgUrl("image");
+        request.setSunlight("Medium Sun");
+        request.setWatering("3 times a week");
+        List<String> scientificNames = Arrays.asList("Oak", "Green Oak");
+        request.setScientificName(scientificNames);
+        request.setPlantName("Loving Daisy");
+
+        mvc.perform(post("/plant/collection")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(request)))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("$.plantId").exists())
+                .andExpect(jsonPath("$.cycle").value(request.getCycle()))
+                .andExpect(jsonPath("$.imgUrl").value(request.getImgUrl()))
+                .andExpect(jsonPath("$.sunlight").value(request.getSunlight()))
+                .andExpect(jsonPath("$.watering").value(request.getWatering()))
+                .andExpect(jsonPath("$.scientificName").value(request.getScientificName()))
+                .andExpect(jsonPath("$.plantName").value(request.getPlantName()));
 
     }
 
     @Test
-    public void plantController_addNewPlantWithNullFields_unsuccessful() {
+    public void plantController_addNewPlantWithNullFields_unsuccessful() throws Exception {
+        CreatePlantRequest request = new CreatePlantRequest();
+        mvc.perform(post("/plant/collection")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(request)))
+                .andExpect(status().isBadRequest());
+
 
     }
 
@@ -250,8 +283,9 @@ public class PlantControllerIntegrationTest {
     }
 
     @Test
-    public void plantController_getPlantCollection_emptyCollection() {
-
+    public void plantController_getPlantCollection_emptyCollection() throws Exception {
+        mvc.perform(get("/plant/collection/all").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 
 
@@ -259,13 +293,44 @@ public class PlantControllerIntegrationTest {
      *  plantController.getPlantByName()
      *  ------------------------------------------------------------------------ **/
     @Test
-    public void plantController_getPlantByName_successful() {
+    public void plantController_getPlantByName_successful() throws Exception {
+        CreatePlantRequest request = new CreatePlantRequest();
+        request.setPlantId(UUID.randomUUID().toString());
+        request.setCycle("annual");
+        request.setImgUrl("image");
+        request.setSunlight("Medium Sun");
+        request.setWatering("3 times a week");
+        List<String> scientificNames = new ArrayList<>();
+        scientificNames.add("Oak");
+        scientificNames.add("Green Oak");
+        request.setPlantName("Loving Daisy");
+        request.setScientificName(scientificNames);
 
+        PlantResponse plantResponse = plantService.createPlant(request);
+        String mvcResponse = mvc.perform(get("/plant/list/{plantName}", plantResponse.getPlantName()).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        List<PlantResponse> responseList = List.of(mapper.readValue(mvcResponse, PlantResponse[].class));
+        PlantResponse response = responseList.get(0);
+        Assertions.assertEquals(response.getPlantName(), plantResponse.getPlantName());
+        Assertions.assertEquals(response.getScientificName(), plantResponse.getScientificName());
+        Assertions.assertEquals(response.getCycle(), plantResponse.getCycle());
+        Assertions.assertEquals(response.getWatering(), plantResponse.getWatering());
+        Assertions.assertEquals(response.getSunlight(), plantResponse.getSunlight());
+        Assertions.assertEquals(response.getImgUrl(), plantResponse.getImgUrl());
+
+        plantService.delete(plantResponse.getPlantId());
     }
 
     @Test
-    public void plantController_getPlantByName_plantNotFound() {
+    public void plantController_getPlantByName_plantNotFound() throws Exception {
+        String notFoundName = "name missing";
 
+        // WHEN
+        mvc.perform(get("/plant/list/{plantName}", notFoundName).accept(MediaType.APPLICATION_JSON))
+                // THEN
+                .andExpect(status().isNotFound());
     }
 
 
@@ -273,8 +338,23 @@ public class PlantControllerIntegrationTest {
      *  plantController.deletePlant()
      *  ------------------------------------------------------------------------ **/
     @Test
-    public void plantController_deletePlant_successful() {
+    public void plantController_deletePlant_successful() throws Exception {
+        CreatePlantRequest request = new CreatePlantRequest();
+        request.setPlantId(UUID.randomUUID().toString());
+        request.setCycle("annual");
+        request.setImgUrl("image");
+        request.setSunlight("Medium Sun");
+        request.setWatering("3 times a week");
+        List<String> scientificNames = new ArrayList<>();
+        scientificNames.add("Oak");
+        scientificNames.add("Green Oak");
+        request.setPlantName("Loving Daisy");
+        request.setScientificName(scientificNames);
 
+        PlantResponse plantResponse = plantService.createPlant(request);
+        mvc.perform(delete("/plant/collection/{id}", plantResponse.getPlantId()).accept(MediaType.APPLICATION_JSON))
+                // THEN
+                .andExpect(status().isOk());
     }
 
     @Test
