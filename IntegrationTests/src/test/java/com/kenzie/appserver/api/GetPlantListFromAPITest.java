@@ -162,6 +162,39 @@ public class GetPlantListFromAPITest {
     }
 
     @Test
+    void getPlantList_nameWithSpaces_successful() {
+        // GIVEN
+        int id = 10;
+        String plantName = "Johin Japanese Maple";
+        List<String> scientificName = new ArrayList<>();
+        scientificName.add("Acer 'Johin'");
+        String cycle = "Perennial";
+        String watering = "Average";
+        String sunlight = "full sun";
+        String imgUrl = "https://perenual.com/storage/species_image/10_acer_johin/small/pexels-photo-2183508.jpg";
+
+        GetPlantListResponse expectedResponse = new GetPlantListResponse(id, plantName, scientificName, cycle, watering, sunlight, imgUrl);
+
+        // WHEN
+        List<GetPlantListResponse> actualResponse = client.getPlantList(plantName);
+
+        // THEN
+        Assertions.assertEquals(1, actualResponse.size());
+
+        GetPlantListResponse returnedResponse = actualResponse.get(0);
+        System.out.println(returnedResponse);
+
+        Assertions.assertEquals(expectedResponse.getPlantId(), returnedResponse.getPlantId());
+        Assertions.assertEquals(expectedResponse.getPlantName(), returnedResponse.getPlantName());
+        Assertions.assertEquals(expectedResponse.getScientificName(), returnedResponse.getScientificName());
+        Assertions.assertEquals(expectedResponse.getCycle(), returnedResponse.getCycle());
+        Assertions.assertEquals(expectedResponse.getWatering(), returnedResponse.getWatering());
+        Assertions.assertEquals(expectedResponse.getSunlight(), returnedResponse.getSunlight());
+        Assertions.assertEquals(expectedResponse.getIMGUrl(), returnedResponse.getIMGUrl());
+
+    }
+
+    @Test
     void getPlantList_withValidName_withIdAbove3000_returnsEmptyList() {
         // GIVEN
         String plantName = "monstera";
