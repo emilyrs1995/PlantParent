@@ -20,6 +20,8 @@ import java.util.List;
 public class CachingPlantDao implements PlantDao{
     private final CacheClient<String, String> cacheClient;
     private final NonCachingPlantDao nonCachingPlantDao;
+    private final String PLANT_DETAILS_CACHE_KEY = "PlantDetails::%s";
+    private final String PLANT_LIST_CACHE_KEY = "PlantList::%s";
 
     GsonBuilder builder = new GsonBuilder().registerTypeAdapter(
             ZonedDateTime.class,
@@ -44,7 +46,7 @@ public class CachingPlantDao implements PlantDao{
 
     @Override
     public List<GetPlantListResponse> getPlantList(String plantName) {
-        String cacheKey = plantListCacheKey(plantName);
+        String cacheKey = String.format(PLANT_LIST_CACHE_KEY, plantName);
 
         String cachedResult = cacheClient.get(cacheKey);
         if (cachedResult != null) {
@@ -60,7 +62,7 @@ public class CachingPlantDao implements PlantDao{
 
     @Override
     public GetPlantDetailsResponse getPlantDetails(String id) {
-        String cacheKey = plantDetailsCacheKey(id);
+        String cacheKey = String.format(PLANT_DETAILS_CACHE_KEY, id);
 
         String cachedResult = cacheClient.get(cacheKey);
         if (cachedResult != null) {
@@ -83,16 +85,8 @@ public class CachingPlantDao implements PlantDao{
         return gson.toJson(responses);
     }
 
-    private String plantListCacheKey(String plantName) {
-        return String.format("PlantList::%s", plantName);
-    }
-
 
     // GetPlantDetails() helper methods
-    private String plantDetailsCacheKey(String plantId) {
-        return String.format("PlantDetails::%s", plantId);
-    }
-
     private GetPlantDetailsResponse toPlantDetailsResponse(String json) {
         return gson.fromJson(json, new TypeToken<GetPlantDetailsResponse>() { }.getType());
     }
