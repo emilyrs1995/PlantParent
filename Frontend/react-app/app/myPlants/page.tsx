@@ -6,6 +6,7 @@ import Navbar from '../../components/Navbar.tsx';
 
 export default function MyPlants() {
     const [plants, setPlants] = useState([])
+    const [plantName, setPlantName] = useState("")
     const [loading, setLoading] = useState(false)
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -26,6 +27,33 @@ export default function MyPlants() {
             console.log(error);
             setLoading(false);
         }
+    }
+    async function deletePlant(plantId) {
+            try {
+                setLoading(true);
+                const response = await fetch(`http://localhost:5001/plant/collection/delete/${plantId}`, {
+                                  method: "DELETE",
+                                });
+                const plants = await response.json();
+                setPlants(plants);
+                setLoading(false);
+                alert("BOOM, BOP, BADOOM, ITS BEEN.... THUNDASTRUCK");
+            } catch (error) {
+                console.log(error);
+                setLoading(false);
+            }
+    }
+    async function findPlants(plantName) {
+            try {
+                setLoading(true);
+                const response = await fetch(`http://localhost:5001/plant/collection/${plantName}`);
+                const plants = await response.json();
+                setPlants(plants);
+                setLoading(false);
+            } catch (error) {
+                console.log(error);
+                setLoading(false);
+            }
     }
     useEffect(() => {
        setLoading(true)
@@ -50,9 +78,15 @@ export default function MyPlants() {
                         <p><strong>Watering frequency: </strong>{plant?.watering}</p>
                         <p><strong>Sunlight: </strong>{plant?.sunlight}</p>
                     </div>
-                    <div className="w-1/5 px-4 items-end flex-1 flex-col content-evenly justify-between">
-                        <div className="bg-emerald-800 w-32 rounded-lg text-white items-center justify-center">
+                    <div className="w-1/5 px-4 flex flex-col items-center justify-center justify-evenly">
+                        <div className="bg-emerald-800 w-32 rounded-lg text-white items-center justify-center text-center p-2">
                             <Link href={`/plantDetails/${plant?.plantId}`}>Plant Details</Link>
+                        </div>
+                        <div
+                            className="bg-red-600 w-32 rounded-lg text-white items-center justify-center text-center p-2"
+                            onClick={() => {deletePlant(plant?.plantId)}}
+                        >
+                            <button>Delete</button>
                         </div>
                     </div>
                 </div>
@@ -60,8 +94,21 @@ export default function MyPlants() {
         })
     }
   return (
-    <main className="flex min-h-screen flex-col items-center p-12">
+    <main className="flex min-h-screen flex-col items-center p-12 bg-zinc-800">
         <Navbar/>
+        <div className='mt-8 flex-col'>
+            <form onSubmit={handleSubmit} className='flex flex-col text-white items-center justify-center'>
+                <label>Name of plant</label>
+                <input
+                className="mt-2 text-black p-1"
+                type="text"
+                id="search"
+                name="search"
+                onChange={handleChange}
+                />
+                <button type="submit" className="mt-2 bg-emerald-800 rounded-lg text-white items-center justify-center px-4 py-1">Search</button>
+            </form>
+        </div>
         <div className='mt-8 w-full px-24'>
             { loading ? <p>Loading...</p> : renderSearchResults() }
         </div>
