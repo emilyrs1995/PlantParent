@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link'
 import {useState} from "react"
 import Image from "next/image";
 import Navbar from '../../components/Navbar.tsx';
@@ -19,9 +20,15 @@ export default function FindPlants() {
         try {
             setLoading(true);
             const response = await fetch(`http://localhost:5001/plant/list/${plantName}`);
-            const plants = await response.json();
-            setPlants(plants);
+            console.log(response.status)
+            if (response.status === 200 ) {
+                const plants = await response.json();
+                setPlants(plants);
+                setLoading(false);
+            } else {
+            alert("Error, please try again later!")
             setLoading(false);
+            }
         } catch (error) {
             console.log(error);
             setLoading(false);
@@ -41,12 +48,12 @@ export default function FindPlants() {
                         <p><strong>Watering frequency: </strong>{plant?.watering}</p>
                         <p><strong>Sunlight: </strong>{plant?.sunlight}</p>
                     </div>
-                    <div className="w-1/5 px-4 items-end flex-1 flex-col content-evenly justify-between">
-                        <div className="bg-emerald-800 w-32 rounded-lg text-white items-center justify-center">
+                    <div className="w-1/5 px-4 flex flex-col items-center justify-center justify-evenly">
+                        <div className="bg-emerald-800 w-32 rounded-lg text-white items-center justify-center p-2">
                             <button className="p-1 self-center" onClick={ () => {addToCollection(plant)} }>Add to collection</button>
                         </div>
-                        <div className="bg-emerald-800 w-32 rounded-lg text-white items-center justify-center">
-                            <button className="p-1 self-center" onClick={ () => {addToCollection(plant)} }>Get plant details</button>
+                        <div className="bg-emerald-800 w-32 rounded-lg text-white items-center justify-center text-center p-2">
+                            <Link href={`/plantDetails/${plant?.plantId}`}>Plant Details</Link>
                         </div>
                     </div>
                 </div>
@@ -61,13 +68,14 @@ export default function FindPlants() {
                     "Content-Type": "application/json",
                   },
                   body: JSON.stringify(plant),
-                });
+            });
+            alert("Added to collection!");
         } catch (error) {
             console.log(error);
         }
     }
   return (
-    <main className="flex min-h-screen flex-col items-center p-12">
+    <main className="flex min-h-screen flex-col items-center p-12 bg-zinc-800">
         <Navbar/>
         <div className='mt-8 flex-col'>
             <form onSubmit={handleSubmit} className='flex flex-col text-white items-center justify-center'>

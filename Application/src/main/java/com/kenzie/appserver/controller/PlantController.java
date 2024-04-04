@@ -94,14 +94,16 @@ public class PlantController {
         return ResponseEntity.ok(plants);
     }
 
-    @DeleteMapping("/collection/{id}")
+    @DeleteMapping("/collection/delete/{id}")
     public ResponseEntity deletePlant(@PathVariable("id") String id) {
         if (id == null || id.isEmpty() || !validateId(id)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid PlantId");
         }
 
         plantService.delete(id);
-        return ResponseEntity.ok().build();
+        List<PlantResponse> plants = plantService.findAll();
+
+        return ResponseEntity.ok(plants);
     }
 
     /**
