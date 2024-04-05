@@ -2,12 +2,12 @@ package com.kenzie.capstone.cache;
 
 import com.kenzie.capstone.service.caching.CacheClient;
 import com.kenzie.capstone.service.dao.NonCachingPlantDao;
+import com.kenzie.capstone.service.model.GetPlantDetailsResponse;
 import com.kenzie.capstone.service.model.GetPlantListResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,34 +24,32 @@ public class CacheClientTest {
     }
 
     @Test
-    public void getPlantList_cachedSuccessfully() throws InterruptedException {
-        // TODO this test doesn't work yet. The API isn't returning what I expect it to and the plantJson String needs to be
-        //  reduced down to what the cache should actually return so I'll come back to this later.
-
+    public void getPlantList_cachedSuccessfully() {
         // GIVEN
         CacheClient<String, String> cacheClient = new CacheClient<>(3);
 
-        String plantJson = "{\"id\":48,\"common_name\":\"Chantilly Lace Japanese Maple\",\"scientific_name\"" +
-                ":[\"Acer palmatum 'Chantilly Lace'\"],\"other_name\":[\"Threadleaf Japanese Maple\"],\"cycle\":\"Perennial\"," +
-                "\"watering\":\"Frequent\",\"sunlight\":[\"full sun\",\"part shade\"],\"default_image\":{\"license\":5," +
-                "\"license_name\":\"Attribution-ShareAlike License\",\"license_url\":\"https:\\/\\/creativecommons.org\\" +
-                "/licenses\\/by-sa\\/2.0\\/\",\"original_url\":\"https:\\/\\/perenual.com\\/storage\\/species_image\\" +
-                "/48_acer_palmatum_chantilly_lace\\/og\\/4714671587_8ecba52560_b.jpg\",\"regular_url\":\"https:\\/\\" +
-                "/perenual.com\\/storage\\/species_image\\/48_acer_palmatum_chantilly_lace\\/regular\\/4714671587_8ecba52560_b.jpg\"," +
-                "\"medium_url\":\"https:\\/\\/perenual.com\\/storage\\/species_image\\/48_acer_palmatum_chantilly_lace\\" +
-                "/medium\\/4714671587_8ecba52560_b.jpg\",\"small_url\":\"https:\\/\\/perenual.com\\/storage\\/species_image\\" +
-                "/48_acer_palmatum_chantilly_lace\\/small\\/4714671587_8ecba52560_b.jpg\",\"thumbnail\":\"https:\\/\\" +
-                "/perenual.com\\/storage\\/species_image\\/48_acer_palmatum_chantilly_lace\\/thumbnail\\/4714671587_8ecba52560_b.jpg\"}}";
+        String plantJson = "[{\"plantId\":\"24\",\"plantName\":\"Mocha Rose Big Leaf Maple\",\"scientificName\":[\"Acer " +
+                "macrophyllum 'Mocha Rose'\"],\"cycle\":\"Perennial\",\"watering\":\"Average\",\"sunlight\":\"full sun\"," +
+                "\"imgUrl\":\"https://perenual.com/storage/species_image/24_acer_macrophyllum_mocha_rose/small/4715169892_220a9d39f6_b.jpg\"}," +
+                "{\"plantId\":\"334\",\"plantName\":\"Rose Marie Magnolia\",\"scientificName\":[\"Magnolia 'Rose Marie'\"]," +
+                "\"cycle\":\"Perennial\",\"watering\":\"Minimum\",\"sunlight\":\"full sun\",\"imgUrl\":" +
+                "\"https://perenual.com/storage/species_image/334_magnolia_rose_marie/small/Magnolia_C397_soulangeana_BW_1.jpg\"}," +
+                "{\"plantId\":\"355\",\"plantName\":\"Candied Apple Flowering Crab\",\"scientificName\":[\"Malus 'Candied Apple'\"]," +
+                "\"cycle\":\"Perennial\",\"watering\":\"Average\",\"sunlight\":\"full sun\",\"imgUrl\":" +
+                "\"https://perenual.com/storage/species_image/355_malus_candied_apple/small/663px-Apples_on_tree_2021_G1.jpg\"}," +
+                "{\"plantId\":\"359\",\"plantName\":\"Dolgo Apple\",\"scientificName\":[\"Malus 'Dolgo'\"],\"cycle\":\"Perennial\"," +
+                "\"watering\":\"Average\",\"sunlight\":\"full sun\",\"imgUrl\":" +
+                "\"https://perenual.com/storage/species_image/359_malus_dolgo/small/apple-zieraepfel-wild-apple-tree-branch.jpg\"}," +
+                "{\"plantId\":\"360\",\"plantName\":\"Donald Wyman Flowering Crab\",\"scientificName\":[\"Malus 'Donald Wyman'\"],\"cycle\":" +
+                "\"Perennial\",\"watering\":\"Average\",\"sunlight\":\"full sun\",\"imgUrl\":" +
+                "\"https://perenual.com/storage/species_image/360_malus_donald_wyman/small/frembellishment_apple_small_694055-image-kybdt6db.jpg\"}]";
+
+        List<GetPlantListResponse> apiResponse = plantDao.getPlantList("rose");
+        Assertions.assertEquals(5, apiResponse.size());
 
         // WHEN
-        List<GetPlantListResponse> apiResponse = plantDao.getPlantList("Chantally");
-        Assertions.assertEquals(1, apiResponse.size());
-
-        cacheClient.put("PlantList::Chantally", plantJson);
-
-        this.wait(1000);
-
-        String cacheResponse = cacheClient.get("PlantList::Chantally");
+        cacheClient.put("PlantList::rose", plantJson);
+        String cacheResponse = cacheClient.get("PlantList::rose");
 
         // THEN
         Assertions.assertEquals(plantJson, cacheResponse);
@@ -59,7 +57,33 @@ public class CacheClientTest {
 
     @Test
     public void getPlantDetails_cachedSuccessfully() {
-        // TODO I'm planning on adding a test similar to the one above here but haven't gotten to it yet.
+        // GIVEN
+        CacheClient<String, String> cacheClient = new CacheClient<>(3);
+
+        String plantJson = "{\"plantId\":\"34\",\"plantName\":\"Ribbon-leaf Japanese Maple*\",\"scientificName\":[\"Acer palmatum " +
+                "'Atrolineare'\"],\"cycle\":\"Perennial\",\"watering\":\"Minimum\",\"sunlight\":\"full sun\",\"flowerColor\":" +
+                "\"The Ribbon-leaf Japanese Maple* plant does not have flowers.\",\"maintenance\":\"Unknown\",\"careLevel\":" +
+                "\"High\",\"growthRate\":\"Low\",\"indoor\":\"false\",\"hardinessZone\":\"7 - 7\",\"wateringBenchmark\":\"Every " +
+                "null days\",\"medicinal\":\"false\",\"imgUrl\":" +
+                "\"https://perenual.com/storage/species_image/34_acer_palmatum_atrolineare/regular/2560px-Acer_Palmatum_27Red_Pygmy27.jpg\"," +
+                "\"description\":\"Ribbon-leaf Japanese Maple (Acer palmatum 'Atrolineare') is a stunningly beautiful specimen of " +
+                "maple tree. It features delicate, ribboned-shaped leaves that create a cascading, lacy effect. The leaves emerge " +
+                "bright-green in the spring and then deepen to a majestic dark purple for the summer months. It is quite tolerant " +
+                "of different conditions and makes an excellent choice for small gardens and as a potted plant. Additionally, its " +
+                "slow growth makes it easy to maintain and it shows off its stunning range of colors throughout the season. Perfect " +
+                "for adding drama to the garden, Ribbon-leaf Japanese Maple is a must-have for the avid gardener!\"}";
+
+        GetPlantDetailsResponse apiResponse = plantDao.getPlantDetails("34");
+        Assertions.assertEquals(apiResponse.getPlantId(), "34");
+        Assertions.assertEquals(apiResponse.getPlantName(), "Ribbon-leaf Japanese Maple*");
+        Assertions.assertEquals(apiResponse.getScientificName().get(0), "Acer palmatum 'Atrolineare'");
+
+        // WHEN
+        cacheClient.put("PlantDetails::34", plantJson);
+        String cacheResponse = cacheClient.get("PlantDetails::34");
+
+        // THEN
+        Assertions.assertEquals(plantJson, cacheResponse);
     }
 
     @Test
