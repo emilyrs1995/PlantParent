@@ -2,8 +2,6 @@ package com.kenzie.capstone.service.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-
 public class Data {
 
     @JsonProperty("id")
@@ -92,7 +90,7 @@ public class Data {
 
     @Override
     public String toString() {
-        return "DummyData {" +
+        return "Data {" +
                 "id=" + id +
                 ", common_name='" + common_name + '\'' +
                 ", scientific_name=" + scientific_name +

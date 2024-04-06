@@ -4,7 +4,6 @@ import com.kenzie.appserver.controller.model.CreatePlantRequest;
 import com.kenzie.appserver.controller.model.PlantDetailsResponse;
 import com.kenzie.appserver.controller.model.PlantResponse;
 import com.kenzie.appserver.service.PlantService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -2,6 +2,8 @@ package com.kenzie.capstone.service.dao;
 
 public class MockingAPI {
 
+    // these mocking methods are used in the PlantDaoMockingTest, and are used as mocked returns in the NonCachingPlantDao
+
     public static String giveMeOneResponse() {
         return "{\"data\":[{\"id\":61,\"common_name\":\"Hogyoku Japanese Maple\",\"scientific_name\":[\"Acer palmatum 'Hogyoku'\"],\"other_name\":[],\"cycle\":\"Perennial\",\"watering\":\"Average\",\"sunlight\":[\"full sun\",\"part shade\"],\"default_image\":{\"license\":45,\"license_name\":\"Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)\",\"license_url\":\"https:\\/\\/creativecommons.org\\/licenses\\/by-sa\\/3.0\\/deed.en\",\"original_url\":\"https:\\/\\/perenual.com\\/storage\\/species_image\\/61_acer_palmatum_hogyoku\\/og\\/2560px-Kyoto_Japan0431.jpg\",\"regular_url\":\"https:\\/\\/perenual.com\\/storage\\/species_image\\/61_acer_palmatum_hogyoku\\/regular\\/2560px-Kyoto_Japan0431.jpg\",\"medium_url\":\"https:\\/\\/perenual.com\\/storage\\/species_image\\/61_acer_palmatum_hogyoku\\/medium\\/2560px-Kyoto_Japan0431.jpg\",\"small_url\":\"https:\\/\\/perenual.com\\/storage\\/species_image\\/61_acer_palmatum_hogyoku\\/small\\/2560px-Kyoto_Japan0431.jpg\",\"thumbnail\":\"https:\\/\\/perenual.com\\/storage\\/species_image\\/61_acer_palmatum_hogyoku\\/thumbnail\\/2560px-Kyoto_Japan0431.jpg\"}}]}";
     }

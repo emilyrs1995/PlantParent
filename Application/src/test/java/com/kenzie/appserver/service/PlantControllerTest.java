@@ -53,6 +53,17 @@ class PlantControllerTest {
         assertThrows(ResponseStatusException.class, () -> plantController.getPlantListByName(invalidPlantName));
     }
 
+    /**
+     * (BUG) - A PlantName of only whitespace is being validated and shouldn't be
+     * (FIX) - we strip the name of any leading or trailing whitespace in our validatePlantName() method and if the
+     * name is then empty, we return false.
+     */
+    @Test
+    void testGetPlantListByName_InvalidWhitespaceName() {
+        String invalidPlantName = "   ";
+        assertThrows(ResponseStatusException.class, () -> plantController.getPlantListByName(invalidPlantName));
+    }
+
     @Test
     void testGetPlantListByName_EmptyResponse() {
         String validPlantName = "rose";
@@ -111,6 +122,10 @@ class PlantControllerTest {
         assertThrows(ResponseStatusException.class, () -> plantController.addNewPlant(invalidPlantIdRequest));
     }
 
+    /**
+     * (BUG) - id that is not an integer throws NumberFormatException
+     * (FIX) - added a try/catch block to the validateID() method. If the NumberFormatException is thrown then we return a false.
+     */
     @Test
     void testAddNewPlant_InvalidStringPlantId() {
         String invalidPlantId = "Invalid";
@@ -120,6 +135,17 @@ class PlantControllerTest {
     @Test
     void testAddNewPlant_InvalidPlantName() {
         CreatePlantRequest invalidPlantIdRequest = new CreatePlantRequest("1", "#$:<&", null, null, null, null, null);
+        assertThrows(ResponseStatusException.class, () -> plantController.addNewPlant(invalidPlantIdRequest));
+    }
+
+    /**
+     * (BUG) - A PlantName of only whitespace is being validated and shouldn't be
+     * (FIX) - we strip the name of any leading or trailing whitespace in our validatePlantName() method and if the
+     * name is then empty, we return false.
+     */
+    @Test
+    void testAddNewPlant_InvalidWhitespacePlantName() {
+        CreatePlantRequest invalidPlantIdRequest = new CreatePlantRequest("1", "    ", null, null, null, null, null);
         assertThrows(ResponseStatusException.class, () -> plantController.addNewPlant(invalidPlantIdRequest));
     }
 
@@ -166,6 +192,17 @@ class PlantControllerTest {
         assertThrows(ResponseStatusException.class, () -> plantController.getPlantByName(invalidPlantName));
     }
 
+    /**
+     * (BUG) - A PlantName of only whitespace is being validated and shouldn't be
+     * (FIX) - we strip the name of any leading or trailing whitespace in our validatePlantName() method and if the
+     * name is then empty, we return false.
+     */
+    @Test
+    void testGetPlantByName_InvalidWhitespaceName() {
+        String invalidPlantName = "    ";
+        assertThrows(ResponseStatusException.class, () -> plantController.getPlantByName(invalidPlantName));
+    }
+
     @Test
     void testGetPlantByName_EmptyResponse() {
         String validPlantName = "rose";
@@ -182,6 +219,10 @@ class PlantControllerTest {
         assertThrows(ResponseStatusException.class, () -> plantController.deletePlant(invalidPlantId));
     }
 
+    /**
+     * (BUG) - id that is not an integer throws NumberFormatException
+     * (FIX) - added a try/catch block to the validateID() method. If the NumberFormatException is thrown then we return a false.
+     */
     @Test
     void testDeletePlant_InvalidStringPlantId() {
         String invalidPlantId = "Invalid";
