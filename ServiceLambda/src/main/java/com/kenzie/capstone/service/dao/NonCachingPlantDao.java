@@ -55,18 +55,15 @@ public class NonCachingPlantDao implements PlantDao {
 
             int statusCode = httpResponse.statusCode();
             if (statusCode == 200) {
-                // converting from the String to our ApiResponse object
+
                 ApiResponse apiResponse = this.convertFromStringToApiResponse(httpResponse.body());
 
-                // validating the data in the ApiResponse. Filtering out any data that has null values or has an id over 3000
                 List<Data> validatedData = this.validateDataFromApiResponse(apiResponse.getData());
 
                 return Optional.of(validatedData)
                         .orElse(Collections.emptyList())
                         .stream()
-                        // converting to GetPlantListResponse
                         .map(DataToGetPlantListResponse::convertFromDataToGetPlantListResponse)
-                        // limiting the list to only 5 responses and then returning the collection
                         .limit(5)
                         .collect(Collectors.toList());
 

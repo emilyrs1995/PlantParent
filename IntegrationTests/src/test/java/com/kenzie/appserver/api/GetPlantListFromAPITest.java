@@ -161,6 +161,14 @@ public class GetPlantListFromAPITest {
         }
     }
 
+    /**
+     * (BUG) - Unhandled runtime error when a plant name with spaces is entered into the frontend.
+     * (FIX) - the Lambda wouldn't accept path parameters of plant names that had any whitespace in the name. So in our
+     * PlantListServiceClient class we created a helper method, replaceWhitespace(), to replace any spaces with "%20".
+     * The reason we chose that solution instead of just removing the whitespace is because the name then gets passed to
+     * our external Api and that api accepts spaces or special characters representing whitespace, but would error out
+     * if we sent a name all mushed together.
+     */
     @Test
     void getPlantList_nameWithSpaces_successful() {
         // GIVEN

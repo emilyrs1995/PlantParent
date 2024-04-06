@@ -74,6 +74,14 @@ public class GetPlantDetailsFromAPITest {
         Assertions.assertEquals(expectedResponse.getDescription(), actualResponse.getDescription());
     }
 
+    /**
+     * (BUG) - JSON mapping error (cannot parse object of type Array)
+     * (FIX) - We use Objects in our model classes instead of Lists or the object classes that the Api is supposed to be
+     * returning so that the Object mapper will read the value as an object, and then we cast them to a list or specific
+     * object after the fact. This is because the external Api doesn't always send what we expect. So instead of a list,
+     * they send a string, or instead of an object with its values, it sends an empty array. This solution works but
+     * writing our own deserialization method would probably be a better long term fix.
+     */
     @Test
     void getPlantDetails_withDifferentFields_returnsDetails () {
         // GIVEN
