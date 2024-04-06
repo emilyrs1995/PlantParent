@@ -17,7 +17,7 @@ export default function plantDetails({ params }) {
             })
     },[])
   return (
-    <main className="flex min-h-screen flex-col items-center p-12 bg-zinc-800">
+    <main className="flex min-h-screen flex-col items-center p-12 bg-green-950">
         <Navbar/>
         <div className='mt-8 w-full px-24'>
             <div key={plant?.plantId} className="bg-white p-4 mb-4 rounded-md text-black w-full flex">

@@ -94,7 +94,7 @@ export default function MyPlants() {
         })
     }
   return (
-    <main className="flex min-h-screen flex-col items-center p-12 bg-zinc-800">
+    <main className="flex min-h-screen flex-col items-center p-12 bg-green-950">
         <Navbar/>
         <div className='mt-8 flex-col'>
             <form onSubmit={handleSubmit} className='flex flex-col text-white items-center justify-center'>
