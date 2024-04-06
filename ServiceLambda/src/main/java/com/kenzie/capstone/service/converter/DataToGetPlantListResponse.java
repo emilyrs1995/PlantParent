@@ -15,7 +15,6 @@ public class DataToGetPlantListResponse {
      * @return GetPlantListResponse
      */
     public static GetPlantListResponse convertFromDataToGetPlantListResponse(Data data) {
-        // returning a new getPlantResponse in case the data is null
         if (data == null) {
             return new GetPlantListResponse();
         }
@@ -27,11 +26,9 @@ public class DataToGetPlantListResponse {
         response.setCycle(data.getCycle());
         response.setWatering(data.getWatering());
 
-        // this can be changed if we'd rather have all the sunlight options instead of just the first
         List<String> sunlight = (List<String>) data.getSunlight();
         response.setSunlight(sunlight.get(0));
 
-        // this can be changed if we want a different picture for the frontend
         response.setIMGUrl(data.getDefaultImage().getSmall_url());
 
         return response;

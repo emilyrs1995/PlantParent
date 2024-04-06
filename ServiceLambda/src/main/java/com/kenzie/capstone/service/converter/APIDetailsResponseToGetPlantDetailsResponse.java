@@ -8,6 +8,14 @@ import java.util.List;
 
 public class APIDetailsResponseToGetPlantDetailsResponse {
 
+
+    /**
+     * convertToGetPlantDetailsResponse - takes a ApiDetailsResponse object and extracts only the fields we need for our
+     * GetPlantDetailsResponse and then returns it. First checking for empty fields and then casting to the objects we
+     * need, or returning a String that tells our user that this field is "unknown".
+     * @param apiDetailsResponse the response from the external api
+     * @return GetPlantDetailsResponse
+     */
     public static GetPlantDetailsResponse convertToGetPlantDetailsResponse(ApiDetailsResponse apiDetailsResponse) {
         GetPlantDetailsResponse getPlantDetailsResponse = new GetPlantDetailsResponse();
 
