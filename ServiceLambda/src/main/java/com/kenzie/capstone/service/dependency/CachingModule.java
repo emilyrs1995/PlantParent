@@ -14,7 +14,7 @@ public class CachingModule {
     @Provides
     @Named("CacheClient")
     public CacheClient<Integer, String> provideCacheClient() {
-        int maxSize = 10;
+        int maxSize = 20;
         return new CacheClient<>(maxSize);
     }
 }
