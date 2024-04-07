@@ -37,7 +37,7 @@ export default function MyPlants() {
                 const plants = await response.json();
                 setPlants(plants);
                 setLoading(false);
-                alert("BOOM, BOP, BADOOM, ITS BEEN.... THUNDASTRUCK");
+                alert("Plant has been deleted!");
             } catch (error) {
                 console.log(error);
                 setLoading(false);
@@ -94,7 +94,7 @@ export default function MyPlants() {
         })
     }
   return (
-    <main className="flex min-h-screen flex-col items-center p-12 bg-green-950">
+    <main className="flex min-h-screen flex-col items-center p-12 bg-homepage bg-center">
         <Navbar/>
         <div className='mt-8 flex-col'>
             <form onSubmit={handleSubmit} className='flex flex-col text-white items-center justify-center'>
