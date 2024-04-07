@@ -45,145 +45,6 @@ public class PlantControllerIntegrationTest {
 
 
     /** ------------------------------------------------------------------------
-     *  plantController.getPlantListByName()
-     *  ------------------------------------------------------------------------ **/
-    @Test
-    public void plantServiceLambda_getPlantListByName_successful() throws Exception {
-        // GIVEN
-        String plantName = "torch";
-
-        // WHEN
-        ResultActions actions = mvc.perform(get("/plant/list/{plantName}", plantName)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful());
-
-        String responseBody = actions.andReturn().getResponse().getContentAsString();
-        List<PlantResponse> responseList = List.of(mapper.readValue(responseBody, PlantResponse[].class));
-
-        // THEN
-        for (PlantResponse response : responseList) {
-            assertThat(response.getPlantId()).isNotEmpty();
-            assertThat(response.getPlantName()).isNotEmpty();
-            assertThat(response.getCycle()).isNotEmpty();
-            assertThat(response.getWatering()).isNotEmpty();
-            assertThat(response.getSunlight()).isNotEmpty();
-            assertThat(response.getScientificName()).isNotEmpty();
-            assertThat(response.getImgUrl()).isNotEmpty();
-        }
-    }
-
-    @Test
-    public void plantServiceLambda_getPlantListByNameWithInvalidName_Unsuccessful() throws Exception {
-        // GIVEN
-        String invalidName = "4#:<%";
-
-        // WHEN
-        mvc.perform(get("/plant/list/{plantName}", invalidName)
-                    .accept(MediaType.APPLICATION_JSON))
-        // THEN
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
-    public void plantServiceLambda_getPlantListByName_apiFailure() throws Exception {
-        // GIVEN
-        String plantName = "spiderplant";
-
-        // WHEN
-        mvc.perform(get("/plant/list/{plantName}", plantName)
-                    .accept(MediaType.APPLICATION_JSON))
-        // THEN
-                .andExpect(status().isNoContent());
-    }
-
-
-    /** ------------------------------------------------------------------------
-     *  plantController.getPlantDetails()
-     *  ------------------------------------------------------------------------ **/
-    @Test
-    public void plantServiceLambda_getPlantDetailsWithValidId_successful() throws Exception {
-        // GIVEN
-        String id = "61";
-        String name = "Hogyoku Japanese Maple";
-        List<String> scientificName = new ArrayList<>();
-        scientificName.add("Acer palmatum 'Hogyoku'");
-        String cycle = "Perennial";
-        String watering = "Average";
-        String sunlight = "full sun";
-        String flowerColor = "Reddish-purple";
-        String maintenance = "Low";
-        String careLevel = "Unknown";
-        String growthRate = "Low";
-        String indoor = "false";
-        String hardinessZone = "7 - 7";
-        String wateringBenchmark = "Every 3-4 days";
-        String medicinal = "false";
-        String imgUrl = "https://perenual.com/storage/species_image/61_acer_palmatum_hogyoku/regular/2560px-Kyoto_Japan0431.jpg";
-        String description = "Hogyoku Japanese Maple (Acer palmatum 'Hogyoku') is an amazing plant species noted for its striking beauty. " +
-                "Its delicate foliage emerges with a golden hue and develops into a vibrant, deep scarlet during the cooler months. " +
-                "Bright red flowers bloom in spring and bring in stunning hues all season long. The foliage turns to yellow, orange, " +
-                "and pink in the fall. Outstanding bark color is a nice addition to the landscape - from cinnamon-red to orange and yellow. " +
-                "The beauty of tiger-striped bark truly stands out in the winter. Hogyoku is easy to grow and low-maintenance. " +
-                "It also does extremely well in containers and makes a stunning accent for any garden.";
-
-        PlantDetailsResponse expectedResponse = new PlantDetailsResponse(id, name, scientificName, cycle, watering, sunlight, flowerColor, maintenance, careLevel,
-                growthRate, indoor, hardinessZone, wateringBenchmark, medicinal, description, imgUrl);
-
-
-        // WHEN
-        mvc.perform(get("/plant/details/{id}", id)
-                        .accept(MediaType.APPLICATION_JSON))
-        // THEN
-                .andExpect(jsonPath("plantId")
-                        .value(is(id)))
-                .andExpect(jsonPath("plantName")
-                        .value(is(name)))
-                .andExpect(jsonPath("scientificName")
-                        .value(is(scientificName)))
-                .andExpect(jsonPath("cycle")
-                        .value(is(cycle)))
-                .andExpect(jsonPath("watering")
-                        .value(is(watering)))
-                .andExpect(jsonPath("sunlight")
-                        .value(is(sunlight)))
-                .andExpect(jsonPath("flowerColor")
-                        .value(is(flowerColor)))
-                .andExpect(jsonPath("maintenance")
-                        .value(is(maintenance)))
-                .andExpect(jsonPath("careLevel")
-                        .value(is(careLevel)))
-                .andExpect(jsonPath("growthRate")
-                        .value(is(growthRate)))
-                .andExpect(jsonPath("indoor")
-                        .value(is(indoor)))
-                .andExpect(jsonPath("hardinessZone")
-                        .value(is(hardinessZone)))
-                .andExpect(jsonPath("wateringBenchmark")
-                        .value(is(wateringBenchmark)))
-                .andExpect(jsonPath("medicinal")
-                        .value(is(medicinal)))
-                .andExpect(jsonPath("imgUrl")
-                        .value(is(imgUrl)))
-                .andExpect(jsonPath("description")
-                        .value(is(description)))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void plantLambdaService_getPlantDetailsWithInvalidId_unsuccessful() throws Exception {
-        // GIVEN
-        String invalidId = "-1";
-
-        // WHEN
-        mvc.perform(get("/plant/details/{id}", invalidId)
-                    .accept(MediaType.APPLICATION_JSON))
-        // THEN
-                .andExpect(status().isBadRequest());
-    }
-
-
-    /** ------------------------------------------------------------------------
      *  plantController.addNewPlant()
      *  ------------------------------------------------------------------------ **/
     @Test
@@ -403,4 +264,151 @@ public class PlantControllerIntegrationTest {
         // THEN
                 .andExpect(status().isBadRequest());
     }
+
+
+    /**
+     * These tests are using MockMvc to mock the calls to our controller class and are getting real responses from the
+     * external API. They are commented out because they eat up our 100 calls to the API that we are allowed every day.
+     * They do pass, screenshots included with the submission.
+     */
+
+
+    /** ------------------------------------------------------------------------
+     *  plantController.getPlantListByName()
+     *  ------------------------------------------------------------------------ **/
+//    @Test
+//    public void plantServiceLambda_getPlantListByName_successful() throws Exception {
+//        // GIVEN
+//        String plantName = "torch";
+//
+//        // WHEN
+//        ResultActions actions = mvc.perform(get("/plant/list/{plantName}", plantName)
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is2xxSuccessful());
+//
+//        String responseBody = actions.andReturn().getResponse().getContentAsString();
+//        List<PlantResponse> responseList = List.of(mapper.readValue(responseBody, PlantResponse[].class));
+//
+//        // THEN
+//        for (PlantResponse response : responseList) {
+//            assertThat(response.getPlantId()).isNotEmpty();
+//            assertThat(response.getPlantName()).isNotEmpty();
+//            assertThat(response.getCycle()).isNotEmpty();
+//            assertThat(response.getWatering()).isNotEmpty();
+//            assertThat(response.getSunlight()).isNotEmpty();
+//            assertThat(response.getScientificName()).isNotEmpty();
+//            assertThat(response.getImgUrl()).isNotEmpty();
+//        }
+//    }
+
+//    @Test
+//    public void plantServiceLambda_getPlantListByNameWithInvalidName_Unsuccessful() throws Exception {
+//        // GIVEN
+//        String invalidName = "4#:<%";
+//
+//        // WHEN
+//        mvc.perform(get("/plant/list/{plantName}", invalidName)
+//                    .accept(MediaType.APPLICATION_JSON))
+//        // THEN
+//                .andExpect(status().isBadRequest());
+//    }
+
+//    @Test
+//    public void plantServiceLambda_getPlantListByName_apiFailure() throws Exception {
+//        // GIVEN
+//        String plantName = "spiderplant";
+//
+//        // WHEN
+//        mvc.perform(get("/plant/list/{plantName}", plantName)
+//                    .accept(MediaType.APPLICATION_JSON))
+//        // THEN
+//                .andExpect(status().isNoContent());
+//    }
+
+
+    /** ------------------------------------------------------------------------
+     *  plantController.getPlantDetails()
+     *  ------------------------------------------------------------------------ **/
+//    @Test
+//    public void plantServiceLambda_getPlantDetailsWithValidId_successful() throws Exception {
+//        // GIVEN
+//        String id = "61";
+//        String name = "Hogyoku Japanese Maple";
+//        List<String> scientificName = new ArrayList<>();
+//        scientificName.add("Acer palmatum 'Hogyoku'");
+//        String cycle = "Perennial";
+//        String watering = "Average";
+//        String sunlight = "full sun";
+//        String flowerColor = "Reddish-purple";
+//        String maintenance = "Low";
+//        String careLevel = "Unknown";
+//        String growthRate = "Low";
+//        String indoor = "false";
+//        String hardinessZone = "7 - 7";
+//        String wateringBenchmark = "Every 3-4 days";
+//        String medicinal = "false";
+//        String imgUrl = "https://perenual.com/storage/species_image/61_acer_palmatum_hogyoku/regular/2560px-Kyoto_Japan0431.jpg";
+//        String description = "Hogyoku Japanese Maple (Acer palmatum 'Hogyoku') is an amazing plant species noted for its striking beauty. " +
+//                "Its delicate foliage emerges with a golden hue and develops into a vibrant, deep scarlet during the cooler months. " +
+//                "Bright red flowers bloom in spring and bring in stunning hues all season long. The foliage turns to yellow, orange, " +
+//                "and pink in the fall. Outstanding bark color is a nice addition to the landscape - from cinnamon-red to orange and yellow. " +
+//                "The beauty of tiger-striped bark truly stands out in the winter. Hogyoku is easy to grow and low-maintenance. " +
+//                "It also does extremely well in containers and makes a stunning accent for any garden.";
+//
+//        PlantDetailsResponse expectedResponse = new PlantDetailsResponse(id, name, scientificName, cycle, watering, sunlight, flowerColor, maintenance, careLevel,
+//                growthRate, indoor, hardinessZone, wateringBenchmark, medicinal, description, imgUrl);
+//
+//
+//        // WHEN
+//        mvc.perform(get("/plant/details/{id}", id)
+//                        .accept(MediaType.APPLICATION_JSON))
+//        // THEN
+//                .andExpect(jsonPath("plantId")
+//                        .value(is(id)))
+//                .andExpect(jsonPath("plantName")
+//                        .value(is(name)))
+//                .andExpect(jsonPath("scientificName")
+//                        .value(is(scientificName)))
+//                .andExpect(jsonPath("cycle")
+//                        .value(is(cycle)))
+//                .andExpect(jsonPath("watering")
+//                        .value(is(watering)))
+//                .andExpect(jsonPath("sunlight")
+//                        .value(is(sunlight)))
+//                .andExpect(jsonPath("flowerColor")
+//                        .value(is(flowerColor)))
+//                .andExpect(jsonPath("maintenance")
+//                        .value(is(maintenance)))
+//                .andExpect(jsonPath("careLevel")
+//                        .value(is(careLevel)))
+//                .andExpect(jsonPath("growthRate")
+//                        .value(is(growthRate)))
+//                .andExpect(jsonPath("indoor")
+//                        .value(is(indoor)))
+//                .andExpect(jsonPath("hardinessZone")
+//                        .value(is(hardinessZone)))
+//                .andExpect(jsonPath("wateringBenchmark")
+//                        .value(is(wateringBenchmark)))
+//                .andExpect(jsonPath("medicinal")
+//                        .value(is(medicinal)))
+//                .andExpect(jsonPath("imgUrl")
+//                        .value(is(imgUrl)))
+//                .andExpect(jsonPath("description")
+//                        .value(is(description)))
+//                .andExpect(status().isOk());
+//    }
+
+//    @Test
+//    public void plantLambdaService_getPlantDetailsWithInvalidId_unsuccessful() throws Exception {
+//        // GIVEN
+//        String invalidId = "-1";
+//
+//        // WHEN
+//        mvc.perform(get("/plant/details/{id}", invalidId)
+//                    .accept(MediaType.APPLICATION_JSON))
+//        // THEN
+//                .andExpect(status().isBadRequest());
+//    }
+
 }
