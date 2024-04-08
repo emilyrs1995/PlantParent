@@ -122,7 +122,7 @@ public class PlantService {
     private PlantRecord convertToRecord(CreatePlantRequest request) {
         PlantRecord record = new PlantRecord();
         record.setPlantId(request.getPlantId());
-        record.setPlantName(request.getPlantName().toLowerCase());
+        record.setPlantName(request.getPlantName());
         record.setScientificName(request.getScientificName());
         record.setCycle(request.getCycle());
         record.setWatering(request.getWatering());
