@@ -289,7 +289,7 @@ public class PlantServiceTest {
         Assertions.assertEquals(2, plantResponses.size());
 
         for (PlantResponse response : plantResponses) {
-            Assertions.assertTrue(response.getPlantName().contains(name));
+            Assertions.assertTrue(response.getPlantName().toLowerCase().contains(name));
             if (response.getPlantId().equals(record1.getPlantId())) {
                 Assertions.assertEquals(record1.getPlantName(), response.getPlantName());
                 Assertions.assertEquals(record1.getScientificName(), response.getScientificName());

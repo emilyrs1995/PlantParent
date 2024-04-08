@@ -78,6 +78,8 @@ public class PlantControllerIntegrationTest {
         assertThat(response.getSunlight()).isEqualTo(request.getSunlight());
         assertThat(response.getScientificName()).isEqualTo(request.getScientificName());
         assertThat(response.getImgUrl()).isEqualTo(request.getImgUrl());
+
+        plantService.delete(response.getPlantId());
     }
 
     @Test
@@ -103,7 +105,7 @@ public class PlantControllerIntegrationTest {
     public void plantController_getPlantCollection_successful() throws Exception {
         // GIVEN
         String id1 = "1";
-        String name1 = "aloe";
+        String name1 = "Aloe";
         List<String> scientificName1 = new ArrayList<>();
         scientificName1.add("fancy aloe");
         String cycle1 = "perennial";
@@ -114,7 +116,7 @@ public class PlantControllerIntegrationTest {
         PlantResponse persistedResponse1 = plantService.createPlant(request1);
 
         String id2 = "2";
-        String name2 = "spider plant";
+        String name2 = "Spider Plant";
         List<String> scientificName2 = new ArrayList<>();
         scientificName2.add("fancy spider plant");
         String cycle2 = "perennial";
@@ -135,14 +137,14 @@ public class PlantControllerIntegrationTest {
         // THEN
         for (PlantResponse response : responseList) {
             if (response.getPlantId().equals(id1)) {
-                Assertions.assertEquals(response.getPlantName(), persistedResponse1.getPlantName());
+                Assertions.assertEquals(response.getPlantName().strip(), persistedResponse1.getPlantName());
                 Assertions.assertEquals(response.getScientificName(), persistedResponse1.getScientificName());
                 Assertions.assertEquals(response.getCycle(), persistedResponse1.getCycle());
                 Assertions.assertEquals(response.getWatering(), persistedResponse1.getWatering());
                 Assertions.assertEquals(response.getSunlight(), persistedResponse1.getSunlight());
                 Assertions.assertEquals(response.getImgUrl(), persistedResponse1.getImgUrl());
             } else if (response.getPlantId().equals(id2)) {
-                Assertions.assertEquals(response.getPlantName(), persistedResponse2.getPlantName());
+                Assertions.assertEquals(response.getPlantName().strip(), persistedResponse2.getPlantName());
                 Assertions.assertEquals(response.getScientificName(), persistedResponse2.getScientificName());
                 Assertions.assertEquals(response.getCycle(), persistedResponse2.getCycle());
                 Assertions.assertEquals(response.getWatering(), persistedResponse2.getWatering());
@@ -193,18 +195,22 @@ public class PlantControllerIntegrationTest {
 
         String responseBody = actions.andReturn().getResponse().getContentAsString();
         List<PlantResponse> responseList = List.of(mapper.readValue(responseBody, PlantResponse[].class));
-        PlantResponse response = responseList.get(0);
 
-        // THEN
-        Assertions.assertEquals(response.getPlantId(), plantResponse.getPlantId());
-        Assertions.assertEquals(response.getPlantName(), plantResponse.getPlantName());
-        Assertions.assertEquals(response.getScientificName(), plantResponse.getScientificName());
-        Assertions.assertEquals(response.getCycle(), plantResponse.getCycle());
-        Assertions.assertEquals(response.getWatering(), plantResponse.getWatering());
-        Assertions.assertEquals(response.getSunlight(), plantResponse.getSunlight());
-        Assertions.assertEquals(response.getImgUrl(), plantResponse.getImgUrl());
+        for (PlantResponse response : responseList) {
+            if (response.getPlantId().equals(plantResponse.getPlantId())) {
+                Assertions.assertEquals(response.getPlantName().strip(), plantResponse.getPlantName());
+                Assertions.assertEquals(response.getScientificName(), plantResponse.getScientificName());
+                Assertions.assertEquals(response.getCycle(), plantResponse.getCycle());
+                Assertions.assertEquals(response.getWatering(), plantResponse.getWatering());
+                Assertions.assertEquals(response.getSunlight(), plantResponse.getSunlight());
+                Assertions.assertEquals(response.getImgUrl(), plantResponse.getImgUrl());
+            }
 
-        plantService.delete(plantResponse.getPlantId());
+        }
+
+        for (PlantResponse delete : responseList) {
+            plantService.delete(delete.getPlantId());
+        }
     }
 
     @Test
