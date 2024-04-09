@@ -10,6 +10,7 @@ import com.kenzie.appserver.repositories.model.PlantRecord;
 import com.kenzie.capstone.service.client.PlantListLambdaServiceClient;
 import com.kenzie.capstone.service.model.GetPlantDetailsResponse;
 import com.kenzie.capstone.service.model.GetPlantListResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -80,6 +81,7 @@ public class PlantService {
 
         Iterable<PlantRecord> plantIterator = plantRepository.findAll();
         for (PlantRecord record : plantIterator) {
+            record.setPlantName(this.capitalizeName(record.getPlantName()));
             plants.add(PlantResponseConverter.convertFromRecordToPlantResponse(record));
         }
 
@@ -98,7 +100,7 @@ public class PlantService {
         return Optional.ofNullable(allPlants)
                 .orElse(Collections.emptyList())
                 .stream()
-                .filter(plantResponse -> plantResponse.getPlantName().contains(plantName))
+                .filter(plantResponse -> plantResponse.getPlantName().toLowerCase().contains(plantName.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
@@ -128,6 +130,24 @@ public class PlantService {
         record.setImgUrl(request.getImgUrl());
 
         return record;
+    }
+
+    /**
+     * capitalizeName - a private method that takes in the plantName and first splits on the whitespace, loops through
+     * the array of Strings and capitalizes each word in the name.
+     * @param plantName the name to be capitalized
+     * @return String
+     */
+    private String capitalizeName(String plantName) {
+        StringBuilder sb = new StringBuilder();
+        String[] names = plantName.split(" ");
+
+        for (String name : names) {
+            sb.append(StringUtils.capitalize(name));
+            sb.append(" ");
+        }
+
+        return sb.toString();
     }
 
 }

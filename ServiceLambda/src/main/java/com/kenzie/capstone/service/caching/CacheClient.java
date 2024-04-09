@@ -3,12 +3,15 @@ package com.kenzie.capstone.service.caching;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
+import java.util.concurrent.TimeUnit;
+
 public class CacheClient<K, V> {
     private final Cache<K, V> cache;
 
     public CacheClient(int maxSize) {
         this.cache = CacheBuilder.newBuilder()
                 .maximumSize(maxSize)
+                .expireAfterAccess(1, TimeUnit.HOURS)
                 .build();
     }
 
