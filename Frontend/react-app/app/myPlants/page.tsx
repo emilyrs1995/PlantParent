@@ -65,36 +65,41 @@ export default function MyPlants() {
             })
     },[])
     const renderSearchResults = () => {
-        return plants?.map((plant) => {
-            return (
-                <div key={plant?.plantId} className="bg-white p-4 mb-4 rounded-md text-black w-full flex">
-                    <div className="">
-                        <img className="h-48" src={plant?.imgUrl}></img>
-                    </div>
-                    <div className="w-3/5 px-4 items-center flex-1 flex-col content-evenly">
-                        <p><strong>Name: </strong>{plant?.plantName}</p>
-                        <p><strong>Also known as: </strong>{plant?.scientificName}</p>
-                        <p><strong>Planting cycle: </strong>{plant?.cycle}</p>
-                        <p><strong>Watering frequency: </strong>{plant?.watering}</p>
-                        <p><strong>Sunlight: </strong>{plant?.sunlight}</p>
-                    </div>
-                    <div className="w-1/5 px-4 flex flex-col items-center justify-center justify-evenly">
-                        <div className="bg-emerald-800 w-32 rounded-lg text-white items-center justify-center text-center p-2">
-                            <Link href={`/plantDetails/${plant?.plantId}`}>Plant Details</Link>
+        if (renderSearchResults.status === 200) {
+            return plants?.map((plant) => {
+                return (
+                    <div key={plant?.plantId} className="bg-white p-4 mb-4 rounded-md text-black w-full flex">
+                        <div className="">
+                            <img className="h-48" src={plant?.imgUrl}></img>
                         </div>
-                        <div
-                            className="bg-red-600 w-32 rounded-lg text-white items-center justify-center text-center p-2"
-                            onClick={() => {deletePlant(plant?.plantId)}}
-                        >
-                            <button>Delete</button>
+                        <div className="w-3/5 px-4 items-center flex-1 flex-col content-evenly">
+                            <p><strong>Name: </strong>{plant?.plantName}</p>
+                            <p><strong>Also known as: </strong>{plant?.scientificName}</p>
+                            <p><strong>Planting cycle: </strong>{plant?.cycle}</p>
+                            <p><strong>Watering frequency: </strong>{plant?.watering}</p>
+                            <p><strong>Sunlight: </strong>{plant?.sunlight}</p>
+                        </div>
+                        <div className="w-1/5 px-4 flex flex-col items-center justify-center justify-evenly">
+                            <div className="bg-emerald-800 w-32 rounded-lg text-white items-center justify-center text-center p-2">
+                                <Link href={`/plantDetails/${plant?.plantId}`}>Plant Details</Link>
+                            </div>
+                            <div
+                                className="bg-red-600 w-32 rounded-lg text-white items-center justify-center text-center p-2"
+                                onClick={() => {deletePlant(plant?.plantId)}}
+                            >
+                                <button>Delete</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )
-        })
+                )
+            })
+        } else {
+            alert("No plants found!");
+            history.go();
+        }
     }
   return (
-    <main className="flex min-h-screen flex-col items-center p-12 bg-homepage bg-center">
+    <main className="flex min-h-screen flex-col items-center p-12 bg-backgroundImage bg-center">
         <Navbar/>
         <div className='mt-8 flex-col'>
             <form onSubmit={handleSubmit} className='flex flex-col text-white items-center justify-center'>
