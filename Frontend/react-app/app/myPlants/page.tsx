@@ -12,7 +12,6 @@ export default function MyPlants() {
         const { name, value } = event.target;
         setPlantName(value)
     }
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         await findPlants(plantName);
@@ -115,4 +114,3 @@ export default function MyPlants() {
         </div>
     </main>
   );
-}
