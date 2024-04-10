@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useState, useEffect } from "react"
 import Image from "next/image";
 import Navbar from '../../components/Navbar.tsx';
+
 export default function MyPlants() {
     const [plants, setPlants] = useState([])
     const [plantName, setPlantName] = useState("")
@@ -113,4 +114,3 @@ export default function MyPlants() {
         </div>
     </main>
   );
-}
