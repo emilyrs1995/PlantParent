@@ -30,15 +30,15 @@ export default function plantDetails({ params }) {
                 </div>
                 <div className="w-1/3 px-4 flex-1 flex-col items-center my-auto">
                     <div className="self-center my-auto">
-                        <p className="mb-4"><strong>Name: </strong>{plant?.plantName}</p>
                         <p className="mb-4"><strong>Also known as: </strong>{plant?.scientificName}</p>
-                        <p className="mb-4"><strong>Planting cycle: </strong>{plant?.cycle}</p>
-                        <p className="mb-4"><strong>Watering frequency: </strong>{plant?.watering}</p>
-                        <p className="mb-4"><strong>Sunlight: </strong>{plant?.sunlight}</p>
                         <p className="mb-4"><strong>Flower Color: </strong>{plant?.flowerColor}</p>
                         <p className="mb-4"><strong>Growth Rate: </strong>{plant?.growthRate}</p>
                         <p className="mb-4"><strong>Maintenance: </strong>{plant?.maintenance}</p>
-                        <p className="mb-4"><strong>Cycle: </strong>{plant?.cycle}</p>
+                        <p className="mb-4"><strong>Watering Benchmark: </strong>{plant?.wateringBenchmark}</p>
+                        <p className="mb-4"><strong>Hardiness zone(s): </strong>{plant?.hardinessZone}</p>
+                        <p className="mb-4"><strong>Medicinal: </strong>{plant?.medicinal}</p>
+                        <p className="mb-4"><strong>Care Level: </strong>{plant?.careLevel}</p>
+                        <p className="mb-4"><strong>Indoor: </strong>{plant?.indoor}</p>
                     </div>
                 </div>
             </div>
