@@ -114,3 +114,4 @@ export default function MyPlants() {
         </div>
     </main>
   );
+}
